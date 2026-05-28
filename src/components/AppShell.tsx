@@ -4,9 +4,9 @@ import { Footer } from "@/components/Footer";
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <HeaderPill />
-      <main className="mx-auto w-[min(1120px,calc(100vw-24px))] pb-16 pt-8">{children}</main>
+      <main className="mx-auto w-full max-w-[1120px] px-4 pb-24 pt-5 sm:px-5 md:pb-16 md:pt-8">{children}</main>
       <Footer />
     </div>
   );

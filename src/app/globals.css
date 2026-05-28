@@ -22,6 +22,7 @@ body {
     linear-gradient(180deg, #fbf5ea 0%, #fffaf1 44%, #f8efdF 100%);
   color: #382417;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
 }
 
 a {
@@ -47,4 +48,42 @@ select {
 
 .focus-ring:focus-visible {
   outline-color: #e9823c;
+}
+
+.alodoc-float {
+  animation: alodoc-float 7s ease-in-out infinite;
+}
+
+.alodoc-marquee {
+  animation: alodoc-marquee 24s linear infinite;
+}
+
+@keyframes alodoc-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) rotate(2deg);
+  }
+}
+
+@keyframes alodoc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

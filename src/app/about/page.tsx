@@ -27,7 +27,7 @@ export default function AboutPage() {
   return (
     <div className="grid gap-8">
       <section className="rounded-[2rem] border border-cocoa/10 bg-parchment p-8 shadow-soft">
-        <h1 className="max-w-4xl text-5xl font-black leading-tight text-cocoa">Alodoc helps people learn health basics, then prove learning progress onchain.</h1>
+        <h1 className="max-w-4xl text-4xl font-black leading-tight text-cocoa sm:text-5xl">Alodoc helps people learn health basics, then prove learning progress onchain.</h1>
         <p className="mt-5 max-w-3xl text-lg font-semibold leading-8 text-cocoaSoft">
           The concept is inspired by Rialo's real-world application thesis: useful crypto should support everyday outcomes. For this MVP, Alodoc uses Arc Testnet for proof-of-learning badges while Rialo testnet is not live yet.
         </p>

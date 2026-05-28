@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Award, CheckCircle2, Clock, Layers } from "lucide-react";
 import { useState } from "react";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
+import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { LearningCard } from "@/components/LearningCard";
 import { SafetyDisclaimer } from "@/components/SafetyDisclaimer";
@@ -16,26 +17,44 @@ export function LearningFlow({ disease }: { disease: Disease }) {
 
   return (
     <div className="grid gap-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
+      <div className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">
+        <div className="min-w-0">
           <Link href="/library" className="inline-flex items-center gap-2 text-sm font-black text-cocoaSoft hover:text-cocoa">
             <ArrowLeft className="h-4 w-4" /> Back to library
           </Link>
           <p className="mt-5 text-sm font-black uppercase text-oliveDeep">{disease.category[language]}</p>
-          <h1 className="mt-2 text-5xl font-black leading-tight text-cocoa">{disease.title[language]}</h1>
+          <h1 className="mt-2 text-4xl font-black leading-tight text-cocoa sm:text-5xl">{disease.title[language]}</h1>
           <p className="mt-3 max-w-2xl text-lg font-semibold leading-8 text-cocoaSoft">{disease.shortDescription[language]}</p>
+          <div className="mt-5 grid grid-cols-2 gap-2 text-sm font-black text-cocoa sm:flex sm:flex-wrap">
+            <span className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-lift"><Clock className="h-4 w-4 text-orange" /> {disease.estimatedMinutes} min</span>
+            <span className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-lift"><Layers className="h-4 w-4 text-orange" /> {disease.difficulty}</span>
+            <span className="col-span-2 inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-lift"><Award className="h-4 w-4 text-orange" /> {disease.badgeName[language]}</span>
+          </div>
+          <div className="mt-5">
+            <LanguageToggle language={language} onChange={setLanguage} />
+          </div>
         </div>
-        <LanguageToggle language={language} onChange={setLanguage} />
+        <AnimatedDiseaseVisual slug={disease.slug} />
       </div>
 
       <div className="h-3 rounded-full bg-white shadow-lift">
-        <div className="h-3 rounded-full bg-orange transition-all" style={{ width: `${((index + 1) / disease.sections.length) * 100}%` }} />
+        <div className="h-3 rounded-full bg-orange transition-all duration-500" style={{ width: `${((index + 1) / disease.sections.length) * 100}%` }} />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
         <LearningCard section={disease.sections[index]} language={language} index={index} total={disease.sections.length} />
         <div className="grid content-start gap-5">
           <AloGuideBubble text={language === "id" ? "Ambil satu kartu dulu. Tujuannya memahami konsep, bukan menilai kondisi pribadi." : "Take one card at a time. The goal is understanding concepts, not judging your personal condition."} />
+          {atEnd && (
+            <div className="rounded-3xl border border-cocoa/10 bg-white p-5 shadow-lift">
+              <p className="text-sm font-black uppercase text-oliveDeep">Quick Summary</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-cocoaSoft">
+                {language === "id"
+                  ? "Kamu sudah menyelesaikan kartu ringkas. Lanjut quiz untuk membuktikan pemahaman."
+                  : "You finished the bite-sized cards. Take the quiz to prove what you understood."}
+              </p>
+            </div>
+          )}
           <SafetyDisclaimer language={language} />
         </div>
       </div>

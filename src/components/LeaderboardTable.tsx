@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePublicClient } from "wagmi";
 import type { Address } from "viem";
+import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { alodocContract } from "@/hooks/useAlodocContract";
 import { AlodocProfile } from "@/lib/contract";
@@ -82,8 +83,37 @@ export function LeaderboardTable() {
   }
 
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment shadow-soft">
-      <div className="overflow-x-auto">
+    <div className="grid gap-4">
+      <div className="grid gap-4 md:hidden">
+        {rows.map((row, index) => (
+          <motion.article
+            key={row.address}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-lift"
+          >
+            <div className="flex items-center gap-3">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-orange text-lg font-black text-white">#{index + 1}</div>
+              <img src={avatarUrl(row.profile.xUsername, row.profile.alodocUsername)} alt="" className="h-14 w-14 rounded-2xl bg-mint object-cover" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-lg font-black text-cocoa">{row.profile.displayName}</p>
+                <p className="truncate text-sm font-semibold text-cocoaSoft">@{row.profile.alodocUsername}</p>
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+              <Metric label="XP" value={toNumber(row.profile.xp)} />
+              <Metric label="Badges" value={toNumber(row.profile.badgeCount)} />
+              <Metric label="Completed" value={toNumber(row.profile.completedCount)} />
+              <Metric label="Accuracy" value={`${row.accuracy}%`} />
+              <Metric label="Streak" value={toNumber(row.profile.streak)} />
+              <Metric label="Wallet" value={shortAddress(row.address)} />
+            </div>
+          </motion.article>
+        ))}
+      </div>
+      <div className="hidden overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment shadow-soft md:block">
+        <div className="overflow-x-auto">
         <table className="w-full min-w-[860px] border-collapse text-left">
           <thead className="bg-mint text-xs font-black uppercase text-oliveDeep">
             <tr>
@@ -99,7 +129,13 @@ export function LeaderboardTable() {
           </thead>
           <tbody>
             {rows.map((row, index) => (
-              <tr key={row.address} className="border-t border-cocoa/10 bg-white/55">
+              <motion.tr
+                key={row.address}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.04 }}
+                className="border-t border-cocoa/10 bg-white/55"
+              >
                 <td className="px-5 py-4 text-lg font-black text-cocoa">#{index + 1}</td>
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
@@ -116,11 +152,21 @@ export function LeaderboardTable() {
                 <td className="px-5 py-4 font-bold text-cocoa">{toNumber(row.profile.badgeCount)}</td>
                 <td className="px-5 py-4 font-bold text-cocoa">{row.accuracy}%</td>
                 <td className="px-5 py-4 font-bold text-cocoa">{toNumber(row.profile.streak)}</td>
-              </tr>
+              </motion.tr>
             ))}
           </tbody>
         </table>
+        </div>
       </div>
+    </div>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-2xl bg-white px-3 py-2 shadow-lift">
+      <p className="text-xs font-black uppercase text-cocoaSoft">{label}</p>
+      <p className="mt-1 truncate font-black text-cocoa">{value}</p>
     </div>
   );
 }

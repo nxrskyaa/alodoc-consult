@@ -1,4 +1,5 @@
 import { BookOpen, CheckCircle2, Medal, UserRound } from "lucide-react";
+import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
 
 export function PhoneMockup() {
   const items = [
@@ -9,7 +10,7 @@ export function PhoneMockup() {
   ];
 
   return (
-    <div className="relative mx-auto h-[520px] w-[280px] rounded-[2.5rem] border-[10px] border-cocoa bg-parchment p-4 shadow-soft">
+    <div className="relative mx-auto h-[500px] w-[min(280px,82vw)] rounded-[2.5rem] border-[10px] border-cocoa bg-parchment p-4 shadow-soft">
       <div className="mx-auto mb-5 h-1.5 w-20 rounded-full bg-cocoa/25" />
       <div className="rounded-[1.8rem] bg-cream p-4">
         <div className="flex items-center justify-between">
@@ -19,7 +20,8 @@ export function PhoneMockup() {
           </div>
           <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-oliveDeep">A</div>
         </div>
-        <div className="mt-5 rounded-3xl bg-white p-4 shadow-lift">
+        <div className="mt-5 rounded-3xl bg-white p-3 shadow-lift">
+          <AnimatedDiseaseVisual slug="common-cold" compact className="mb-3 min-h-[120px] rounded-2xl" />
           <p className="text-sm font-black text-cocoa">Common Cold</p>
           <p className="mt-2 text-xs leading-5 text-cocoaSoft">Usually viral, spreads through droplets, hands, and surfaces.</p>
           <div className="mt-4 h-2 rounded-full bg-mint">

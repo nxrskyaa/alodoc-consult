@@ -1,6 +1,8 @@
 "use client";
 
 import { Award, Loader2, RotateCcw, Send } from "lucide-react";
+import { motion } from "framer-motion";
+import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
 import { NetworkGate } from "@/components/NetworkGate";
 
 export function QuizResult({
@@ -27,11 +29,16 @@ export function QuizResult({
   const passed = score >= 60;
 
   return (
-    <section className="rounded-[2rem] border border-cocoa/10 bg-parchment p-6 text-center shadow-soft md:p-8">
-      <div className="mx-auto grid h-24 w-24 place-items-center rounded-[2rem] bg-mint text-3xl font-black text-oliveDeep">{score}%</div>
-      <h1 className="mt-6 text-4xl font-black text-cocoa">{passed ? "Quest ready for proof" : "Review and retry"}</h1>
+    <section className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 text-center shadow-soft md:p-8">
+      <div className="mx-auto max-w-xs">
+        <AnimatedDiseaseVisual slug={passed ? "badge" : "passport"} compact className="min-h-[210px]" />
+      </div>
+      <motion.div initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="mx-auto mt-5 grid h-24 w-24 place-items-center rounded-[2rem] bg-mint text-3xl font-black text-oliveDeep shadow-lift">
+        {score}%
+      </motion.div>
+      <h1 className="mt-6 text-3xl font-black text-cocoa sm:text-4xl">{passed ? "Badge almost unlocked" : "Review and retry"}</h1>
       <p className="mx-auto mt-3 max-w-xl text-sm font-semibold leading-6 text-cocoaSoft">
-        {passed ? "Score is high enough to complete this learning quest on Arc Testnet." : "A score of 60 or higher is required before onchain completion."}
+        {passed ? "Score is high enough to complete this learning quest on Arc Testnet. XP preview: +100 learning XP." : "A score of 60 or higher is required before onchain completion."}
       </p>
 
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
 import { CreatePassportModal } from "@/components/CreatePassportModal";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { QuizCard } from "@/components/QuizCard";
@@ -121,12 +122,16 @@ export function QuizFlow({ disease }: { disease: Disease }) {
 
   return (
     <div className="grid gap-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div className="grid gap-5 lg:grid-cols-[1fr_360px] lg:items-center">
         <div>
           <p className="text-sm font-black uppercase text-oliveDeep">Quiz</p>
-          <h1 className="mt-2 text-5xl font-black leading-tight text-cocoa">{disease.title[language]}</h1>
+          <h1 className="mt-2 text-4xl font-black leading-tight text-cocoa sm:text-5xl">{disease.title[language]}</h1>
+          <p className="mt-3 max-w-xl text-base font-semibold leading-7 text-cocoaSoft">Tap a big answer card, read Alo Guide feedback, then complete your quest onchain after passing.</p>
+          <div className="mt-5">
+            <LanguageToggle language={language} onChange={setLanguage} />
+          </div>
         </div>
-        <LanguageToggle language={language} onChange={setLanguage} />
+        <AnimatedDiseaseVisual slug={disease.slug} className="min-h-[260px]" />
       </div>
       {!finished ? (
         <QuizCard

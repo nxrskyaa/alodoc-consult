@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { AnswerOption } from "@/components/AnswerOption";
+import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { Language, QuizQuestion } from "@/data/diseases";
 
 export function QuizCard({
@@ -24,14 +25,14 @@ export function QuizCard({
   onNext: () => void;
 }) {
   return (
-    <article className="rounded-[2rem] border border-cocoa/10 bg-parchment p-6 shadow-soft">
+    <article className="rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <span className="rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
           Question {index + 1} of {total}
         </span>
         <span className="text-sm font-black text-cocoaSoft">{Math.round(((index + 1) / total) * 100)}%</span>
       </div>
-      <h1 className="mt-7 text-3xl font-black leading-tight text-cocoa">{question.question[language]}</h1>
+      <h1 className="mt-7 text-2xl font-black leading-tight text-cocoa sm:text-3xl">{question.question[language]}</h1>
       <div className="mt-6 grid gap-3">
         {question.options.map((option, optionIndex) => (
           <AnswerOption
@@ -45,8 +46,8 @@ export function QuizCard({
         ))}
       </div>
       {revealed && (
-        <div className="mt-5 rounded-2xl bg-mint/80 p-4 text-sm font-semibold leading-6 text-cocoa">
-          {question.explanation[language]}
+        <div className="mt-5">
+          <AloGuideBubble text={question.explanation[language]} />
         </div>
       )}
       <button
