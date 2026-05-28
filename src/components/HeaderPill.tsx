@@ -28,9 +28,9 @@ export function HeaderPill() {
 
   return (
     <>
-      <header className="sticky top-3 z-40 mx-auto flex w-[calc(100vw-24px)] max-w-[1120px] items-center justify-between gap-2 rounded-[1.7rem] border border-cocoa/10 bg-parchment/95 px-3 py-2 shadow-soft backdrop-blur md:top-4 md:rounded-full">
+      <header className="sticky top-3 z-40 mx-auto flex w-[calc(100vw-24px)] max-w-7xl items-center justify-between gap-2 rounded-[1.7rem] border border-cocoa/10 bg-parchment/95 px-3 py-2 shadow-soft backdrop-blur md:top-4 md:rounded-full lg:px-5">
         <AlodocLogo compact />
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
           {navItems.map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
@@ -52,15 +52,15 @@ export function HeaderPill() {
         <div className="flex items-center gap-2">
           {wrongNetwork ? (
             <button
-              className="focus-ring hidden items-center gap-2 rounded-full bg-cocoa px-4 py-2.5 text-sm font-bold text-cream shadow-lift transition hover:bg-cocoa/90 sm:inline-flex"
+              className="focus-ring inline-flex items-center gap-2 rounded-full bg-cocoa px-3 py-2.5 text-xs font-bold text-cream shadow-lift transition hover:bg-cocoa/90 sm:px-4 sm:text-sm"
               onClick={() => switchChain({ chainId: arcTestnet.id })}
               disabled={isPending}
             >
               <Wifi className="h-4 w-4" />
-              {isPending ? "Switching" : "Arc Testnet"}
+              {isPending ? "Switching" : <span className="hidden sm:inline">Arc Testnet</span>}
             </button>
           ) : (
-            <ConnectWalletButton className="hidden sm:inline-flex" />
+            <ConnectWalletButton compact className="px-3 text-xs sm:px-4 sm:text-sm" />
           )}
           <button
             className="focus-ring inline-grid h-11 w-11 place-items-center rounded-full bg-white text-cocoa shadow-lift lg:hidden"

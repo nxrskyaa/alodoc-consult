@@ -10,18 +10,18 @@ export function PhoneMockup() {
   ];
 
   return (
-    <div className="relative mx-auto h-[500px] w-[min(280px,82vw)] rounded-[2.5rem] border-[10px] border-cocoa bg-parchment p-4 shadow-soft">
+    <div className="relative mx-auto h-[430px] w-full max-w-[250px] rounded-[2.35rem] border-[9px] border-cocoa bg-parchment p-3 shadow-soft sm:h-[500px] sm:max-w-[310px] sm:rounded-[2.6rem] sm:border-[10px] sm:p-4 lg:h-[560px] lg:max-w-[360px]">
       <div className="mx-auto mb-5 h-1.5 w-20 rounded-full bg-cocoa/25" />
-      <div className="rounded-[1.8rem] bg-cream p-4">
+      <div className="rounded-[1.8rem] bg-cream p-3 sm:p-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs font-black uppercase text-oliveDeep">Alodoc</p>
-            <h3 className="mt-1 text-2xl font-black text-cocoa">Learn card</h3>
+            <h3 className="mt-1 text-xl font-black text-cocoa sm:text-2xl">Learn card</h3>
           </div>
           <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-oliveDeep">A</div>
         </div>
-        <div className="mt-5 rounded-3xl bg-white p-3 shadow-lift">
-          <AnimatedDiseaseVisual slug="common-cold" compact className="mb-3 min-h-[120px] rounded-2xl" />
+        <div className="mt-4 rounded-3xl bg-white p-3 shadow-lift sm:mt-5">
+          <AnimatedDiseaseVisual slug="common-cold" compact className="mb-3 min-h-[96px] rounded-2xl sm:min-h-[120px]" />
           <p className="text-sm font-black text-cocoa">Common Cold</p>
           <p className="mt-2 text-xs leading-5 text-cocoaSoft">Usually viral, spreads through droplets, hands, and surfaces.</p>
           <div className="mt-4 h-2 rounded-full bg-mint">
@@ -29,12 +29,12 @@ export function PhoneMockup() {
           </div>
         </div>
       </div>
-      <div className="mt-4 grid gap-3">
+      <div className="mt-3 grid gap-2 sm:mt-4 sm:gap-3">
         {items.map((item) => {
           const Icon = item.icon;
           return (
-            <div key={item.title} className="flex items-center gap-3 rounded-2xl bg-white/80 p-3 shadow-lift">
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-mint text-oliveDeep">
+            <div key={item.title} className="flex items-center gap-3 rounded-2xl bg-white/80 p-2.5 shadow-lift sm:p-3">
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-mint text-oliveDeep sm:h-10 sm:w-10">
                 <Icon className="h-5 w-5" />
               </div>
               <div>

@@ -4,7 +4,7 @@ import { Wallet, LogOut } from "lucide-react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { cn, shortAddress } from "@/lib/utils";
 
-export function ConnectWalletButton({ className }: { className?: string }) {
+export function ConnectWalletButton({ className, compact = false }: { className?: string; compact?: boolean }) {
   const { address, isConnected } = useAccount();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
@@ -17,7 +17,7 @@ export function ConnectWalletButton({ className }: { className?: string }) {
         onClick={() => disconnect()}
       >
         <LogOut className="h-4 w-4" />
-        {shortAddress(address)}
+        {compact ? shortAddress(address).replace("...", "..") : shortAddress(address)}
       </button>
     );
   }
@@ -29,7 +29,7 @@ export function ConnectWalletButton({ className }: { className?: string }) {
       onClick={() => connector && connect({ connector })}
     >
       <Wallet className="h-4 w-4" />
-      {isPending ? "Opening wallet..." : "Connect Wallet"}
+      {isPending ? "Opening..." : compact ? "Wallet" : "Connect Wallet"}
     </button>
   );
 }
