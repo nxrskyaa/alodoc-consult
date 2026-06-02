@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Award, BookOpen, CheckCircle2, ShieldCheck, Sparkles, Trophy } from "lucide-react";
+import { Activity, ArrowRight, Award, BookOpen, CheckCircle2, ShieldCheck, Sparkles, Trophy } from "lucide-react";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
+import { ClassifierHeroCombo } from "@/components/classifier/visuals/ClassifierHeroCombo";
 import { diseases } from "@/data/diseases";
 
 const steps = [
@@ -61,6 +62,30 @@ export function LandingStorySections() {
             );
           })}
         </div>
+      </section>
+
+      <section className="grid gap-5 rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
+            <Activity className="h-4 w-4" />
+            Health Classifier
+          </div>
+          <h2 className="mt-4 text-3xl font-black leading-tight text-cocoa sm:text-5xl">Understand health numbers without storing them.</h2>
+          <p className="mt-4 text-sm font-semibold leading-6 text-cocoaSoft">
+            A local-only educational classifier for blood pressure and blood sugar categories. No wallet required, no blockchain write, no passport data, and no medical record.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {["Browser only", "No storage", "Education only", "ID/EN"].map((item) => (
+              <span key={item} className="rounded-full bg-white px-4 py-2 text-xs font-black text-cocoaSoft shadow-lift">
+                {item}
+              </span>
+            ))}
+          </div>
+          <Link href="/classifier" className="focus-ring mt-6 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-black text-white shadow-lift">
+            Try classifier <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <ClassifierHeroCombo />
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, Home, Info, Menu, Trophy, UserRound, Wifi, X } from "lucide-react";
+import { Activity, BookOpen, Home, Info, Menu, Trophy, UserRound, Wifi, X } from "lucide-react";
 import { useState } from "react";
 import { useAccount, useSwitchChain } from "wagmi";
 import { AlodocLogo } from "@/components/AlodocLogo";
@@ -14,10 +14,13 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/library", label: "Library", icon: BookOpen },
+  { href: "/classifier", label: "Classifier", icon: Activity },
   { href: "/passport", label: "Passport", icon: UserRound },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/about", label: "About", icon: Info }
 ];
+
+const bottomNavItems = navItems.filter((item) => item.href !== "/about");
 
 export function HeaderPill() {
   const pathname = usePathname();
@@ -116,14 +119,14 @@ export function HeaderPill() {
           </motion.div>
         )}
       </AnimatePresence>
-      <nav className="fixed bottom-3 left-3 right-3 z-40 grid grid-cols-4 gap-1 rounded-[1.6rem] border border-cocoa/10 bg-parchment/95 p-2 shadow-soft backdrop-blur md:hidden">
-        {navItems.slice(0, 4).map((item) => {
+      <nav className="fixed bottom-3 left-3 right-3 z-40 grid grid-cols-5 gap-1 rounded-[1.6rem] border border-cocoa/10 bg-parchment/95 p-2 shadow-soft backdrop-blur md:hidden">
+        {bottomNavItems.map((item) => {
           const active = pathname === item.href;
           const Icon = item.icon;
           return (
             <Link key={item.href} href={item.href} className={cn("grid place-items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-black text-cocoaSoft", active && "bg-mint text-cocoa")}>
               <Icon className="h-4 w-4" />
-              {item.label === "Leaderboard" ? "Board" : item.label}
+              {item.label === "Leaderboard" ? "Board" : item.label === "Classifier" ? "Classify" : item.label}
             </Link>
           );
         })}

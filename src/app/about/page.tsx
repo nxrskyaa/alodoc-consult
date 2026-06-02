@@ -1,4 +1,4 @@
-import { BookOpen, DatabaseZap, Globe2, ShieldCheck } from "lucide-react";
+import { Activity, BookOpen, DatabaseZap, Globe2, ShieldCheck } from "lucide-react";
 
 const points = [
   {
@@ -20,6 +20,11 @@ const points = [
     icon: BookOpen,
     title: "Proof of learning onchain",
     text: "Quiz completion and badges are written to Arc Testnet while Rialo testnet is not live yet."
+  },
+  {
+    icon: Activity,
+    title: "Offchain Health Classifier",
+    text: "Blood pressure and blood sugar category checks run only in the browser for education. They are not stored, added to passport, or written onchain."
   }
 ];
 
