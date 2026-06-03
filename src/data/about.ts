@@ -1,4 +1,4 @@
-import { Activity, BookOpenCheck, Bot, Clock3, Globe2, HeartPulse, Link2, LockKeyhole, ShieldCheck, Sparkles, UserRound } from "lucide-react";
+import { Activity, BookOpenCheck, Bot, Clock3, Globe2, HeartPulse, Link2, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
 
 export const aboutPillars = [
   {
@@ -42,34 +42,29 @@ export const builders = [
 
 export const rialoCards = [
   {
-    title: "Real-World Relevance",
-    text: "Alodoc is a practical consumer education product, not a speculative crypto toy. That maps naturally to Rialo's real-world application thesis.",
+    title: "Real-world education use case",
+    text: "Alodoc is not a speculative app. It is a consumer-facing education tool that fits Rialo's real-world application thesis.",
     icon: HeartPulse
   },
   {
-    title: "Future Real-World Connectivity",
-    text: "Rialo's connectivity direction could help future Alodoc experiences reference trusted public information flows and useful health-related workflows more seamlessly.",
-    icon: Link2
-  },
-  {
-    title: "Privacy-Aware Health UX",
-    text: "Health-adjacent products need careful identity and privacy choices. Rialo's private and public connectivity direction fits that long-term product need.",
+    title: "Privacy-aware identity",
+    text: "Health-related products need careful privacy boundaries. Rialo's direction around identity and privacy makes it a stronger future fit for privacy-safe learning records.",
     icon: ShieldCheck
   },
   {
-    title: "Better Automation",
-    text: "Native timers and event-driven execution could support timely learning journeys without bolting on clunky offchain bot systems.",
+    title: "Real-world connectivity",
+    text: "Future Alodoc versions could connect learning experiences with trusted public information flows or verified real-world data in a more seamless way.",
+    icon: Link2
+  },
+  {
+    title: "Automation and reactivity",
+    text: "Rialo's event-driven model can help future health education workflows become more timely, interactive, and less dependent on clunky offchain automation.",
     icon: Clock3
   },
   {
-    title: "Agent-Enabled Education",
-    text: "Native webcalls and agent-friendly coordination could support future explainers that help users understand health topics dynamically.",
+    title: "Agent-enabled learning",
+    text: "Rialo's native webcalls and agent-friendly architecture could support future educational companions that explain health topics dynamically while keeping the experience grounded and safe.",
     icon: Bot
-  },
-  {
-    title: "Mainstream Onboarding",
-    text: "A more familiar bridge between Web2-style identity and onchain logic could make Alodoc feel closer to a consumer wellness app.",
-    icon: UserRound
   }
 ];
 
@@ -82,16 +77,16 @@ export const safetyCards = [
 
 export const matterCards = [
   {
-    title: "Health information can feel intimidating.",
-    text: "Alodoc breaks core concepts into calmer, visual pieces so users can learn without being overwhelmed."
+    title: "Health information is often too technical.",
+    text: "Alodoc turns common health topics into simple learning journeys with visual explanations and practical educational guidance."
   },
   {
-    title: "Understanding should be accessible.",
-    text: "Bilingual cards, quick quizzes, and friendly feedback lower the barrier for everyday health literacy."
+    title: "People need clearer context before panic.",
+    text: "The goal is to help users understand concepts better before they panic, ignore warning signs, or trust random misinformation."
   },
   {
-    title: "Progress can motivate learning.",
-    text: "Passports, XP, and badges make education feel tangible while avoiding private medical data collection."
+    title: "Learning can feel more engaging.",
+    text: "Cards, quizzes, animated visuals, and progress feedback make health literacy less intimidating and more memorable."
   },
   {
     title: "Useful crypto should feel useful first.",

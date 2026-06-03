@@ -12,7 +12,7 @@ export function RialoFitSection() {
         <p className="text-sm font-semibold uppercase text-mint">Rialo positioning</p>
         <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-5xl">Why Alodoc becomes more powerful on Rialo</h2>
         <p className="mt-5 text-base leading-8 text-cream/78">
-          Alodoc is already a strong example of health education as a real-world consumer use case. On Rialo, the concept could become more compelling because Rialo is designed for applications that need real-world connectivity, automation, privacy-aware execution, and a natural bridge between Web2-style experiences and onchain logic.
+          Alodoc is already built around a real-world use case: health literacy. On Rialo, this concept can become even stronger because Rialo is designed for applications that need real-world connectivity, privacy-aware identity, automation, and a smoother bridge between Web2-style user experiences and onchain logic. For Alodoc, that means a better long-term environment for building practical health education tools that can feel useful to mainstream users, not only crypto-native users.
         </p>
       </div>
       <div className="relative mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">

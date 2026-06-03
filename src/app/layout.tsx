@@ -7,7 +7,10 @@ import { Providers } from "@/components/Providers";
 export const metadata: Metadata = {
   title: "Alodoc | Learn. Understand. Live well.",
   description: "A bilingual health education dApp for learning cards, quizzes, and onchain proof-of-learning badges.",
-  metadataBase: new URL("https://alodoc.vercel.app")
+  metadataBase: new URL("https://alodoc.vercel.app"),
+  icons: {
+    icon: "/favicon.svg"
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

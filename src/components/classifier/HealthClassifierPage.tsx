@@ -16,6 +16,7 @@ import { AnimatedBloodSugarHero } from "@/components/classifier/visuals/Animated
 import { ClassifierHeroCombo } from "@/components/classifier/visuals/ClassifierHeroCombo";
 import { FloatingHealthShapes } from "@/components/classifier/visuals/FloatingHealthShapes";
 import { SectionMiniVisual } from "@/components/classifier/visuals/SectionMiniVisual";
+import { AlodocLogo } from "@/components/branding/AlodocLogo";
 import type { ClassifierLanguage, ClassifierResult, ClassifierType } from "@/lib/health-classifier";
 import { cn } from "@/lib/utils";
 
@@ -95,14 +96,15 @@ export function HealthClassifierPage() {
   return (
     <div className="relative isolate grid gap-8 overflow-hidden">
       <FloatingHealthShapes />
-      <section className="relative grid gap-8 rounded-[2.4rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
+      <section className="alodoc-surface relative grid gap-8 rounded-[2.4rem] border border-cocoa/10 p-4 shadow-soft sm:p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">{copy.eyebrow}</span>
-            <span className="rounded-full bg-white px-4 py-2 text-xs font-black uppercase text-cocoaSoft">{copy.privacy}</span>
+            <AlodocLogo variant="symbol" size="sm" />
+            <span className="rounded-full bg-mint px-4 py-2 text-xs font-semibold uppercase text-oliveDeep">{copy.eyebrow}</span>
+            <span className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase text-cocoaSoft">{copy.privacy}</span>
           </div>
-          <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight text-cocoa sm:text-5xl lg:text-6xl">{copy.title}</h1>
-          <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-cocoaSoft sm:text-lg sm:leading-8">{copy.subtitle}</p>
+          <h1 className="mt-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-cocoa sm:text-5xl lg:text-6xl">{copy.title}</h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-cocoaSoft sm:text-lg sm:leading-8">{copy.subtitle}</p>
           <div className="mt-6 flex flex-wrap gap-2 rounded-full bg-white p-1 shadow-lift sm:w-fit">
             {(["id", "en"] as const).map((item) => (
               <button
@@ -111,7 +113,7 @@ export function HealthClassifierPage() {
                 onClick={() => setLanguage(item)}
                 className={cn(
                   "focus-ring min-h-[44px] rounded-full px-5 py-2 text-sm font-black transition",
-                  language === item ? "bg-orange text-white shadow-lift" : "text-cocoaSoft hover:bg-mint"
+                  language === item ? "bg-cocoa text-cream shadow-lift" : "text-cocoaSoft hover:bg-mint"
                 )}
               >
                 {item === "id" ? "Indonesia" : "English"}
@@ -119,11 +121,11 @@ export function HealthClassifierPage() {
             ))}
           </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <Link href="#classifier-form" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-black text-white shadow-lift">
+            <Link href="#classifier-form" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
               {language === "id" ? "Mulai klasifikasi" : "Start classifying"}
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link href="/library" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-black text-cocoa shadow-lift">
+            <Link href="/library" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoa shadow-lift">
               {language === "id" ? "Buka modul belajar" : "Explore learning modules"}
             </Link>
           </div>

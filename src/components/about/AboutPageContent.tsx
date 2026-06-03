@@ -23,7 +23,7 @@ export function AboutPageContent() {
             A calmer gateway to health understanding.
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-cocoaSoft sm:text-lg">
-            Alodoc is a bilingual health education dApp that helps users learn common diseases through short learning cards, quizzes, and interactive educational tools. It is not a diagnosis app, not a doctor consultation app, and not a medical record app.
+            Alodoc is a bilingual health education dApp that helps users understand common diseases through short learning cards, quizzes, animated educational visuals, and privacy-safe learning progress. It is not a diagnosis app, doctor consultation app, or medical record platform.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link href="/library" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
@@ -59,7 +59,7 @@ export function AboutPageContent() {
         <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="text-sm font-semibold uppercase text-oliveDeep">Why Alodoc matters</p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight text-cocoa sm:text-5xl">Health literacy should feel approachable, not intimidating.</h2>
+            <h2 className="mt-3 text-3xl font-semibold leading-tight text-cocoa sm:text-5xl">Health literacy should feel clear before it feels scary.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {matterCards.map((card, index) => (
@@ -89,7 +89,7 @@ export function AboutPageContent() {
           <p className="text-sm font-semibold uppercase text-oliveDeep">Why Arc Testnet now</p>
           <h2 className="mt-2 text-3xl font-semibold leading-tight text-cocoa">Build now, prove the concept live.</h2>
           <p className="mt-4 text-sm leading-6 text-cocoaSoft">
-            Alodoc is currently developed and demonstrated on Arc Testnet so the concept can be tested in a live onchain environment while Rialo testnet is not yet live. Arc Testnet acts as the practical execution environment for the current proof-of-concept, Health Literacy Passport, quest completion, and badge flow.
+            Alodoc is currently deployed on Arc Testnet as a practical proof-of-concept. This allows the learning passport, quiz completion, and onchain proof-of-learning flow to be tested in a live blockchain environment while the broader Rialo deployment path is still being prepared.
           </p>
         </div>
       </section>

@@ -1,42 +1,48 @@
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type AlodocLogoProps = {
-  compact?: boolean;
-  symbolOnly?: boolean;
+  variant?: "symbol" | "lockup";
+  size?: "sm" | "md" | "lg";
   className?: string;
 };
 
-export function AlodocSymbol({ className }: { className?: string }) {
+export function AlodocSymbol({ size = "md", className }: { size?: "sm" | "md" | "lg"; className?: string }) {
+  const symbolSize = size === "sm" ? 28 : size === "lg" ? 56 : 40;
+
   return (
-    <svg viewBox="0 0 96 96" fill="none" aria-hidden="true" className={cn("h-12 w-12 shrink-0", className)}>
-      <path
-        d="M48 25.3 43.6 21c-7.3-7-18.9-2-18.9 8.3 0 6.5 4.4 10.9 8.6 15.1L48 59l14.7-14.6c4.2-4.2 8.6-8.6 8.6-15.1C71.3 19 59.7 14 52.4 21L48 25.3Z"
-        fill="#90A090"
-      />
-      <circle cx="48" cy="65.5" r="8.8" fill="#90A090" />
-      <rect x="21" y="41" width="16" height="42" rx="8" transform="rotate(40 21 41)" fill="#202020" />
-      <rect x="75" y="41" width="16" height="42" rx="8" transform="rotate(-40 75 41)" fill="#202020" />
+    <svg
+      width={symbolSize}
+      height={symbolSize}
+      viewBox="0 0 120 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Alodoc logo"
+      role="img"
+      className={cn("shrink-0", className)}
+    >
+      <path d="M60 28C56 19 43 15 35 23C27 31 31 45 60 62C89 45 93 31 85 23C77 15 64 19 60 28Z" fill="#90A090" />
+      <rect x="21" y="55" width="28" height="58" rx="14" transform="rotate(34 21 55)" fill="#202020" />
+      <rect x="71" y="71" width="28" height="58" rx="14" transform="rotate(-34 71 71)" fill="#202020" />
+      <circle cx="60" cy="82" r="13" fill="#90A090" />
     </svg>
   );
 }
 
-export function AlodocWordmark({ compact = false }: { compact?: boolean }) {
+export function AlodocWordmark({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+  const wordSize = size === "sm" ? "text-lg" : size === "lg" ? "text-3xl" : "text-2xl";
+
   return (
-    <div className="leading-none">
-      <div className={compact ? "text-xl font-semibold tracking-normal text-cocoa sm:text-2xl" : "text-2xl font-semibold tracking-normal text-cocoa"}>Alodoc</div>
-      {!compact && <div className="mt-1 text-[11px] font-medium text-cocoaSoft">Learn. Understand. Live well.</div>}
-    </div>
+    <span className={cn("font-bold tracking-tight text-[#202020]", wordSize)} style={{ fontFamily: "Inter, sans-serif" }}>
+      Alodoc
+    </span>
   );
 }
 
-export function AlodocLogo({ compact = false, symbolOnly = false, className }: AlodocLogoProps) {
+export function AlodocLogo({ variant = "lockup", size = "md", className = "" }: AlodocLogoProps) {
   return (
-    <Link href="/" className={cn("flex items-center gap-3", className)} aria-label="Alodoc home">
-      <span className="grid h-12 w-12 place-items-center rounded-[1.1rem] bg-cream ring-1 ring-cocoa/10 sm:h-[54px] sm:w-[54px]">
-        <AlodocSymbol className="h-9 w-9 sm:h-10 sm:w-10" />
-      </span>
-      {!symbolOnly && <AlodocWordmark compact={compact} />}
-    </Link>
+    <div className={cn("inline-flex items-center gap-3", className)}>
+      <AlodocSymbol size={size} />
+      {variant === "lockup" && <AlodocWordmark size={size} />}
+    </div>
   );
 }
