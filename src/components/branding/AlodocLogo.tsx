@@ -13,18 +13,19 @@ export function AlodocSymbol({ size = "md", className }: { size?: "sm" | "md" | 
     <svg
       width={symbolSize}
       height={symbolSize}
-      viewBox="0 0 48 48"
+      viewBox="0 0 54 54"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Alodoc logo"
       role="img"
       className={cn("shrink-0", className)}
     >
-      <path d="M12 20c3.5-5.5 20.5-5.5 24 0" stroke="#708473" strokeWidth="3.2" strokeLinecap="round" />
-      <circle cx="24" cy="16" r="4.2" fill="#202020" />
-      <path d="M9.5 28.5c7.3-1.2 12.2 2.5 14.5 10.5-7.6.5-13.3-3.7-14.5-10.5Z" fill="#90A090" />
-      <path d="M38.5 28.5c-7.3-1.2-12.2 2.5-14.5 10.5 7.6.5 13.3-3.7 14.5-10.5Z" fill="#B86B5E" />
-      <path d="M24 24v12" stroke="#202020" strokeWidth="3.4" strokeLinecap="round" />
+      <rect x="3" y="3" width="48" height="48" rx="16" fill="#FFF9F1" />
+      <path d="M13 29c9-12 20-12 28 0" stroke="#708473" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M16 31c7 1 11 4 13 10-7 0-12-3-13-10Z" fill="#90A090" />
+      <path d="M38 31c-7 1-11 4-13 10 7 0 12-3 13-10Z" fill="#B86B5E" />
+      <circle cx="27" cy="21" r="4.3" fill="#4B3024" />
+      <path d="M27 26v10" stroke="#4B3024" strokeWidth="4" strokeLinecap="round" />
     </svg>
   );
 }
