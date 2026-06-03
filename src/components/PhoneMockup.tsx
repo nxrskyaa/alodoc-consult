@@ -1,6 +1,5 @@
 import { BookOpen, CheckCircle2, Medal, UserRound } from "lucide-react";
 import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
-import { AlodocSymbol } from "@/components/branding/AlodocLogo";
 
 export function PhoneMockup() {
   const items = [
@@ -19,8 +18,8 @@ export function PhoneMockup() {
             <p className="text-xs font-black uppercase text-oliveDeep">Alodoc</p>
             <h3 className="mt-1 text-xl font-black text-cocoa sm:text-2xl">Learn card</h3>
           </div>
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-oliveDeep">
-            <AlodocSymbol className="h-8 w-8" />
+          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-xs font-black text-oliveDeep">
+            EDU
           </div>
         </div>
         <div className="mt-4 rounded-3xl bg-white p-3 shadow-lift sm:mt-5">

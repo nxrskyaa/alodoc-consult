@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { AlodocSymbol } from "@/components/branding/AlodocLogo";
 
 export function AboutVisual() {
   const reduceMotion = useReducedMotion();
@@ -13,7 +12,10 @@ export function AboutVisual() {
         animate={reduceMotion ? {} : { y: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >
-        <AlodocSymbol className="h-32 w-32 sm:h-40 sm:w-40" />
+        <div className="px-5 text-center">
+          <p className="text-sm font-bold uppercase text-oliveDeep">Health literacy</p>
+          <p className="mt-3 text-3xl font-extrabold leading-tight text-cocoa sm:text-4xl">Learn. Quiz. Prove.</p>
+        </div>
       </motion.div>
       <div className="relative mt-5 grid grid-cols-3 gap-3">
         {["Learn", "Quiz", "Prove"].map((item, index) => (

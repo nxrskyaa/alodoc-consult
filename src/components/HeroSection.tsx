@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen, Compass } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { ConnectWalletButton } from "@/components/ConnectWalletButton";
@@ -20,7 +20,7 @@ export function HeroSection() {
           Understand common diseases clearly.
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-cocoaSoft sm:text-xl">
-          Learn common diseases through simple bilingual cards, try a safe education classifier, and earn onchain learning badges.
+          Learn common diseases through simple bilingual cards, try a safe learning classifier, and earn onchain learning badges.
         </p>
         <p className="mt-4 max-w-2xl text-base font-semibold leading-7 text-cocoa">Learn. Understand. Live well. <span className="text-cocoaSoft">Belajar. Pahami. Hidup sehat.</span></p>
         <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -28,7 +28,7 @@ export function HeroSection() {
             Start Learning <ArrowRight className="h-4 w-4" />
           </Link>
           <Link href="/classifier" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-4 text-sm font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-alertClay/90 sm:w-auto">
-            <Compass className="h-4 w-4" /> Try Classifier
+            Try Classifier
           </Link>
           <Link href="/library" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full border border-cocoa/10 bg-white px-6 py-4 text-sm font-semibold text-cocoa shadow-lift transition hover:-translate-y-0.5 hover:bg-mint/60 sm:w-auto">
             <BookOpen className="h-4 w-4" /> Explore Library

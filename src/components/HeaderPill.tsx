@@ -126,7 +126,7 @@ export function HeaderPill() {
           return (
             <Link key={item.href} href={item.href} className={cn("grid place-items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-black text-cocoaSoft", active && "bg-mint text-cocoa")}>
               <Icon className="h-4 w-4" />
-              {item.label === "Leaderboard" ? "Board" : item.label === "Classifier" ? "Classify" : item.label}
+              {item.label === "Leaderboard" ? "Board" : item.label}
             </Link>
           );
         })}

@@ -6,7 +6,6 @@ import { BookOpen, Medal, ShieldCheck, TrendingUp, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
-import { AlodocLogo } from "@/components/branding/AlodocLogo";
 import { useAccount, useReadContract } from "wagmi";
 import { BadgeGrid } from "@/components/BadgeGrid";
 import { ConnectWalletButton } from "@/components/ConnectWalletButton";
@@ -73,7 +72,7 @@ export function PassportCard() {
     <section className="grid gap-6">
       <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} className="alodoc-surface rounded-[2.4rem] border border-cocoa/10 p-5 shadow-soft md:p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <AlodocLogo variant="lockup" size="sm" />
+          <span className="text-sm font-black uppercase text-oliveDeep">Health Literacy Passport</span>
           <span className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase text-cocoaSoft shadow-lift">No medical records</span>
         </div>
         <div className="grid gap-6 lg:grid-cols-[auto_1fr_auto] lg:items-center">

@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { AlodocLogo as BrandAlodocLogo, AlodocSymbol } from "@/components/branding/AlodocLogo";
-
-export { AlodocSymbol };
+import { AlodocLogo as BrandAlodocLogo } from "@/components/branding/AlodocLogo";
 
 export function AlodocLogo({ compact = false }: { compact?: boolean }) {
   return (
