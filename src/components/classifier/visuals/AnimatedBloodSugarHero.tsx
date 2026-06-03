@@ -10,8 +10,8 @@ type Props = {
 
 const sizeClass = {
   sm: "min-h-[180px]",
-  md: "min-h-[260px]",
-  lg: "min-h-[340px]"
+  md: "min-h-[220px] sm:min-h-[260px]",
+  lg: "min-h-[300px] sm:min-h-[340px]"
 };
 
 export function AnimatedBloodSugarHero({ size = "md", intensity = "calm" }: Props) {
@@ -19,7 +19,7 @@ export function AnimatedBloodSugarHero({ size = "md", intensity = "calm" }: Prop
   const drift = intensity === "active" ? 14 : 8;
 
   return (
-    <div className={`relative isolate overflow-hidden rounded-[2rem] bg-[#FFFDF8] ${sizeClass[size]}`}>
+    <div className={`relative isolate w-full max-w-full overflow-hidden rounded-[2rem] bg-[#FFFDF8] ${sizeClass[size]}`}>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,#F6D77A88,transparent_34%),radial-gradient(circle_at_85%_75%,#E8F1DD,transparent_34%)]" />
       <svg viewBox="0 0 360 280" className="relative z-10 h-full w-full" role="img" aria-label="Animated blood sugar education visual">
         <motion.g animate={reduceMotion ? {} : { y: [0, -8, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>

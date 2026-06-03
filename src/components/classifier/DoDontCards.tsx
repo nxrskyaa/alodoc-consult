@@ -7,9 +7,9 @@ import type { ClassifierLanguage, ClassifierResult } from "@/lib/health-classifi
 
 export function DoDontCards({ result, language }: { result: ClassifierResult; language: ClassifierLanguage }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      <motion.article initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="rounded-[2rem] border border-olive/15 bg-mint/70 p-4 shadow-lift sm:p-5">
-        <div className="flex flex-col gap-4 sm:flex-row">
+    <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+      <motion.article initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="min-w-0 overflow-hidden rounded-[2rem] border border-olive/15 bg-mint/70 p-4 shadow-lift sm:p-5">
+        <div className="flex min-w-0 flex-col gap-4 sm:flex-row">
           <SectionMiniVisual type="do_actions" />
           <div className="min-w-0">
             <div className="flex items-center gap-2 text-sm font-black uppercase text-oliveDeep">
@@ -26,8 +26,8 @@ export function DoDontCards({ result, language }: { result: ClassifierResult; la
           </div>
         </div>
       </motion.article>
-      <motion.article initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="rounded-[2rem] border border-orange/15 bg-orange/10 p-4 shadow-lift sm:p-5">
-        <div className="flex flex-col gap-4 sm:flex-row">
+      <motion.article initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="min-w-0 overflow-hidden rounded-[2rem] border border-orange/15 bg-orange/10 p-4 shadow-lift sm:p-5">
+        <div className="flex min-w-0 flex-col gap-4 sm:flex-row">
           <SectionMiniVisual type="avoid_actions" />
           <div className="min-w-0">
             <div className="flex items-center gap-2 text-sm font-black uppercase text-orange">

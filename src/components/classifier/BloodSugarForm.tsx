@@ -35,7 +35,7 @@ export function BloodSugarForm({ language, onResult }: { language: ClassifierLan
       onSubmit={submit}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
+      className="w-full min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
     >
       <div className="flex items-center gap-3">
         <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-mint text-oliveDeep shadow-lift">
@@ -48,16 +48,16 @@ export function BloodSugarForm({ language, onResult }: { language: ClassifierLan
           </p>
         </div>
       </div>
-      <div className="mt-6 grid gap-4">
+      <div className="mt-6 grid min-w-0 gap-4">
         <label className="grid gap-2 text-sm font-extrabold text-cocoa">
           {language === "id" ? "Jenis Pemeriksaan" : "Test Type"}
-          <select value={testType} onChange={(event) => setTestType(event.target.value as BloodSugarTestType)} className="focus-ring min-h-[58px] rounded-2xl border border-cocoa/10 bg-white px-4 py-3 text-base font-bold text-cocoa shadow-lift transition focus:border-olive">
+          <select value={testType} onChange={(event) => setTestType(event.target.value as BloodSugarTestType)} className="focus-ring min-h-[58px] w-full min-w-0 rounded-2xl border border-cocoa/10 bg-white px-4 py-3 text-base font-bold text-cocoa shadow-lift transition focus:border-olive">
             {(Object.keys(testLabels) as BloodSugarTestType[]).map((key) => <option key={key} value={key}>{testLabels[key][language]}</option>)}
           </select>
         </label>
         <label className="grid gap-2 text-sm font-extrabold text-cocoa">
           {language === "id" ? "Nilai gula darah" : "Blood sugar value"}
-          <div className="classifier-input flex min-h-[66px] items-center rounded-2xl bg-white px-4 py-3 transition">
+          <div className="classifier-input flex min-h-[66px] min-w-0 items-center rounded-2xl bg-white px-4 py-3 transition">
             <input inputMode="decimal" type="text" placeholder="0" value={value} onChange={(event) => setValue(event.target.value.replace(/[^\d.]/g, ""))} className="min-w-0 flex-1 bg-transparent text-2xl font-extrabold text-cocoa outline-none placeholder:text-cocoa/20" />
             <span className="rounded-full bg-mint px-3 py-1.5 text-xs font-extrabold text-oliveDeep">{unit}</span>
           </div>

@@ -10,9 +10,9 @@ export function RedFlagsCard({ result, language }: { result: ClassifierResult; l
     <motion.article
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-[2rem] border border-orange/20 bg-[#fff4e4] p-4 shadow-lift sm:p-5"
+      className="w-full min-w-0 overflow-hidden rounded-[2rem] border border-orange/20 bg-[#fff4e4] p-4 shadow-lift sm:p-5"
     >
-      <div className="flex flex-col gap-4 sm:flex-row">
+      <div className="flex min-w-0 flex-col gap-4 sm:flex-row">
         <SectionMiniVisual type="red_flags" />
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-sm font-black uppercase text-orange">
@@ -26,7 +26,7 @@ export function RedFlagsCard({ result, language }: { result: ClassifierResult; l
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {result.redFlags[language].map((item) => (
-              <span key={item} className="rounded-full bg-white px-4 py-2 text-xs font-black text-cocoa shadow-lift">
+              <span key={item} className="max-w-full rounded-full bg-white px-4 py-2 text-xs font-black text-cocoa shadow-lift">
                 {item}
               </span>
             ))}

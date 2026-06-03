@@ -26,9 +26,9 @@ export function ClassifierResultCard({ result, language, onReset }: { result: Cl
       initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="grid gap-5 rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
+      className="grid w-full min-w-0 max-w-full gap-5 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
     >
-      <div className="grid gap-5 lg:grid-cols-[auto_1fr] lg:items-center">
+      <div className="grid min-w-0 gap-5 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center">
         <div className="mx-auto lg:mx-0">
           <AnimatedResultBadge variant={result.variant} label={result.label[language]} />
         </div>
@@ -45,8 +45,8 @@ export function ClassifierResultCard({ result, language, onReset }: { result: Cl
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-        <article className="rounded-[2rem] bg-white p-4 shadow-lift">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <article className="min-w-0 overflow-hidden rounded-[2rem] bg-white p-4 shadow-lift">
           <div className="flex flex-col gap-4 sm:flex-row">
             <SectionMiniVisual type="understand_category" />
             <div className="min-w-0">

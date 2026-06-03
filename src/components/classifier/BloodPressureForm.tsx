@@ -28,7 +28,7 @@ export function BloodPressureForm({ language, onResult }: { language: Classifier
       onSubmit={submit}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
+      className="w-full min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
     >
       <div className="flex items-center gap-3">
         <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-mint text-oliveDeep shadow-lift">
@@ -41,7 +41,7 @@ export function BloodPressureForm({ language, onResult }: { language: Classifier
           </p>
         </div>
       </div>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid min-w-0 gap-4 sm:grid-cols-2">
         <NumberInput label={language === "id" ? "Sistolik" : "Systolic"} helper={language === "id" ? "Contoh 120" : "Example 120"} value={systolic} onChange={setSystolic} suffix="mmHg" />
         <NumberInput label={language === "id" ? "Diastolik" : "Diastolic"} helper={language === "id" ? "Contoh 80" : "Example 80"} value={diastolic} onChange={setDiastolic} suffix="mmHg" />
       </div>
@@ -61,7 +61,7 @@ function NumberInput({ label, helper, value, onChange, suffix }: { label: string
   return (
     <label className="grid gap-2 text-sm font-extrabold text-cocoa">
       <span>{label}</span>
-      <div className="classifier-input flex min-h-[66px] items-center rounded-2xl bg-white px-4 py-3 transition">
+      <div className="classifier-input flex min-h-[66px] min-w-0 items-center rounded-2xl bg-white px-4 py-3 transition">
         <input
           inputMode="decimal"
           type="text"

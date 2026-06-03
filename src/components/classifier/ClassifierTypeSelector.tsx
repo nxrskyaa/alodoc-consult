@@ -32,7 +32,7 @@ export function ClassifierTypeSelector({
   ];
 
   return (
-    <div className="grid gap-3 md:grid-cols-2">
+    <div className="grid min-w-0 gap-3 md:grid-cols-2">
       {items.map((item) => {
         const Icon = item.icon;
         const active = selected === item.type;
@@ -44,7 +44,7 @@ export function ClassifierTypeSelector({
             whileTap={{ scale: 0.98 }}
             onClick={() => onSelect(item.type)}
             className={cn(
-              "focus-ring group relative overflow-hidden rounded-[1.6rem] border bg-white p-4 text-left shadow-lift transition",
+              "focus-ring group relative w-full min-w-0 overflow-hidden rounded-[1.6rem] border bg-white p-4 text-left shadow-lift transition",
               active ? "border-orange ring-4 ring-orange/15" : "border-cocoa/10 hover:border-olive/40 hover:bg-mint/25"
             )}
           >

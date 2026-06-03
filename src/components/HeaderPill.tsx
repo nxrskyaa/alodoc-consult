@@ -31,7 +31,7 @@ export function HeaderPill() {
 
   return (
     <>
-      <header className="sticky top-3 z-40 mx-auto flex w-[calc(100vw-24px)] max-w-7xl items-center justify-between gap-2 rounded-[1.7rem] border border-cocoa/10 bg-parchment/88 px-3 py-2 shadow-soft backdrop-blur-xl md:top-4 md:rounded-full lg:px-5">
+      <header className="sticky top-3 z-40 mx-3 flex max-w-7xl items-center justify-between gap-2 rounded-[1.7rem] border border-cocoa/10 bg-parchment/88 px-3 py-2 shadow-soft backdrop-blur-xl md:top-4 md:mx-4 md:rounded-full lg:px-5 xl:mx-auto">
         <AlodocLogo compact />
         <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
           {navItems.map((item) => {
@@ -119,14 +119,14 @@ export function HeaderPill() {
           </motion.div>
         )}
       </AnimatePresence>
-      <nav className="fixed bottom-3 left-3 right-3 z-40 grid grid-cols-5 gap-1 rounded-[1.6rem] border border-cocoa/10 bg-parchment/95 p-2 shadow-soft backdrop-blur md:hidden">
+      <nav className="fixed bottom-3 left-3 right-3 z-40 grid min-w-0 grid-cols-5 gap-1 overflow-hidden rounded-[1.6rem] border border-cocoa/10 bg-parchment/95 p-2 shadow-soft backdrop-blur md:hidden">
         {bottomNavItems.map((item) => {
           const active = pathname === item.href;
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} className={cn("grid place-items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-black text-cocoaSoft", active && "bg-mint text-cocoa")}>
+            <Link key={item.href} href={item.href} className={cn("grid min-w-0 place-items-center gap-1 overflow-hidden rounded-2xl px-1 py-2 text-center text-[10px] font-black text-cocoaSoft min-[390px]:text-[11px]", active && "bg-mint text-cocoa")}>
               <Icon className="h-4 w-4" />
-              {item.label === "Leaderboard" ? "Board" : item.label}
+              <span className="max-w-full truncate">{item.label === "Leaderboard" ? "Board" : item.label}</span>
             </Link>
           );
         })}

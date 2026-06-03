@@ -70,32 +70,32 @@ export function HealthClassifierPage() {
   }
 
   return (
-    <div className="relative isolate mx-auto grid w-full max-w-7xl gap-7 overflow-hidden">
+    <div className="relative isolate mx-auto grid w-full max-w-full gap-7 overflow-x-hidden lg:max-w-7xl">
       <FloatingHealthShapes />
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
-        className="alodoc-surface relative overflow-hidden rounded-[2.2rem] border border-cocoa/10 p-5 shadow-soft sm:p-7 lg:p-8"
+        className="alodoc-surface relative w-full min-w-0 overflow-hidden rounded-[2.2rem] border border-cocoa/10 p-5 shadow-soft sm:p-7 lg:p-8"
       >
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-mint px-4 py-2 text-xs font-semibold uppercase text-oliveDeep">{copy.eyebrow}</span>
             <span className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase text-cocoaSoft">{copy.privacy}</span>
           </div>
-          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
+          <div className="mt-5 grid min-w-0 gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div className="min-w-0">
               <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-normal text-cocoa sm:text-5xl lg:text-6xl">{copy.title}</h1>
               <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-cocoaSoft sm:text-lg sm:leading-8">{copy.subtitle}</p>
             </div>
-            <div className="flex rounded-full bg-white p-1 shadow-lift">
+            <div className="flex w-full max-w-full rounded-full bg-white p-1 shadow-lift sm:w-fit">
               {(["id", "en"] as const).map((item) => (
                 <button
                   key={item}
                   type="button"
                   onClick={() => setLanguage(item)}
                   className={cn(
-                    "focus-ring min-h-[44px] rounded-full px-5 py-2 text-sm font-extrabold transition",
+                    "focus-ring min-h-[44px] flex-1 rounded-full px-4 py-2 text-sm font-extrabold transition sm:flex-none sm:px-5",
                     language === item ? "bg-cocoa text-cream shadow-lift" : "text-cocoaSoft hover:bg-mint"
                   )}
                 >
@@ -118,9 +118,9 @@ export function HealthClassifierPage() {
       </motion.section>
       <PrivacyClassifierNotice language={language} />
 
-      <section className="grid gap-5">
-        <div id="classifier-form" className="grid scroll-mt-28 gap-5">
-          <div className="rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-5">
+      <section className="grid min-w-0 gap-5">
+        <div id="classifier-form" className="grid min-w-0 scroll-mt-28 gap-5">
+          <div className="w-full min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-5">
             <p className="px-1 text-sm font-black uppercase text-oliveDeep">{copy.choose}</p>
             <div className="mt-5">
               <ClassifierTypeSelector selected={selectedType} onSelect={selectType} language={language} />
@@ -133,7 +133,7 @@ export function HealthClassifierPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
-              className="grid gap-5 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:items-stretch"
+              className="grid min-w-0 gap-5 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:items-stretch"
             >
               <div className="hidden overflow-hidden rounded-[2rem] border border-cocoa/10 bg-white p-3 shadow-lift md:block">
                 {selectedType === "blood_pressure" ? (
@@ -152,7 +152,7 @@ export function HealthClassifierPage() {
         {result && <ClassifierResultCard key={`${result.type}-${result.categoryKey}-${language}`} result={result} language={language} onReset={() => setResult(null)} />}
       </AnimatePresence>
 
-      <section className="grid gap-5 rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6 lg:grid-cols-[auto_1fr] lg:items-center">
+      <section className="grid min-w-0 gap-5 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center">
         <div className="grid h-16 w-16 place-items-center rounded-[1.5rem] bg-mint text-oliveDeep shadow-lift">
           <ShieldCheck className="h-8 w-8" />
         </div>
