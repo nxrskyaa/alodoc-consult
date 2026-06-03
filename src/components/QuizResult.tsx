@@ -29,7 +29,7 @@ export function QuizResult({
   const passed = score >= 60;
 
   return (
-    <section className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 text-center shadow-soft md:p-8">
+    <motion.section initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 text-center shadow-soft md:p-8">
       <div className="mx-auto max-w-xs">
         <AnimatedDiseaseVisual slug={passed ? "badge" : "passport"} compact className="min-h-[210px]" />
       </div>
@@ -43,9 +43,9 @@ export function QuizResult({
 
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         {!passed && (
-          <button onClick={onRetry} className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-black text-cream shadow-lift">
+          <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={onRetry} className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-black text-cream shadow-lift">
             <RotateCcw className="h-4 w-4" /> Retry Quiz
-          </button>
+          </motion.button>
         )}
         {passed && (
           <NetworkGate compact>
@@ -68,6 +68,6 @@ export function QuizResult({
           </NetworkGate>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 }

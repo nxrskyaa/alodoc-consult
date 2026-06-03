@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, ArrowRight, Droplets, ShieldCheck } from "lucide-react";
-import Link from "next/link";
+import { ShieldCheck } from "lucide-react";
 import { BloodPressureForm } from "@/components/classifier/BloodPressureForm";
 import { BloodSugarForm } from "@/components/classifier/BloodSugarForm";
 import { ClassifierAloGuide } from "@/components/classifier/ClassifierAloGuide";
@@ -13,57 +12,34 @@ import { ClassifierTypeSelector } from "@/components/classifier/ClassifierTypeSe
 import { PrivacyClassifierNotice } from "@/components/classifier/PrivacyClassifierNotice";
 import { AnimatedBloodPressureHero } from "@/components/classifier/visuals/AnimatedBloodPressureHero";
 import { AnimatedBloodSugarHero } from "@/components/classifier/visuals/AnimatedBloodSugarHero";
-import { ClassifierHeroCombo } from "@/components/classifier/visuals/ClassifierHeroCombo";
 import { FloatingHealthShapes } from "@/components/classifier/visuals/FloatingHealthShapes";
-import { SectionMiniVisual } from "@/components/classifier/visuals/SectionMiniVisual";
-import { AlodocLogo } from "@/components/branding/AlodocLogo";
 import type { ClassifierLanguage, ClassifierResult, ClassifierType } from "@/lib/health-classifier";
 import { cn } from "@/lib/utils";
 
 const labels = {
   id: {
     eyebrow: "Alat Edukasi Kesehatan",
-    title: "Pahami kategori kesehatan secara edukatif",
-    subtitle: "Pahami kategori tekanan darah dan gula darah secara lokal di browser. Bukan diagnosis, bukan rekam medis, dan tidak masuk blockchain.",
+    title: "Alodoc Classifier",
+    subtitle: "Cek gula darah dan tekanan darah secara edukatif. Bukan diagnosis medis.",
     bp: "Tekanan darah",
     sugar: "Gula darah",
-    learn: "Apa yang dipelajari",
-    choose: "Pilih topik edukasi",
+    choose: "Pilih pemeriksaan",
     privacy: "Local only",
     reference: "Referensi edukasi",
     referenceText: "Kategori disusun untuk edukasi umum dari rujukan kesehatan publik dan harus dikonfirmasi bersama tenaga kesehatan."
   },
   en: {
     eyebrow: "Health Education Tool",
-    title: "Understand health categories for learning",
-    subtitle: "Understand blood pressure and blood sugar categories locally in your browser. No diagnosis, no medical record, and no blockchain write.",
+    title: "Alodoc Classifier",
+    subtitle: "Check blood sugar and blood pressure for education. Not a medical diagnosis.",
     bp: "Blood pressure",
     sugar: "Blood sugar",
-    learn: "What you will learn",
-    choose: "Choose learning topic",
+    choose: "Choose checker",
     privacy: "Local only",
     reference: "Educational references",
     referenceText: "Categories are organized for general education from public health references and should be confirmed with healthcare professionals."
   }
 };
-
-const learnCards = [
-  {
-    visual: "learn_number" as const,
-    title: { id: "Masukkan angka", en: "Enter a number" },
-    text: { id: "Isi tekanan darah atau nilai gula darah dari hasil yang sudah Anda miliki.", en: "Enter a blood pressure or glucose value you already have." }
-  },
-  {
-    visual: "understand_category" as const,
-    title: { id: "Pahami kategori", en: "Understand category" },
-    text: { id: "Lihat arti kategori, tingkat risiko umum, dan batas interpretasinya.", en: "See the category meaning, general risk level, and interpretation limits." }
-  },
-  {
-    visual: "related_learning" as const,
-    title: { id: "Lanjut belajar", en: "Keep learning" },
-    text: { id: "Buka modul Hipertensi atau Diabetes Tipe 2 untuk belajar dengan kartu dan quiz.", en: "Open Hypertension or Type 2 Diabetes modules for cards and quizzes." }
-  }
-];
 
 function bloodPressureVisualState(result: ClassifierResult | null): "normal" | "attention" | "moderate" | "high" | "crisis" {
   if (!result) return "normal";
@@ -94,82 +70,58 @@ export function HealthClassifierPage() {
   }
 
   return (
-    <div className="relative isolate grid gap-8 overflow-hidden">
+    <div className="relative isolate mx-auto grid w-full max-w-7xl gap-7 overflow-hidden">
       <FloatingHealthShapes />
-      <section className="alodoc-surface relative grid gap-8 rounded-[2.4rem] border border-cocoa/10 p-4 shadow-soft sm:p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="alodoc-surface relative overflow-hidden rounded-[2.2rem] border border-cocoa/10 p-5 shadow-soft sm:p-7 lg:p-8"
+      >
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <AlodocLogo variant="symbol" size="sm" />
             <span className="rounded-full bg-mint px-4 py-2 text-xs font-semibold uppercase text-oliveDeep">{copy.eyebrow}</span>
             <span className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase text-cocoaSoft">{copy.privacy}</span>
           </div>
-          <h1 className="mt-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-cocoa sm:text-5xl lg:text-6xl">{copy.title}</h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-cocoaSoft sm:text-lg sm:leading-8">{copy.subtitle}</p>
-          <div className="mt-6 flex flex-wrap gap-2 rounded-full bg-white p-1 shadow-lift sm:w-fit">
-            {(["id", "en"] as const).map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setLanguage(item)}
-                className={cn(
-                  "focus-ring min-h-[44px] rounded-full px-5 py-2 text-sm font-black transition",
-                  language === item ? "bg-cocoa text-cream shadow-lift" : "text-cocoaSoft hover:bg-mint"
-                )}
-              >
-                {item === "id" ? "Indonesia" : "English"}
-              </button>
-            ))}
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-normal text-cocoa sm:text-5xl lg:text-6xl">{copy.title}</h1>
+              <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-cocoaSoft sm:text-lg sm:leading-8">{copy.subtitle}</p>
+            </div>
+            <div className="flex rounded-full bg-white p-1 shadow-lift">
+              {(["id", "en"] as const).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setLanguage(item)}
+                  className={cn(
+                    "focus-ring min-h-[44px] rounded-full px-5 py-2 text-sm font-extrabold transition",
+                    language === item ? "bg-cocoa text-cream shadow-lift" : "text-cocoaSoft hover:bg-mint"
+                  )}
+                >
+                  {item === "id" ? "Indonesia" : "English"}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <Link href="#classifier-form" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
-              {language === "id" ? "Mulai belajar angka" : "Start learning check"}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link href="/library" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoa shadow-lift">
-              {language === "id" ? "Buka modul belajar" : "Explore learning modules"}
-            </Link>
-          </div>
-          <div className="mt-6">
+          <div className="mt-6 max-w-3xl">
             <ClassifierAloGuide
               language={language}
               text={
                 language === "id"
-                  ? "Alo Guide: angka yang Anda masukkan tidak disimpan dan tidak dikirim ke blockchain."
-                  : "Alo Guide: values you enter are not stored and are not sent to the blockchain."
+                  ? "Alo Guide: angka yang Anda masukkan diproses lokal di browser, tidak disimpan, dan tidak dikirim ke blockchain."
+                  : "Alo Guide: values are processed locally in your browser, not stored, and not sent to the blockchain."
               }
             />
           </div>
         </div>
-        <div className="min-w-0">
-          <ClassifierHeroCombo />
-        </div>
-      </section>
+      </motion.section>
+      <PrivacyClassifierNotice language={language} />
 
-      <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6">
-          <p className="text-sm font-black uppercase text-oliveDeep">{copy.learn}</p>
-          <div className="mt-5 grid gap-4">
-            {learnCards.map((card, index) => (
-              <motion.article
-                key={card.visual}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.06 }}
-                className="flex flex-col gap-4 rounded-[1.8rem] bg-white p-4 shadow-lift sm:flex-row sm:items-center"
-              >
-                <SectionMiniVisual type={card.visual} />
-                <div>
-                  <h2 className="text-xl font-black text-cocoa">{card.title[language]}</h2>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-cocoaSoft">{card.text[language]}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
+      <section className="grid gap-5">
         <div id="classifier-form" className="grid scroll-mt-28 gap-5">
-          <div className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6">
-            <p className="text-sm font-black uppercase text-oliveDeep">{copy.choose}</p>
+          <div className="rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-5">
+            <p className="px-1 text-sm font-black uppercase text-oliveDeep">{copy.choose}</p>
             <div className="mt-5">
               <ClassifierTypeSelector selected={selectedType} onSelect={selectType} language={language} />
             </div>
@@ -181,9 +133,9 @@ export function HealthClassifierPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
-              className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-start"
+              className="grid gap-5 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:items-stretch"
             >
-              <div className="rounded-[2rem] border border-cocoa/10 bg-white p-3 shadow-lift">
+              <div className="hidden overflow-hidden rounded-[2rem] border border-cocoa/10 bg-white p-3 shadow-lift md:block">
                 {selectedType === "blood_pressure" ? (
                   <AnimatedBloodPressureHero size="md" intensity={result ? "active" : "calm"} resultState={bloodPressureVisualState(result)} />
                 ) : (
@@ -195,8 +147,6 @@ export function HealthClassifierPage() {
           </AnimatePresence>
         </div>
       </section>
-
-      <PrivacyClassifierNotice language={language} />
 
       <AnimatePresence>
         {result && <ClassifierResultCard key={`${result.type}-${result.categoryKey}-${language}`} result={result} language={language} onReset={() => setResult(null)} />}
@@ -219,21 +169,6 @@ export function HealthClassifierPage() {
       </section>
 
       <ClassifierDisclaimer language={language} />
-
-      <div className="grid gap-3 rounded-[2rem] border border-cocoa/10 bg-white p-4 shadow-lift sm:grid-cols-2">
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-mint text-oliveDeep">
-            <Activity className="h-5 w-5" />
-          </div>
-          <span className="text-sm font-black text-cocoa">{copy.bp}</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-orange/15 text-orange">
-            <Droplets className="h-5 w-5" />
-          </div>
-          <span className="text-sm font-black text-cocoa">{copy.sugar}</span>
-        </div>
-      </div>
     </div>
   );
 }

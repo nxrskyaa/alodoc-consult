@@ -91,7 +91,8 @@ export function LeaderboardTable() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className="rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-lift"
+            whileHover={{ y: -3 }}
+            className={`rounded-[2rem] border border-cocoa/10 p-4 shadow-lift ${index < 3 ? "bg-mint/70" : "bg-parchment"}`}
           >
             <div className="flex items-center gap-3">
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-orange text-lg font-black text-white">#{index + 1}</div>
@@ -134,7 +135,8 @@ export function LeaderboardTable() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.04 }}
-                className="border-t border-cocoa/10 bg-white/55"
+                whileHover={{ y: -2 }}
+                className={`border-t border-cocoa/10 ${index < 3 ? "bg-mint/45" : "bg-white/55"}`}
               >
                 <td className="px-5 py-4 text-lg font-black text-cocoa">#{index + 1}</td>
                 <td className="px-5 py-4">

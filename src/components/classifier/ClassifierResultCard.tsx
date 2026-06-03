@@ -11,6 +11,14 @@ import { AnimatedResultBadge } from "@/components/classifier/visuals/AnimatedRes
 import { RiskMeter } from "@/components/classifier/visuals/RiskMeter";
 import { SectionMiniVisual } from "@/components/classifier/visuals/SectionMiniVisual";
 import type { ClassifierLanguage, ClassifierResult } from "@/lib/health-classifier";
+import { cn } from "@/lib/utils";
+
+function variantTone(variant: ClassifierResult["variant"]) {
+  if (variant === "normal") return "bg-mint text-oliveDeep ring-olive/20";
+  if (variant === "crisis" || variant === "high") return "bg-orange/15 text-orange ring-orange/20";
+  if (variant === "inconclusive") return "bg-cardBeige text-cocoaSoft ring-cocoa/10";
+  return "bg-peach/20 text-cocoa ring-peach/25";
+}
 
 export function ClassifierResultCard({ result, language, onReset }: { result: ClassifierResult; language: ClassifierLanguage; onReset: () => void }) {
   return (
@@ -18,17 +26,22 @@ export function ClassifierResultCard({ result, language, onReset }: { result: Cl
       initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="grid gap-5 rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-6"
+      className="grid gap-5 rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6"
     >
       <div className="grid gap-5 lg:grid-cols-[auto_1fr] lg:items-center">
-        <AnimatedResultBadge variant={result.variant} label={result.label[language]} />
+        <div className="mx-auto lg:mx-0">
+          <AnimatedResultBadge variant={result.variant} label={result.label[language]} />
+        </div>
         <div className="min-w-0">
-          <div className="inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-black uppercase text-oliveDeep shadow-lift">
             <Award className="h-4 w-4" />
             {language === "id" ? "Hasil edukasi lokal" : "Local educational result"}
           </div>
           <h2 className="mt-4 break-words text-3xl font-black leading-tight text-cocoa sm:text-4xl">{result.label[language]}</h2>
           <p className="mt-3 text-base font-semibold leading-7 text-cocoaSoft">{result.conclusion[language]}</p>
+          <div className={cn("mt-4 inline-flex rounded-full px-4 py-2 text-sm font-extrabold ring-4", variantTone(result.variant))}>
+            {result.risk[language]}
+          </div>
         </div>
       </div>
 
@@ -75,7 +88,7 @@ export function ClassifierResultCard({ result, language, onReset }: { result: Cl
       <button
         type="button"
         onClick={onReset}
-        className="focus-ring inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-black text-cream shadow-lift transition hover:bg-cocoa/90 sm:w-fit"
+        className="focus-ring inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-black text-cream shadow-lift transition hover:-translate-y-0.5 hover:bg-cocoa/90 active:scale-[0.98] sm:w-fit"
       >
         <RotateCcw className="h-4 w-4" />
         {language === "id" ? "Cek angka lain" : "Check another value"}

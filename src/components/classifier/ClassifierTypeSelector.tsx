@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Activity, Droplets } from "lucide-react";
-import { AnimatedBloodPressureHero } from "@/components/classifier/visuals/AnimatedBloodPressureHero";
-import { AnimatedBloodSugarHero } from "@/components/classifier/visuals/AnimatedBloodSugarHero";
 import type { ClassifierLanguage, ClassifierType } from "@/lib/health-classifier";
 import { cn } from "@/lib/utils";
 
@@ -21,20 +19,20 @@ export function ClassifierTypeSelector({
       type: "blood_pressure" as const,
       title: { en: "Blood Pressure", id: "Tekanan Darah" },
       text: { en: "Understand systolic and diastolic categories.", id: "Pahami kategori angka sistolik dan diastolik." },
-      icon: Activity,
-      visual: <AnimatedBloodPressureHero size="sm" />
+      action: { en: "Check Tensi", id: "Cek Tensi" },
+      icon: Activity
     },
     {
       type: "blood_sugar" as const,
       title: { en: "Blood Sugar", id: "Gula Darah" },
       text: { en: "Interpret fasting, random, or HbA1c values.", id: "Pahami GDP, GDS, atau HbA1c." },
-      icon: Droplets,
-      visual: <AnimatedBloodSugarHero size="sm" />
+      action: { en: "Check Blood Sugar", id: "Cek Gula Darah" },
+      icon: Droplets
     }
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-3 md:grid-cols-2">
       {items.map((item) => {
         const Icon = item.icon;
         const active = selected === item.type;
@@ -42,22 +40,26 @@ export function ClassifierTypeSelector({
           <motion.button
             key={item.type}
             type="button"
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -3 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onSelect(item.type)}
             className={cn(
-              "focus-ring rounded-[2rem] border bg-parchment p-4 text-left shadow-lift transition",
-              active ? "border-orange ring-4 ring-orange/15" : "border-cocoa/10 hover:border-olive/40"
+              "focus-ring group relative overflow-hidden rounded-[1.6rem] border bg-white p-4 text-left shadow-lift transition",
+              active ? "border-orange ring-4 ring-orange/15" : "border-cocoa/10 hover:border-olive/40 hover:bg-mint/25"
             )}
           >
-            {item.visual}
-            <div className="mt-4 flex items-start gap-3">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-mint text-oliveDeep">
+            <motion.span
+              layout
+              className={cn("absolute inset-x-4 top-0 h-1 rounded-b-full", active ? "bg-orange" : "bg-transparent")}
+            />
+            <div className="flex items-start gap-3">
+              <div className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-2xl transition", active ? "bg-orange text-white" : "bg-mint text-oliveDeep")}>
                 <Icon className="h-5 w-5" />
               </div>
-              <div>
-                <h3 className="text-xl font-black text-cocoa">{item.title[language]}</h3>
-                <p className="mt-1 text-sm font-semibold leading-6 text-cocoaSoft">{item.text[language]}</p>
+              <div className="min-w-0">
+                <p className="text-xs font-extrabold uppercase text-oliveDeep">{item.action[language]}</p>
+                <h3 className="mt-1 text-xl font-extrabold text-cocoa">{item.title[language]}</h3>
+                <p className="mt-1 text-sm font-medium leading-6 text-cocoaSoft">{item.text[language]}</p>
               </div>
             </div>
           </motion.button>
