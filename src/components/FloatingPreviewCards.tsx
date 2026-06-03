@@ -15,7 +15,7 @@ export function FloatingPreviewCards() {
         return (
           <div
             key={preview.title}
-            className={`alodoc-float absolute hidden max-w-[190px] rounded-3xl border border-cocoa/10 bg-white/90 p-4 shadow-soft backdrop-blur sm:block ${preview.className}`}
+            className={`alodoc-float absolute hidden max-w-[190px] rounded-3xl border border-cocoa/10 bg-parchment/92 p-4 shadow-soft backdrop-blur sm:block ${preview.className}`}
           >
             <div className="flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-2xl bg-mint text-oliveDeep">

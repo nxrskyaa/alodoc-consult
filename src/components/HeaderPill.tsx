@@ -31,7 +31,7 @@ export function HeaderPill() {
 
   return (
     <>
-      <header className="sticky top-3 z-40 mx-auto flex w-[calc(100vw-24px)] max-w-7xl items-center justify-between gap-2 rounded-[1.7rem] border border-cocoa/10 bg-parchment/95 px-3 py-2 shadow-soft backdrop-blur md:top-4 md:rounded-full lg:px-5">
+      <header className="sticky top-3 z-40 mx-auto flex w-[calc(100vw-24px)] max-w-7xl items-center justify-between gap-2 rounded-[1.7rem] border border-cocoa/10 bg-parchment/88 px-3 py-2 shadow-soft backdrop-blur-xl md:top-4 md:rounded-full lg:px-5">
         <AlodocLogo compact />
         <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
           {navItems.map((item) => {
@@ -42,7 +42,7 @@ export function HeaderPill() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "focus-ring inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-cocoaSoft transition hover:bg-mint/70 hover:text-cocoa",
+                  "focus-ring inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-cocoaSoft transition hover:bg-mint/70 hover:text-cocoa",
                   active && "bg-mint text-cocoa"
                 )}
               >

@@ -24,7 +24,7 @@ export function ConnectWalletButton({ className, compact = false }: { className?
 
   return (
     <button
-      className={cn("focus-ring inline-flex items-center gap-2 rounded-full bg-orange px-4 py-2.5 text-sm font-bold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-[#dc7432] disabled:cursor-not-allowed disabled:opacity-70", className)}
+      className={cn("focus-ring inline-flex items-center gap-2 rounded-full bg-orange px-4 py-2.5 text-sm font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-alertClay/90 disabled:cursor-not-allowed disabled:opacity-70", className)}
       disabled={!connector || isPending}
       onClick={() => connector && connect({ connector })}
     >
