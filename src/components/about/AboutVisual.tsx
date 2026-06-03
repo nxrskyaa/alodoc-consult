@@ -16,7 +16,7 @@ export function AboutVisual() {
         <AlodocSymbol className="h-32 w-32 sm:h-40 sm:w-40" />
       </motion.div>
       <div className="relative mt-5 grid grid-cols-3 gap-3">
-        {["Learn", "Classify", "Prove"].map((item, index) => (
+        {["Learn", "Quiz", "Prove"].map((item, index) => (
           <motion.div
             key={item}
             initial={{ opacity: 0, y: 10 }}

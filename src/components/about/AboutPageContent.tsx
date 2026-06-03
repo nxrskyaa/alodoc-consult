@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen, Network, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Network, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { AboutFeatureCard } from "@/components/about/AboutFeatureCard";
 import { AboutVisual } from "@/components/about/AboutVisual";
@@ -16,7 +16,7 @@ export function AboutPageContent() {
       <section className="grid gap-8 rounded-[2.6rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8 lg:grid-cols-[1.06fr_0.94fr] lg:items-center">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>
           <div className="inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-semibold uppercase text-oliveDeep">
-            <Sparkles className="h-4 w-4" />
+            <ShieldCheck className="h-4 w-4" />
             About Alodoc
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-tight text-cocoa sm:text-6xl">
@@ -29,8 +29,8 @@ export function AboutPageContent() {
             <Link href="/library" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
               Explore Library <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link href="/classifier" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoa shadow-lift">
-              Try Classifier
+            <Link href="/about" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoa shadow-lift">
+              Safety & Privacy
             </Link>
           </div>
           <div className="mt-7 grid gap-3 sm:grid-cols-3">

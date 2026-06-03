@@ -32,8 +32,8 @@ export const classifierDisclaimer = {
 };
 
 export const classifierPrivacyCopy = {
-  en: "Your classifier numbers are processed only in your browser. Alodoc does not store them onchain, in your passport, or in any database.",
-  id: "Angka classifier diproses hanya di browser Anda. Alodoc tidak menyimpannya onchain, di passport, atau di database apa pun."
+  en: "Your numbers are processed only in your browser. Alodoc does not store them onchain, in your passport, or in any database.",
+  id: "Angka Anda diproses hanya di browser. Alodoc tidak menyimpannya onchain, di passport, atau di database apa pun."
 };
 
 const bpRedFlags = {
@@ -297,7 +297,7 @@ const sugarResults: Record<string, Omit<ClassifierResult, "type" | "categoryKey"
     }
   },
   random_inconclusive: {
-    label: { id: "Belum Dapat Diklasifikasikan dari GDS Saja", en: "Not Enough to Classify From Random Glucose Alone" },
+    label: { id: "GDS Membutuhkan Konteks", en: "Random Glucose Needs Context" },
     risk: { id: "Perlu Konteks", en: "Needs Context" },
     riskLevel: "context",
     variant: "inconclusive",

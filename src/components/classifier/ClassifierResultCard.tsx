@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { RotateCcw, Sparkles } from "lucide-react";
+import { Award, RotateCcw } from "lucide-react";
 import { ClassifierAloGuide } from "@/components/classifier/ClassifierAloGuide";
 import { ClassifierDisclaimer } from "@/components/classifier/ClassifierDisclaimer";
 import { DoDontCards } from "@/components/classifier/DoDontCards";
@@ -24,7 +24,7 @@ export function ClassifierResultCard({ result, language, onReset }: { result: Cl
         <AnimatedResultBadge variant={result.variant} label={result.label[language]} />
         <div className="min-w-0">
           <div className="inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
-            <Sparkles className="h-4 w-4" />
+            <Award className="h-4 w-4" />
             {language === "id" ? "Hasil edukasi lokal" : "Local educational result"}
           </div>
           <h2 className="mt-4 break-words text-3xl font-black leading-tight text-cocoa sm:text-4xl">{result.label[language]}</h2>

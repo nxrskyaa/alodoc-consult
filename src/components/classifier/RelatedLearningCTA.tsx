@@ -17,8 +17,8 @@ export function RelatedLearningCTA({ result, language }: { result: ClassifierRes
             <h3 className="mt-1 text-2xl font-black text-cocoa">{result.related.primaryLabel[language]}</h3>
             <p className="mt-2 max-w-xl text-sm font-semibold leading-6 text-cocoaSoft">
               {language === "id"
-                ? "Classifier ini hanya pintu masuk edukasi. Modul Alodoc menjelaskan konteksnya dengan kartu belajar dan quiz."
-                : "This classifier is only an educational entry point. Alodoc modules explain the context with learning cards and quizzes."}
+                ? "Alat ini hanya pintu masuk edukasi. Modul Alodoc menjelaskan konteksnya dengan kartu belajar dan quiz."
+                : "This tool is only an educational entry point. Alodoc modules explain the context with learning cards and quizzes."}
             </p>
           </div>
         </div>

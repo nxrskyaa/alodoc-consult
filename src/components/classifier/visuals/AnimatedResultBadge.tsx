@@ -18,7 +18,7 @@ export function AnimatedResultBadge({ variant, label }: { variant: ResultVariant
 
   return (
     <div className="grid justify-items-center gap-2">
-      <motion.svg viewBox="0 0 150 150" className="h-28 w-28" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45 }} role="img" aria-label={label ?? "Classifier result badge"}>
+      <motion.svg viewBox="0 0 150 150" className="h-28 w-28" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45 }} role="img" aria-label={label ?? "Educational result badge"}>
         <motion.circle cx="75" cy="75" r="54" fill={tone.bg} stroke={tone.stroke} strokeWidth="8" animate={reduceMotion ? {} : { scale: variant === "crisis" ? [1, 1.06, 1] : [1, 1.035, 1] }} transition={{ duration: variant === "crisis" ? 1.5 : 2.6, repeat: Infinity, ease: "easeInOut" }} />
         {variant === "normal" ? (
           <motion.path d="M48 76l18 18 38-45" stroke={tone.mark} strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" fill="none" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7, delay: 0.2 }} />

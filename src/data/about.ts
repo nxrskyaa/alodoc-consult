@@ -1,4 +1,4 @@
-import { Activity, BookOpenCheck, Bot, Clock3, Globe2, HeartPulse, Link2, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
+import { Activity, BookOpenCheck, Bot, Clock3, Globe2, HeartPulse, Link2, LockKeyhole, ShieldCheck } from "lucide-react";
 
 export const aboutPillars = [
   {
@@ -8,7 +8,7 @@ export const aboutPillars = [
   },
   {
     title: "Interactive literacy tools",
-    text: "Quizzes and the local Health Classifier turn passive reading into active understanding.",
+    text: "Quizzes and simple educational tools turn passive reading into active understanding.",
     icon: Activity
   },
   {
@@ -71,7 +71,7 @@ export const rialoCards = [
 export const safetyCards = [
   "Learning progress can be written onchain.",
   "Private medical records are not stored.",
-  "Classifier readings run locally in the browser.",
+  "Educational number checks run locally in the browser.",
   "Alodoc is education only, not diagnosis or emergency advice."
 ];
 
@@ -95,7 +95,7 @@ export const matterCards = [
 ];
 
 export const aboutStats = [
-  { label: "Disease quests", value: "5", icon: Sparkles },
+  { label: "Disease quests", value: "5", icon: BookOpenCheck },
   { label: "Languages", value: "ID/EN", icon: Globe2 },
   { label: "Medical records", value: "0", icon: LockKeyhole }
 ];

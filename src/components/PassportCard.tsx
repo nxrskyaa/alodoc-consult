@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { ElementType } from "react";
-import { BookOpen, Medal, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
+import { BookOpen, Medal, ShieldCheck, TrendingUp, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
@@ -104,7 +104,7 @@ export function PassportCard() {
           <XpRing value={toNumber(data?.xp)} accuracy={accuracyValue} />
         </div>
         <div className="mt-8 grid gap-4 md:grid-cols-5">
-          <Stat icon={Sparkles} label="XP" value={toNumber(data?.xp)} />
+          <Stat icon={Zap} label="XP" value={toNumber(data?.xp)} />
           <Stat icon={BookOpen} label="Completed" value={toNumber(data?.completedCount)} />
           <Stat icon={Medal} label="Badges" value={toNumber(data?.badgeCount)} />
           <Stat icon={TrendingUp} label="Accuracy" value={`${accuracyValue}%`} />

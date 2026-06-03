@@ -22,25 +22,25 @@ import { cn } from "@/lib/utils";
 
 const labels = {
   id: {
-    eyebrow: "Health Classifier",
-    title: "Klasifikasi Edukasi Kesehatan",
+    eyebrow: "Alat Edukasi Kesehatan",
+    title: "Pahami kategori kesehatan secara edukatif",
     subtitle: "Pahami kategori tekanan darah dan gula darah secara lokal di browser. Bukan diagnosis, bukan rekam medis, dan tidak masuk blockchain.",
     bp: "Tekanan darah",
     sugar: "Gula darah",
     learn: "Apa yang dipelajari",
-    choose: "Pilih classifier",
+    choose: "Pilih topik edukasi",
     privacy: "Local only",
     reference: "Referensi edukasi",
     referenceText: "Kategori disusun untuk edukasi umum dari rujukan kesehatan publik dan harus dikonfirmasi bersama tenaga kesehatan."
   },
   en: {
-    eyebrow: "Health Classifier",
-    title: "Health Education Classifier",
+    eyebrow: "Health Education Tool",
+    title: "Understand health categories for learning",
     subtitle: "Understand blood pressure and blood sugar categories locally in your browser. No diagnosis, no medical record, and no blockchain write.",
     bp: "Blood pressure",
     sugar: "Blood sugar",
     learn: "What you will learn",
-    choose: "Choose classifier",
+    choose: "Choose learning topic",
     privacy: "Local only",
     reference: "Educational references",
     referenceText: "Categories are organized for general education from public health references and should be confirmed with healthcare professionals."
@@ -122,7 +122,7 @@ export function HealthClassifierPage() {
           </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <Link href="#classifier-form" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
-              {language === "id" ? "Mulai klasifikasi" : "Start classifying"}
+              {language === "id" ? "Mulai belajar angka" : "Start learning check"}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link href="/library" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoa shadow-lift">

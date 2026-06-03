@@ -1,38 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen, HeartPulse, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { ConnectWalletButton } from "@/components/ConnectWalletButton";
 import { HeroPreviewComposition } from "@/components/HeroPreviewComposition";
-import { AlodocLogo } from "@/components/branding/AlodocLogo";
 
 export function HeroSection() {
   return (
     <section className="relative mx-auto grid min-h-[auto] grid-cols-1 items-center gap-10 overflow-hidden pt-6 sm:pt-8 lg:min-h-[720px] lg:grid-cols-12 lg:gap-12 lg:pt-4">
       <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-mint/50 blur-3xl lg:left-[62%] lg:h-96 lg:w-96" />
       <motion.div className="min-w-0 lg:col-span-6" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-oliveDeep shadow-lift">
-          <Sparkles className="h-4 w-4 text-orange" />
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cocoa/10 bg-parchment/80 px-4 py-2 text-sm font-medium text-cocoaSoft shadow-lift">
+          <span className="h-2 w-2 rounded-full bg-olive" />
           Bilingual health literacy <span aria-hidden="true">&middot;</span> Privacy-safe by design
         </div>
-        <div className="mb-5">
-          <AlodocLogo variant="lockup" size="lg" />
-        </div>
-        <h1 className="max-w-full text-[clamp(2.55rem,10vw,4rem)] font-extrabold leading-[1.02] tracking-tight text-cocoa sm:text-5xl lg:max-w-3xl lg:text-6xl xl:text-7xl">
-          Understand your health signals clearly.
+        <h1 className="max-w-full text-[clamp(2.65rem,10vw,4rem)] font-extrabold leading-[1.02] tracking-tight text-cocoa sm:text-5xl lg:max-w-3xl lg:text-6xl xl:text-7xl">
+          Understand common diseases clearly.
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-cocoaSoft sm:text-xl">
-          Alodoc turns common disease education into simple bilingual cards, private health classifiers, quizzes, and onchain learning proof.
+          Alodoc turns everyday health topics into simple bilingual learning cards, quick quizzes, and onchain proof of learning.
         </p>
         <p className="mt-4 max-w-2xl text-base font-semibold leading-7 text-cocoa">Learn. Understand. Live well. <span className="text-cocoaSoft">Belajar. Pahami. Hidup sehat.</span></p>
         <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link href="/library" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-cocoa px-6 py-4 text-sm font-semibold text-cream shadow-lift transition hover:-translate-y-0.5 hover:bg-deepBlack sm:w-auto">
             Start Learning <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link href="/classifier" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-olive px-6 py-4 text-sm font-semibold text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-oliveDeep sm:w-auto">
-            <HeartPulse className="h-4 w-4" /> Try Classifier
           </Link>
           <Link href="/library" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full border border-cocoa/10 bg-white px-6 py-4 text-sm font-semibold text-cocoa shadow-lift transition hover:-translate-y-0.5 hover:bg-mint/60 sm:w-auto">
             <BookOpen className="h-4 w-4" /> Explore Library

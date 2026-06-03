@@ -20,7 +20,7 @@ export function ClassifierTypeSelector({
     {
       type: "blood_pressure" as const,
       title: { en: "Blood Pressure", id: "Tekanan Darah" },
-      text: { en: "Classify systolic and diastolic readings.", id: "Klasifikasikan angka sistolik dan diastolik." },
+      text: { en: "Understand systolic and diastolic categories.", id: "Pahami kategori angka sistolik dan diastolik." },
       icon: Activity,
       visual: <AnimatedBloodPressureHero size="sm" />
     },

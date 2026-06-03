@@ -2,8 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import type { ElementType } from "react";
-import { Award, BookOpen, ShieldCheck, SlidersHorizontal } from "lucide-react";
-import { AlodocLogo } from "@/components/branding/AlodocLogo";
+import { Award, BookOpen, CheckCircle2, ShieldCheck } from "lucide-react";
 
 export function HeroPreviewComposition() {
   const reduceMotion = useReducedMotion();
@@ -17,22 +16,25 @@ export function HeroPreviewComposition() {
         transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
       >
         <div className="flex items-center justify-between gap-4">
-          <AlodocLogo variant="lockup" size="sm" />
-          <span className="rounded-full bg-mint px-3 py-1 text-[11px] font-bold uppercase text-oliveDeep">Private</span>
+          <div>
+            <p className="text-xs font-bold uppercase text-oliveDeep">Learning path</p>
+            <p className="mt-1 text-sm font-semibold text-cocoaSoft">Education only</p>
+          </div>
+          <span className="rounded-full bg-mint px-3 py-1 text-[11px] font-bold uppercase text-oliveDeep">ID/EN</span>
         </div>
         <div className="mt-5 rounded-[1.8rem] bg-white p-4 shadow-lift">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase text-oliveDeep">Health Classifier</p>
-              <h3 className="mt-1 text-2xl font-extrabold leading-tight text-cocoa">Understand signals</h3>
+              <p className="text-xs font-bold uppercase text-oliveDeep">Disease quest</p>
+              <h3 className="mt-1 text-2xl font-extrabold leading-tight text-cocoa">Common Cold Basics</h3>
             </div>
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-cocoa text-cream">
-              <SlidersHorizontal className="h-6 w-6" />
+              <BookOpen className="h-6 w-6" />
             </div>
           </div>
           <div className="mt-5 grid gap-3">
-            <Meter label="Blood pressure" value="Educational range" width="72%" />
-            <Meter label="Blood sugar" value="Browser only" width="54%" />
+            <Meter label="Learning cards" value="3 of 5" width="68%" />
+            <Meter label="Quiz readiness" value="Almost ready" width="54%" />
           </div>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-3">
@@ -64,7 +66,10 @@ export function HeroPreviewComposition() {
         transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
       >
         <p className="text-xs font-bold uppercase text-cream/70">Onchain proof</p>
-        <p className="mt-1 text-2xl font-extrabold">XP + Badge</p>
+        <div className="mt-2 flex items-center gap-2">
+          <CheckCircle2 className="h-5 w-5" />
+          <p className="text-2xl font-extrabold">Badge ready</p>
+        </div>
       </motion.div>
     </div>
   );
