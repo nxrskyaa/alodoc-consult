@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
+import { BmiForm } from "@/components/classifier/BmiForm";
+import { BmiResultCard } from "@/components/classifier/BmiResultCard";
 import { BloodPressureForm } from "@/components/classifier/BloodPressureForm";
 import { BloodSugarForm } from "@/components/classifier/BloodSugarForm";
 import { ClassifierAloGuide } from "@/components/classifier/ClassifierAloGuide";
@@ -10,9 +12,11 @@ import { ClassifierDisclaimer } from "@/components/classifier/ClassifierDisclaim
 import { ClassifierResultCard } from "@/components/classifier/ClassifierResultCard";
 import { ClassifierTypeSelector } from "@/components/classifier/ClassifierTypeSelector";
 import { PrivacyClassifierNotice } from "@/components/classifier/PrivacyClassifierNotice";
+import { AnimatedBmiHero } from "@/components/classifier/visuals/AnimatedBmiHero";
 import { AnimatedBloodPressureHero } from "@/components/classifier/visuals/AnimatedBloodPressureHero";
 import { AnimatedBloodSugarHero } from "@/components/classifier/visuals/AnimatedBloodSugarHero";
 import { FloatingHealthShapes } from "@/components/classifier/visuals/FloatingHealthShapes";
+import type { BmiResult } from "@/lib/bmi-classifier";
 import type { ClassifierLanguage, ClassifierResult, ClassifierType } from "@/lib/health-classifier";
 import { cn } from "@/lib/utils";
 
@@ -20,9 +24,10 @@ const labels = {
   id: {
     eyebrow: "Alat Edukasi Kesehatan",
     title: "Alodoc Classifier",
-    subtitle: "Cek gula darah dan tekanan darah secara edukatif. Bukan diagnosis medis.",
+    subtitle: "Cek gula darah, tekanan darah, dan BMI secara edukatif. Bukan diagnosis medis.",
     bp: "Tekanan darah",
     sugar: "Gula darah",
+    bmi: "BMI",
     choose: "Pilih pemeriksaan",
     privacy: "Local only",
     reference: "Referensi edukasi",
@@ -31,9 +36,10 @@ const labels = {
   en: {
     eyebrow: "Health Education Tool",
     title: "Alodoc Classifier",
-    subtitle: "Check blood sugar and blood pressure for education. Not a medical diagnosis.",
+    subtitle: "Check blood sugar, blood pressure, and BMI for education. Not a medical diagnosis.",
     bp: "Blood pressure",
     sugar: "Blood sugar",
+    bmi: "BMI",
     choose: "Choose checker",
     privacy: "Local only",
     reference: "Educational references",
@@ -62,11 +68,13 @@ export function HealthClassifierPage() {
   const [language, setLanguage] = useState<ClassifierLanguage>("id");
   const [selectedType, setSelectedType] = useState<ClassifierType>("blood_pressure");
   const [result, setResult] = useState<ClassifierResult | null>(null);
+  const [bmiResult, setBmiResult] = useState<BmiResult | null>(null);
   const copy = labels[language];
 
   function selectType(type: ClassifierType) {
     setSelectedType(type);
     setResult(null);
+    setBmiResult(null);
   }
 
   return (
@@ -138,11 +146,37 @@ export function HealthClassifierPage() {
               <div className="hidden overflow-hidden rounded-[2rem] border border-cocoa/10 bg-white p-3 shadow-lift md:block">
                 {selectedType === "blood_pressure" ? (
                   <AnimatedBloodPressureHero size="md" intensity={result ? "active" : "calm"} resultState={bloodPressureVisualState(result)} />
-                ) : (
+                ) : selectedType === "blood_sugar" ? (
                   <AnimatedBloodSugarHero size="md" intensity={result ? "active" : "calm"} resultState={bloodSugarVisualState(result)} />
+                ) : (
+                  <AnimatedBmiHero />
                 )}
               </div>
-              {selectedType === "blood_pressure" ? <BloodPressureForm language={language} onResult={setResult} /> : <BloodSugarForm language={language} onResult={setResult} />}
+              {selectedType === "blood_pressure" ? (
+                <BloodPressureForm
+                  language={language}
+                  onResult={(nextResult) => {
+                    setBmiResult(null);
+                    setResult(nextResult);
+                  }}
+                />
+              ) : selectedType === "blood_sugar" ? (
+                <BloodSugarForm
+                  language={language}
+                  onResult={(nextResult) => {
+                    setBmiResult(null);
+                    setResult(nextResult);
+                  }}
+                />
+              ) : (
+                <BmiForm
+                  language={language}
+                  onResult={(nextResult) => {
+                    setResult(null);
+                    setBmiResult(nextResult);
+                  }}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -150,6 +184,7 @@ export function HealthClassifierPage() {
 
       <AnimatePresence>
         {result && <ClassifierResultCard key={`${result.type}-${result.categoryKey}-${language}`} result={result} language={language} onReset={() => setResult(null)} />}
+        {bmiResult && <BmiResultCard key={`bmi-${bmiResult.categoryKey}-${language}`} result={bmiResult} language={language} onReset={() => setBmiResult(null)} />}
       </AnimatePresence>
 
       <section className="grid min-w-0 gap-5 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center">

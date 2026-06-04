@@ -1,5 +1,5 @@
 export type ClassifierLanguage = "id" | "en";
-export type ClassifierType = "blood_pressure" | "blood_sugar";
+export type ClassifierType = "blood_pressure" | "blood_sugar" | "bmi";
 export type BloodSugarTestType = "fasting_glucose" | "random_glucose" | "hba1c";
 export type RiskLevel = "low" | "attention" | "moderate" | "high" | "very_high" | "context";
 export type ResultVariant = "normal" | "attention" | "moderate" | "high" | "crisis" | "inconclusive";

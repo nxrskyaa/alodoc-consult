@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, Droplets } from "lucide-react";
+import { Activity, Droplets, Scale } from "lucide-react";
 import type { ClassifierLanguage, ClassifierType } from "@/lib/health-classifier";
 import { cn } from "@/lib/utils";
 
@@ -28,11 +28,18 @@ export function ClassifierTypeSelector({
       text: { en: "Interpret fasting, random, or HbA1c values.", id: "Pahami GDP, GDS, atau HbA1c." },
       action: { en: "Check Blood Sugar", id: "Cek Gula Darah" },
       icon: Droplets
+    },
+    {
+      type: "bmi" as const,
+      title: { en: "BMI Checker", id: "Cek BMI" },
+      text: { en: "Calculate adult BMI from temporary height and weight.", id: "Hitung BMI dewasa dari tinggi dan berat sementara." },
+      action: { en: "Check BMI", id: "Cek BMI" },
+      icon: Scale
     }
   ];
 
   return (
-    <div className="grid min-w-0 gap-3 md:grid-cols-2">
+    <div className="grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => {
         const Icon = item.icon;
         const active = selected === item.type;
