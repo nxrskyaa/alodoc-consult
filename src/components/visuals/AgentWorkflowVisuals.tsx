@@ -99,19 +99,30 @@ export function AnimatedBMIRing({ className }: { className?: string }) {
   );
 }
 
-export function AnimatedAloAgentOrb({ active = false, className }: { active?: boolean; className?: string }) {
+export function AnimatedAloAgentOrb({
+  active = false,
+  mood = "idle",
+  compact = false,
+  className
+}: {
+  active?: boolean;
+  mood?: "idle" | "thinking" | "happy";
+  compact?: boolean;
+  className?: string;
+}) {
   const reduceMotion = useReducedMotion();
+  const moodActive = active || mood === "thinking" || mood === "happy";
   return (
-    <div className={cn("relative isolate grid min-h-[280px] place-items-center overflow-hidden rounded-[2rem]", className)}>
+    <div className={cn("relative isolate grid place-items-center overflow-visible rounded-[2rem]", compact ? "min-h-[104px]" : "min-h-[280px]", className)}>
       <AnimatedHealthParticles />
       <motion.svg
         viewBox="0 0 260 260"
-        className="relative z-10 h-full max-h-[300px] w-full max-w-[300px]"
+        className={cn("relative z-10 h-full w-full", compact ? "max-h-[116px] max-w-[116px]" : "max-h-[300px] max-w-[300px]")}
         role="img"
         aria-label="Animated Alo Agent education orb"
         initial={{ opacity: 0, scale: 0.94, y: 12 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
+        animate={reduceMotion ? { opacity: 1, scale: 1, y: 0 } : { opacity: 1, scale: mood === "happy" ? [1, 1.04, 1] : 1, y: moodActive ? [0, -7, 0] : [0, -3, 0] }}
+        transition={{ duration: mood === "happy" ? 1.2 : 2.8, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" }}
       >
         <motion.circle
           cx="130"
@@ -120,17 +131,26 @@ export function AnimatedAloAgentOrb({ active = false, className }: { active?: bo
           fill="#FFFDF8"
           stroke="#90A090"
           strokeWidth="9"
-          animate={reduceMotion ? undefined : { scale: active ? [1, 1.04, 1] : [1, 1.02, 1] }}
-          transition={{ duration: active ? 1.6 : 3.2, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduceMotion ? undefined : { scale: moodActive ? [1, 1.04, 1] : [1, 1.02, 1] }}
+          transition={{ duration: moodActive ? 1.6 : 3.2, repeat: Infinity, ease: "easeInOut" }}
           style={{ transformOrigin: "130px 130px" }}
         />
         <motion.path d="M87 128c18-28 66-28 86 0" fill="none" stroke="#202020" strokeWidth="16" strokeLinecap="round" {...repeat(reduceMotion, { y: [0, -4, 0] }, 3)} />
         <motion.path d="M72 160c25 42 91 42 116 0" fill="none" stroke="#90A090" strokeWidth="12" strokeLinecap="round" {...repeat(reduceMotion, { pathLength: [0.75, 1, 0.75] }, 2.6)} />
         <motion.path d="M108 67c10-22 34-22 44 0 9-12 31-7 31 12 0 24-31 40-53 57-22-17-53-33-53-57 0-19 22-24 31-12Z" fill="#90A090" {...repeat(reduceMotion, { y: [0, -7, 0], scale: [1, 1.04, 1] }, 2.7)} style={{ transformOrigin: "130px 90px" }} />
-        <circle cx="110" cy="125" r="5" fill="#202020" />
-        <circle cx="150" cy="125" r="5" fill="#202020" />
-        <path d="M113 145c12 10 25 10 37 0" fill="none" stroke="#202020" strokeWidth="6" strokeLinecap="round" />
+        <motion.ellipse cx="110" cy="125" rx="5" ry="5" fill="#202020" animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.12, 1] }} transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "110px 125px" }} />
+        <motion.ellipse cx="150" cy="125" rx="5" ry="5" fill="#202020" animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.12, 1] }} transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "150px 125px" }} />
+        <circle cx="96" cy="138" r="7" fill="#F5CFAA" opacity="0.8" />
+        <circle cx="164" cy="138" r="7" fill="#F5CFAA" opacity="0.8" />
+        <path d={mood === "happy" ? "M108 143c14 17 30 17 44 0" : "M113 145c12 10 25 10 37 0"} fill="none" stroke="#202020" strokeWidth="6" strokeLinecap="round" />
         <motion.rect x="96" y="174" width="68" height="36" rx="18" fill="#F28A3E" {...repeat(reduceMotion, { y: [0, 5, 0] }, 3.2)} />
+        {mood === "thinking" && (
+          <g>
+            {[90, 112, 134].map((x, index) => (
+              <motion.circle key={x} cx={x} cy="220" r="5" fill={index === 1 ? "#F28A3E" : "#90A090"} {...repeat(reduceMotion, { y: [0, -8, 0], opacity: [0.35, 1, 0.35] }, 1.1 + index * 0.1)} />
+            ))}
+          </g>
+        )}
       </motion.svg>
     </div>
   );
