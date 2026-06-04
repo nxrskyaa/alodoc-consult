@@ -106,12 +106,15 @@ export function AnimatedAloAgentOrb({
   className
 }: {
   active?: boolean;
-  mood?: "idle" | "thinking" | "happy";
+  mood?: "idle" | "thinking" | "explaining" | "success" | "caution" | "happy";
   compact?: boolean;
   className?: string;
 }) {
   const reduceMotion = useReducedMotion();
-  const moodActive = active || mood === "thinking" || mood === "happy";
+  const moodActive = active || mood !== "idle";
+  const happyMood = mood === "happy" || mood === "success";
+  const cautionMood = mood === "caution";
+  const accent = cautionMood ? "#F28A3E" : "#90A090";
   return (
     <div className={cn("relative isolate grid place-items-center overflow-visible rounded-[2rem]", compact ? "min-h-[104px]" : "min-h-[280px]", className)}>
       <AnimatedHealthParticles />
@@ -121,36 +124,38 @@ export function AnimatedAloAgentOrb({
         role="img"
         aria-label="Animated Alo Agent education orb"
         initial={{ opacity: 0, scale: 0.94, y: 12 }}
-        animate={reduceMotion ? { opacity: 1, scale: 1, y: 0 } : { opacity: 1, scale: mood === "happy" ? [1, 1.04, 1] : 1, y: moodActive ? [0, -7, 0] : [0, -3, 0] }}
-        transition={{ duration: mood === "happy" ? 1.2 : 2.8, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" }}
+        animate={reduceMotion ? { opacity: 1, scale: 1, y: 0 } : { opacity: 1, scale: happyMood ? [1, 1.04, 1] : 1, y: moodActive ? [0, -7, 0] : [0, -3, 0] }}
+        transition={{ duration: happyMood ? 1.2 : 2.8, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" }}
       >
         <motion.circle
           cx="130"
           cy="130"
           r="86"
           fill="#FFFDF8"
-          stroke="#90A090"
+          stroke={accent}
           strokeWidth="9"
           animate={reduceMotion ? undefined : { scale: moodActive ? [1, 1.04, 1] : [1, 1.02, 1] }}
           transition={{ duration: moodActive ? 1.6 : 3.2, repeat: Infinity, ease: "easeInOut" }}
           style={{ transformOrigin: "130px 130px" }}
         />
         <motion.path d="M87 128c18-28 66-28 86 0" fill="none" stroke="#202020" strokeWidth="16" strokeLinecap="round" {...repeat(reduceMotion, { y: [0, -4, 0] }, 3)} />
-        <motion.path d="M72 160c25 42 91 42 116 0" fill="none" stroke="#90A090" strokeWidth="12" strokeLinecap="round" {...repeat(reduceMotion, { pathLength: [0.75, 1, 0.75] }, 2.6)} />
+        <motion.path d="M72 160c25 42 91 42 116 0" fill="none" stroke={accent} strokeWidth="12" strokeLinecap="round" {...repeat(reduceMotion, { pathLength: [0.75, 1, 0.75] }, 2.6)} />
         <motion.path d="M108 67c10-22 34-22 44 0 9-12 31-7 31 12 0 24-31 40-53 57-22-17-53-33-53-57 0-19 22-24 31-12Z" fill="#90A090" {...repeat(reduceMotion, { y: [0, -7, 0], scale: [1, 1.04, 1] }, 2.7)} style={{ transformOrigin: "130px 90px" }} />
         <motion.ellipse cx="110" cy="125" rx="5" ry="5" fill="#202020" animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.12, 1] }} transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "110px 125px" }} />
         <motion.ellipse cx="150" cy="125" rx="5" ry="5" fill="#202020" animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.12, 1] }} transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "150px 125px" }} />
         <circle cx="96" cy="138" r="7" fill="#F5CFAA" opacity="0.8" />
         <circle cx="164" cy="138" r="7" fill="#F5CFAA" opacity="0.8" />
-        <path d={mood === "happy" ? "M108 143c14 17 30 17 44 0" : "M113 145c12 10 25 10 37 0"} fill="none" stroke="#202020" strokeWidth="6" strokeLinecap="round" />
+        <path d={happyMood ? "M108 143c14 17 30 17 44 0" : cautionMood ? "M112 148c12-8 25-8 37 0" : "M113 145c12 10 25 10 37 0"} fill="none" stroke="#202020" strokeWidth="6" strokeLinecap="round" />
         <motion.rect x="96" y="174" width="68" height="36" rx="18" fill="#F28A3E" {...repeat(reduceMotion, { y: [0, 5, 0] }, 3.2)} />
-        {mood === "thinking" && (
+        {(mood === "thinking" || mood === "explaining") && (
           <g>
             {[90, 112, 134].map((x, index) => (
               <motion.circle key={x} cx={x} cy="220" r="5" fill={index === 1 ? "#F28A3E" : "#90A090"} {...repeat(reduceMotion, { y: [0, -8, 0], opacity: [0.35, 1, 0.35] }, 1.1 + index * 0.1)} />
             ))}
           </g>
         )}
+        {happyMood && <path d="M184 54l7 14 15 2-11 10 3 15-14-8-14 8 3-15-11-10 15-2 7-14Z" fill="#F28A3E" opacity="0.82" />}
+        {cautionMood && <path d="M188 52l22 42h-44l22-42Z" fill="#F5CFAA" stroke="#F28A3E" strokeWidth="5" strokeLinejoin="round" />}
       </motion.svg>
     </div>
   );
@@ -199,6 +204,17 @@ export function AnimatedQuizAgent({ active = false }: { active?: boolean }) {
   );
 }
 
+export function AnimatedLifestyleAgent({ active = false }: { active?: boolean }) {
+  const reduceMotion = useReducedMotion();
+  return (
+    <AgentShell active={active} tone="olive">
+      <motion.path d="M54 122c18-25 44-24 58 0" fill="none" stroke="#90A090" strokeWidth="7" strokeLinecap="round" {...repeat(reduceMotion, { y: [0, -5, 0] }, 2.6)} />
+      <path d="M101 119c12-18 24-24 41-22-3 20-16 33-41 34" fill="#F28A3E" opacity="0.82" />
+      <path d="M54 130h76" stroke="#202020" strokeWidth="6" strokeLinecap="round" opacity="0.78" />
+    </AgentShell>
+  );
+}
+
 export function AnimatedJudgeAgent({ active = false }: { active?: boolean }) {
   const reduceMotion = useReducedMotion();
   return (
@@ -231,16 +247,18 @@ export function AnimatedLearningBadge({ active = false }: { active?: boolean }) 
 
 export function AnimatedScalePipeline({ activeStep = -1, compact = false, className }: { activeStep?: number; compact?: boolean; className?: string }) {
   const items = [
-    { title: "Tutor", visual: <AnimatedTutorAgent active={activeStep === 0} /> },
-    { title: "Quiz", visual: <AnimatedQuizAgent active={activeStep === 1} /> },
-    { title: "Judge", visual: <AnimatedJudgeAgent active={activeStep === 2} /> },
-    { title: "Badge", visual: <AnimatedLearningBadge active={activeStep === 3} /> }
+    { title: "Signal", visual: <AnimatedQuizAgent active={activeStep === 0} /> },
+    { title: "Task", visual: <AnimatedAloAgentOrb compact mood={activeStep === 1 ? "thinking" : "idle"} /> },
+    { title: "Tutor", visual: <AnimatedTutorAgent active={activeStep === 2} /> },
+    { title: "Lifestyle", visual: <AnimatedLifestyleAgent active={activeStep === 3} /> },
+    { title: "Judge", visual: <AnimatedJudgeAgent active={activeStep === 4} /> },
+    { title: "Proof", visual: <AnimatedLearningBadge active={activeStep === 5} /> }
   ];
 
   return (
     <div className={cn("relative isolate overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft", compact ? "p-3" : "sm:p-6", className)}>
       <AnimatedHealthParticles />
-      <div className={cn("relative z-10 grid gap-3", compact ? "grid-cols-2" : "sm:grid-cols-4")}>
+      <div className={cn("relative z-10 grid gap-3", compact ? "grid-cols-2 sm:grid-cols-3" : "sm:grid-cols-3 xl:grid-cols-6")}>
         {items.map((item, index) => {
           const active = activeStep === index;
           const done = activeStep > index;

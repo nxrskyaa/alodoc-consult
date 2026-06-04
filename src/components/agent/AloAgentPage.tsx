@@ -6,20 +6,21 @@ import { motion } from "framer-motion";
 import { AlertTriangle, ArrowRight, BrainCircuit, CheckCircle2, Lightbulb, ListChecks, Play, Route, ShieldCheck, Sparkles } from "lucide-react";
 import { useAccount } from "wagmi";
 import { AgentVisual } from "@/components/visuals/AgentVisual";
-import { AnimatedAloAgentOrb, AnimatedJudgeAgent, AnimatedLearningBadge, AnimatedQuizAgent, AnimatedScalePipeline, AnimatedTutorAgent } from "@/components/visuals/AgentWorkflowVisuals";
+import { AnimatedAloAgentOrb, AnimatedJudgeAgent, AnimatedLearningBadge, AnimatedLifestyleAgent, AnimatedQuizAgent, AnimatedScalePipeline, AnimatedTutorAgent } from "@/components/visuals/AgentWorkflowVisuals";
 import { ClassifierVisual } from "@/components/visuals/ClassifierVisual";
 import { DiseaseVisual } from "@/components/visuals/DiseaseVisual";
 import { diseases, type Language } from "@/data/diseases";
 import { cn } from "@/lib/utils";
 
 type TaskType = "module" | "classifier" | "quiz" | "next";
-type TopicKey = "common-cold" | "hypertension" | "type-2-diabetes" | "gerd" | "dengue-fever" | "blood-pressure" | "blood-sugar" | "bmi";
+type BaseTopicKey = "common-cold" | "hypertension" | "type-2-diabetes" | "gerd" | "dengue-fever" | "blood-pressure" | "blood-sugar" | "bmi";
+type TopicKey = BaseTopicKey | "blood-pressure-high" | "blood-pressure-elevated" | "blood-sugar-elevated" | "blood-sugar-low" | "bmi-overweight" | "bmi-obesity";
 type Tone = "simple" | "summary" | "memory" | "steps";
 type RunState = "idle" | "running" | "done";
 
 const copy = {
   id: {
-    eyebrow: "Offchain MVP",
+    eyebrow: "Built on Rialo",
     title: "Alo Agent",
     subtitle: "Workspace agent edukasi kesehatan yang terinspirasi SCALE.",
     description: "Buat learning task, jalankan pipeline agent simulasi, lalu dapatkan penjelasan edukatif yang aman. Alo Agent bukan dokter dan tidak memberikan diagnosis.",
@@ -34,14 +35,14 @@ const copy = {
     idle: "Pilih task lalu jalankan Alo Agent untuk melihat output.",
     safetyTitle: "Edukasi saja, bukan diagnosis",
     safety: "Alo Agent hanya untuk edukasi umum. Alo Agent tidak memberikan diagnosis, keputusan pengobatan, atau saran medis darurat. Jika gejala berat, menetap, atau mengkhawatirkan, segera konsultasikan dengan tenaga kesehatan profesional.",
-    scaleTitle: "SCALE-inspired education workflow",
-    scaleCopy: "Alo Agent saat ini masih disimulasikan secara offchain. Di versi Rialo/SCALE nanti, setiap learning task bisa menjadi workflow agent: Tutor Agent menjelaskan, Quiz Agent menguji pemahaman, Judge Agent memvalidasi kualitas, lalu proof of learning dapat terbuka setelah selesai.",
-    future: "Future mapping: learning task -> tutor explanation -> quiz check -> judge validation -> badge proof.",
+    scaleTitle: "Why this fits Rialo SCALE",
+    scaleCopy: "Classifier memberi sinyal edukatif mentah. Alo Agent mengubahnya menjadi learning task: Tutor Agent menjelaskan, Lifestyle Agent menyusun kebiasaan aman, Judge Agent mengecek batas keamanan, lalu aksi belajar direkomendasikan.",
+    future: "Prototype currently deployed on Arc Testnet while designed for Rialo. Future mapping: classifier signal -> learning task -> tutor agent -> lifestyle agent -> judge agent -> learning proof.",
     connected: "Wallet terhubung: setelah belajar, gunakan Passport untuk melihat progress pembelajaran.",
     disconnected: "Wallet belum terhubung: kamu tetap bisa mencoba Alo Agent tanpa menyimpan data."
   },
   en: {
-    eyebrow: "Offchain MVP",
+    eyebrow: "Built on Rialo",
     title: "Alo Agent",
     subtitle: "A SCALE-inspired health education agent workspace.",
     description: "Create a learning task, run a simulated agent pipeline, and receive safe educational output. Alo Agent is not a doctor and does not provide diagnosis.",
@@ -56,9 +57,9 @@ const copy = {
     idle: "Choose a task and run Alo Agent to see the output.",
     safetyTitle: "Education only, not diagnosis",
     safety: "Alo Agent is for educational purposes only. It does not provide diagnosis, treatment decisions, or emergency medical advice. If symptoms are severe, persistent, or concerning, consult a qualified healthcare professional.",
-    scaleTitle: "SCALE-inspired education workflow",
-    scaleCopy: "Alo Agent is currently simulated offchain. In a future Rialo/SCALE version, each learning task can become an agent workflow: a Tutor Agent explains, a Quiz Agent checks understanding, a Judge Agent validates quality, and proof of learning can be unlocked after completion.",
-    future: "Future mapping: learning task -> tutor explanation -> quiz check -> judge validation -> badge proof.",
+    scaleTitle: "Why this fits Rialo SCALE",
+    scaleCopy: "The classifier gives a raw educational signal. Alo Agent turns it into a learning task: a Tutor Agent explains, a Lifestyle Agent builds safe habit guidance, a Judge Agent checks safety boundaries, and a learning action is recommended.",
+    future: "Prototype currently deployed on Arc Testnet while designed for Rialo. Future mapping: classifier signal -> learning task -> tutor agent -> lifestyle agent -> judge agent -> learning proof.",
     connected: "Wallet connected: after learning, use Passport to view your learning progress.",
     disconnected: "Wallet disconnected: you can still try Alo Agent without storing data."
   }
@@ -78,8 +79,14 @@ const topics = [
   { value: "gerd", label: { id: "GERD", en: "GERD" }, href: "/disease/gerd" },
   { value: "dengue-fever", label: { id: "Dengue Fever", en: "Dengue Fever" }, href: "/disease/dengue-fever" },
   { value: "blood-pressure", label: { id: "Blood Pressure Result", en: "Blood Pressure Result" }, href: "/disease/hypertension" },
+  { value: "blood-pressure-high", label: { id: "High Blood Pressure Range", en: "High Blood Pressure Range" }, href: "/disease/hypertension" },
+  { value: "blood-pressure-elevated", label: { id: "Elevated Blood Pressure Range", en: "Elevated Blood Pressure Range" }, href: "/disease/hypertension" },
   { value: "blood-sugar", label: { id: "Blood Sugar Result", en: "Blood Sugar Result" }, href: "/disease/type-2-diabetes" },
-  { value: "bmi", label: { id: "BMI Result", en: "BMI Result" }, href: "/classifier" }
+  { value: "blood-sugar-elevated", label: { id: "Elevated Blood Sugar Range", en: "Elevated Blood Sugar Range" }, href: "/disease/type-2-diabetes" },
+  { value: "blood-sugar-low", label: { id: "Low Blood Sugar Range", en: "Low Blood Sugar Range" }, href: "/disease/type-2-diabetes" },
+  { value: "bmi", label: { id: "BMI Result", en: "BMI Result" }, href: "/classifier" },
+  { value: "bmi-overweight", label: { id: "BMI Overweight Range", en: "BMI Overweight Range" }, href: "/classifier" },
+  { value: "bmi-obesity", label: { id: "BMI Obesity Education Range", en: "BMI Obesity Education Range" }, href: "/classifier" }
 ] as const;
 
 const tones = [
@@ -90,13 +97,15 @@ const tones = [
 ] as const;
 
 const pipeline = [
-  { title: { id: "Tutor Agent membaca task", en: "Tutor Agent reading task" }, detail: { id: "Mengambil konteks edukasi.", en: "Pulling education context." } },
-  { title: { id: "Quiz Agent menyiapkan cek belajar", en: "Quiz Agent preparing learning check" }, detail: { id: "Mencari konsep yang sering keliru.", en: "Finding commonly missed concepts." } },
-  { title: { id: "Judge Agent memvalidasi pemahaman", en: "Judge Agent validating understanding" }, detail: { id: "Memastikan aman dan bukan diagnosis.", en: "Checking safety and non-diagnosis framing." } },
-  { title: { id: "Rekomendasi belajar siap", en: "Learning recommendation ready" }, detail: { id: "Mengarahkan ke modul berikutnya.", en: "Routing to the next lesson." } }
+  { title: { id: "Membaca task edukasi kesehatan", en: "Reading health education task" }, detail: { id: "Alo Agent membaca pilihan task, topik, tone, dan bahasa.", en: "Alo Agent reads the selected task, topic, tone, and language." } },
+  { title: { id: "Mencocokkan konteks belajar", en: "Matching learning context" }, detail: { id: "Tutor Agent memilih modul dan konsep yang paling relevan.", en: "Tutor Agent matches the most relevant module and concept." } },
+  { title: { id: "Menyusun penjelasan aman", en: "Building safe explanation" }, detail: { id: "Penjelasan dibuat edukatif, bukan diagnosis.", en: "The explanation is framed as education, not diagnosis." } },
+  { title: { id: "Membuat rencana kebiasaan", en: "Generating habit plan" }, detail: { id: "Lifestyle Agent menyiapkan food swaps, gerak ringan, dan challenge.", en: "Lifestyle Agent prepares food swaps, gentle movement, and a challenge." } },
+  { title: { id: "Review keamanan selesai", en: "Safety review complete" }, detail: { id: "Judge Agent mengecek red flags dan batas saran medis.", en: "Judge Agent checks red flags and medical-safety boundaries." } },
+  { title: { id: "Aksi belajar siap", en: "Learning action ready" }, detail: { id: "Alo Agent memberi modul, quiz, classifier, dan Passport action.", en: "Alo Agent returns module, quiz, classifier, and Passport actions." } }
 ];
 
-const learningPath: TopicKey[] = ["common-cold", "dengue-fever", "hypertension", "type-2-diabetes", "gerd"];
+const learningPath: BaseTopicKey[] = ["common-cold", "dengue-fever", "hypertension", "type-2-diabetes", "gerd"];
 
 export function AloAgentPage() {
   const { isConnected } = useAccount();
@@ -125,9 +134,9 @@ export function AloAgentPage() {
     setRunState("running");
     setActiveStep(-1);
     pipeline.forEach((_, index) => {
-      timers.current.push(window.setTimeout(() => setActiveStep(index), 220 + index * 330));
+      timers.current.push(window.setTimeout(() => setActiveStep(index), 180 + index * 280));
     });
-    timers.current.push(window.setTimeout(() => setRunState("done"), 1680));
+    timers.current.push(window.setTimeout(() => setRunState("done"), 2050));
   }
 
   const output = useMemo(() => buildOutput({ taskType, topic, tone, language, isConnected }), [taskType, topic, tone, language, isConnected]);
@@ -141,7 +150,7 @@ export function AloAgentPage() {
           <p className="mt-4 text-xl font-extrabold leading-8 text-cocoa">{t.subtitle}</p>
           <p className="mt-3 max-w-2xl text-base font-semibold leading-7 text-cocoaSoft">{t.description}</p>
           <div className="mt-6 flex flex-wrap gap-2">
-            {["Offchain MVP", "SCALE-inspired", "Education only"].map((pill) => (
+            {["Built on Rialo", "SCALE-inspired", "Education only", "Privacy-safe"].map((pill) => (
               <span key={pill} className="rounded-full bg-white px-4 py-2 text-xs font-black text-cocoaSoft shadow-lift">{pill}</span>
             ))}
           </div>
@@ -195,7 +204,7 @@ export function AloAgentPage() {
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-stretch">
-        <AnimatedScalePipeline activeStep={runState === "done" ? 4 : activeStep} />
+        <AnimatedScalePipeline activeStep={runState === "done" ? 5 : activeStep} />
         <div className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8">
           <p className="text-sm font-black uppercase text-oliveDeep">Rialo / SCALE</p>
           <h2 className="mt-3 text-3xl font-black leading-tight text-cocoa sm:text-4xl">{t.scaleTitle}</h2>
@@ -247,7 +256,7 @@ function SelectField<T extends string>({
 }
 
 function PipelinePanel({ language, activeStep, runState }: { language: Language; activeStep: number; runState: RunState }) {
-  const visuals = [AnimatedTutorAgent, AnimatedQuizAgent, AnimatedJudgeAgent, AnimatedLearningBadge];
+  const visuals = [AnimatedQuizAgent, AnimatedTutorAgent, AnimatedTutorAgent, AnimatedLifestyleAgent, AnimatedJudgeAgent, AnimatedLearningBadge];
   return (
     <section className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6">
       <p className="text-sm font-black uppercase text-oliveDeep">Agent Pipeline</p>
@@ -280,6 +289,7 @@ function PipelinePanel({ language, activeStep, runState }: { language: Language;
 }
 
 function OutputPanel({ language, runState, output, idle, title }: { language: Language; runState: RunState; output: AgentOutput; idle: string; title: string }) {
+  const report = getReportGuidance(output.visualKind, language);
   return (
     <motion.section layout className="min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6">
       <div className="flex items-center gap-3">
@@ -295,30 +305,27 @@ function OutputPanel({ language, runState, output, idle, title }: { language: La
         <div className="mt-6 rounded-[1.6rem] bg-white p-5 shadow-lift">
           <div className="flex items-center gap-3">
             <AgentVisual compact mood={runState === "running" ? "thinking" : "idle"} className="h-28 min-h-0 w-28 shrink-0 shadow-none" />
-            <p className="text-sm font-bold leading-6 text-cocoaSoft">{runState === "running" ? (language === "id" ? "Pipeline sedang berjalan. Output akan muncul setelah Judge Agent selesai." : "The pipeline is running. Output appears after the Judge Agent finishes.") : idle}</p>
+            <p className="text-sm font-bold leading-6 text-cocoaSoft">{runState === "running" ? (language === "id" ? "Pipeline sedang berjalan. Output muncul setelah safety review dan action plan selesai." : "The pipeline is running. Output appears after the safety review and action plan are ready.") : idle}</p>
           </div>
         </div>
       ) : (
         <motion.div initial={{ opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="mt-6 grid gap-4">
           <MascotIntroBubble language={language} text={output.intro} />
-          <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-[1.8rem] bg-white p-5 shadow-lift">
-            <div className="flex items-center gap-2 text-sm font-black uppercase text-oliveDeep">
-              <BrainCircuit className="h-4 w-4" />
-              {language === "id" ? "Penjelasan utama" : "Main explanation"}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
+            <div className="grid gap-4">
+              <AgentReportCard language={language} title={language === "id" ? "Result insight" : "Result insight"} icon="brain" paragraphs={output.explanation} />
+              <AgentReportCard language={language} title={language === "id" ? "Kenapa ini penting" : "Why it matters"} icon="check" paragraphs={report.whyItMatters} />
             </div>
-            <div className="mt-4 grid gap-3">
-              {output.explanation.map((paragraph) => (
-                <p key={paragraph} className="text-sm font-semibold leading-7 text-cocoaSoft">{paragraph}</p>
-              ))}
-            </div>
-          </motion.article>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
-            <KeyPointsCard language={language} points={output.keyPoints} />
             <MiniSupportVisual kind={output.visualKind} />
           </motion.div>
+          <KeyPointsCard language={language} points={output.keyPoints} />
           <KeyPointChips chips={output.chips} />
           <MemoryTrickCard language={language} text={output.remember} />
-          {output.cautions.length > 0 && <CautionCard language={language} items={output.cautions} />}
+          <HabitSwapCard language={language} swaps={report.foodSwaps} guidance={report.nutritionGuidance} />
+          <ExerciseIdeaGrid language={language} ideas={report.exerciseIdeas} />
+          <ReduceCard language={language} items={report.reduce} />
+          <SevenDayChallengeCard language={language} days={report.challenge} />
+          {(output.cautions.length > 0 || report.cautions.length > 0) && <SafetyReviewCard language={language} items={[...report.cautions, ...output.cautions].slice(0, 5)} />}
           <MiniProgressFlow language={language} />
           <div className="rounded-[1.6rem] bg-orange/10 p-4 text-sm font-bold leading-6 text-cocoaSoft">{output.safety}</div>
           <RelatedActions language={language} output={output} />
@@ -365,11 +372,32 @@ function KeyPointsCard({ language, points }: { language: Language; points: strin
   );
 }
 
+function AgentReportCard({ language, title, icon, paragraphs }: { language: Language; title: string; icon: "brain" | "check"; paragraphs: string[] }) {
+  const Icon = icon === "brain" ? BrainCircuit : CheckCircle2;
+  return (
+    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="rounded-[1.8rem] bg-white p-5 shadow-lift">
+      <div className="flex items-center gap-2 text-sm font-black uppercase text-oliveDeep">
+        <Icon className="h-4 w-4" />
+        {title}
+      </div>
+      <div className="mt-4 grid gap-3">
+        {paragraphs.map((paragraph) => (
+          <p key={paragraph} className="text-sm font-semibold leading-7 text-cocoaSoft">{paragraph}</p>
+        ))}
+      </div>
+      <div className="mt-4 rounded-2xl bg-cream px-4 py-3 text-xs font-black uppercase text-cocoaSoft">
+        {language === "id" ? "Aman dibaca sebagai edukasi, bukan diagnosis." : "Safe to read as education, not diagnosis."}
+      </div>
+    </motion.article>
+  );
+}
+
 function MiniSupportVisual({ kind }: { kind: TopicKey }) {
-  if (kind === "blood-pressure") return <ClassifierVisual type="blood_pressure" className="min-h-[220px] shadow-lift" />;
-  if (kind === "blood-sugar") return <ClassifierVisual type="blood_sugar" className="min-h-[220px] shadow-lift" />;
-  if (kind === "bmi") return <ClassifierVisual type="bmi" className="min-h-[220px] shadow-lift" />;
-  return <DiseaseVisual slug={kind} className="min-h-[220px] shadow-lift" />;
+  const base = normalizeTopic(kind);
+  if (base === "blood-pressure") return <ClassifierVisual type="blood_pressure" className="min-h-[220px] shadow-lift" />;
+  if (base === "blood-sugar") return <ClassifierVisual type="blood_sugar" className="min-h-[220px] shadow-lift" />;
+  if (base === "bmi") return <ClassifierVisual type="bmi" className="min-h-[220px] shadow-lift" />;
+  return <DiseaseVisual slug={base} className="min-h-[220px] shadow-lift" />;
 }
 
 function KeyPointChips({ chips }: { chips: string[] }) {
@@ -402,12 +430,105 @@ function MemoryTrickCard({ language, text }: { language: Language; text: string 
   );
 }
 
-function CautionCard({ language, items }: { language: Language; items: string[] }) {
+function HabitSwapCard({ language, swaps, guidance }: { language: Language; swaps: FoodSwap[]; guidance: string }) {
   return (
-    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }} className="rounded-[1.8rem] border border-orange/20 bg-orange/10 p-5 shadow-lift">
+    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-[1.8rem] bg-white p-5 shadow-lift">
+      <div className="flex items-center gap-2 text-sm font-black uppercase text-oliveDeep">
+        <Lightbulb className="h-4 w-4" />
+        {language === "id" ? "Food swaps / nutrisi" : "Food swaps / nutrition"}
+      </div>
+      <p className="mt-3 text-sm font-semibold leading-6 text-cocoaSoft">{guidance}</p>
+      <div className="mt-4 grid gap-3">
+        {swaps.map((swap, index) => (
+          <motion.div
+            key={`${swap.reduce}-${swap.try}`}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.22 + index * 0.04 }}
+            className="grid gap-2 rounded-2xl bg-cream p-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:items-center"
+          >
+            <div className="rounded-xl bg-orange/10 px-3 py-2 text-sm font-bold leading-5 text-cocoaSoft">
+              <span className="block text-[10px] font-black uppercase text-orange">{language === "id" ? "Kurangi sering" : "Reduce often"}</span>
+              {swap.reduce}
+            </div>
+            <ArrowRight className="mx-auto h-4 w-4 text-oliveDeep" />
+            <div className="rounded-xl bg-mint px-3 py-2 text-sm font-bold leading-5 text-oliveDeep">
+              <span className="block text-[10px] font-black uppercase text-oliveDeep/70">{language === "id" ? "Coba lebih sering" : "Try more often"}</span>
+              {swap.try}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function ExerciseIdeaGrid({ language, ideas }: { language: Language; ideas: string[] }) {
+  return (
+    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }} className="rounded-[1.8rem] bg-white p-5 shadow-lift">
+      <div className="flex items-center gap-2 text-sm font-black uppercase text-oliveDeep">
+        <Route className="h-4 w-4" />
+        {language === "id" ? "Gerak ringan di rumah" : "Home movement ideas"}
+      </div>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        {ideas.map((idea, index) => (
+          <motion.div key={idea} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 + index * 0.03 }} className="flex items-center gap-3 rounded-2xl bg-cream px-4 py-3 text-sm font-bold text-cocoaSoft">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mint text-xs font-black text-oliveDeep">{index + 1}</span>
+            {idea}
+          </motion.div>
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function ReduceCard({ language, items }: { language: Language; items: string[] }) {
+  return (
+    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }} className="rounded-[1.8rem] border border-orange/20 bg-orange/10 p-5 shadow-lift">
       <div className="flex items-center gap-2 text-sm font-black uppercase text-orange">
         <AlertTriangle className="h-4 w-4" />
-        {language === "id" ? "Red flags / caution" : "Red flags / caution"}
+        {language === "id" ? "Yang sebaiknya dikurangi" : "What to avoid / reduce"}
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {items.map((item) => (
+          <span key={item} className="rounded-full bg-white px-4 py-2 text-xs font-black text-cocoaSoft shadow-lift">{item}</span>
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function SevenDayChallengeCard({ language, days }: { language: Language; days: string[] }) {
+  return (
+    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-[1.8rem] bg-white p-5 shadow-lift">
+      <div className="flex items-center gap-2 text-sm font-black uppercase text-oliveDeep">
+        <ListChecks className="h-4 w-4" />
+        {language === "id" ? "7-day mini challenge" : "7-day mini challenge"}
+      </div>
+      <div className="mt-4 grid gap-2">
+        {days.map((day, index) => (
+          <motion.div key={day} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.32 + index * 0.03 }} className="flex gap-3 rounded-2xl bg-cream px-4 py-3 text-sm font-bold leading-6 text-cocoaSoft">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-orange text-xs font-black text-white">{index + 1}</span>
+            {day}
+          </motion.div>
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function SafetyReviewCard({ language, items }: { language: Language; items: string[] }) {
+  return (
+    <motion.article initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.34 }} className="rounded-[1.8rem] border border-orange/20 bg-orange/10 p-5 shadow-lift">
+      <div className="grid gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
+        <AgentVisual compact mood="caution" className="mx-auto h-20 min-h-0 w-20 shrink-0 shadow-none sm:mx-0" />
+        <div>
+          <div className="flex items-center gap-2 text-sm font-black uppercase text-orange">
+            <ShieldCheck className="h-4 w-4" />
+            {language === "id" ? "Judge Agent safety review" : "Judge Agent safety review"}
+          </div>
+          <p className="mt-1 text-sm font-bold leading-6 text-cocoaSoft">{language === "id" ? "Batas keamanan tetap jelas: edukasi saja, bukan keputusan medis." : "Safety boundary stays clear: education only, not a medical decision."}</p>
+        </div>
       </div>
       <div className="mt-3 grid gap-2">
         {items.map((item) => (
@@ -441,22 +562,39 @@ function MiniProgressFlow({ language }: { language: Language }) {
 }
 
 function RelatedActions({ language, output }: { language: Language; output: AgentOutput }) {
+  const base = normalizeTopic(output.visualKind);
+  const quizTopic = base === "blood-pressure" || base === "bmi" ? "hypertension" : base === "blood-sugar" ? "type-2-diabetes" : base;
+  const quizHref = diseases.some((disease) => disease.slug === quizTopic) ? `/disease/${quizTopic}/quiz` : "/library";
+  const actions = uniqueActions([
+    { label: output.action, href: output.href, primary: true },
+    { label: language === "id" ? "Cek classifier lagi" : "Try classifier again", href: "/classifier" },
+    { label: language === "id" ? "Buka quiz" : "Go to quiz", href: quizHref },
+    { label: language === "id" ? "Lihat Passport" : "View passport", href: "/passport" },
+    ...output.related
+  ]);
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }} className="rounded-[1.8rem] bg-white p-4 shadow-lift">
       <p className="text-sm font-black uppercase text-oliveDeep">{language === "id" ? "Recommended next action" : "Recommended next action"}</p>
       <p className="mt-2 text-sm font-bold leading-6 text-cocoaSoft">{output.nextStep}</p>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <Link href={output.href} className="focus-ring inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-black text-cream transition hover:-translate-y-0.5 hover:bg-cocoa/90">
-          {output.action} <ArrowRight className="h-4 w-4" />
-        </Link>
-        {output.related.map((item) => (
-          <Link key={`${item.href}-${item.label}`} href={item.href} className="focus-ring inline-flex min-h-[46px] items-center justify-center rounded-full bg-mint px-5 py-3 text-sm font-black text-oliveDeep transition hover:-translate-y-0.5 hover:bg-mint/80">
+        {actions.map((item) => (
+          <Link key={`${item.href}-${item.label}`} href={item.href} className={cn("focus-ring inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-black transition hover:-translate-y-0.5", item.primary ? "bg-cocoa text-cream hover:bg-cocoa/90" : "bg-mint text-oliveDeep hover:bg-mint/80")}>
             {item.label}
+            {item.primary && <ArrowRight className="h-4 w-4" />}
           </Link>
         ))}
       </div>
     </motion.div>
   );
+}
+
+function uniqueActions(actions: ({ label: string; href: string; primary?: boolean } | null)[]) {
+  const seen = new Set<string>();
+  return actions.filter((action): action is { label: string; href: string; primary?: boolean } => {
+    if (!action || seen.has(action.href)) return false;
+    seen.add(action.href);
+    return true;
+  });
 }
 
 type AgentOutput = {
@@ -475,9 +613,25 @@ type AgentOutput = {
   visualKind: TopicKey;
 };
 
+type FoodSwap = {
+  reduce: string;
+  try: string;
+};
+
+type ReportGuidance = {
+  whyItMatters: string[];
+  nutritionGuidance: string;
+  foodSwaps: FoodSwap[];
+  exerciseIdeas: string[];
+  reduce: string[];
+  challenge: string[];
+  cautions: string[];
+};
+
 function buildOutput({ taskType, topic, tone, language, isConnected }: { taskType: TaskType; topic: TopicKey; tone: Tone; language: Language; isConnected: boolean }): AgentOutput {
   const topicInfo = topics.find((item) => item.value === topic) ?? topics[0];
-  const disease = diseases.find((item) => item.slug === topic);
+  const baseTopic = normalizeTopic(topic);
+  const disease = diseases.find((item) => item.slug === baseTopic);
   const href = topicInfo.href;
   const action = language === "id" ? "Mulai belajar" : "Start learning";
   const topicCopy = getTopicCopy(topic, language);
@@ -493,8 +647,8 @@ function buildOutput({ taskType, topic, tone, language, isConnected }: { taskTyp
       : "Alo Agent is for education only. This is not diagnosis, a treatment decision, or emergency medical advice.";
 
   if (taskType === "classifier") {
-    const moduleName = topic === "blood-pressure" ? "Hypertension" : topic === "blood-sugar" ? "Type 2 Diabetes" : "BMI and healthy lifestyle";
-    const visualKind = topic === "blood-pressure" || topic === "blood-sugar" || topic === "bmi" ? topic : "blood-pressure";
+    const moduleName = baseTopic === "blood-pressure" ? "Hypertension" : baseTopic === "blood-sugar" ? "Type 2 Diabetes" : "BMI and healthy lifestyle";
+    const visualKind = topic;
     return {
       heading: language === "id" ? `Penjelasan contoh ${topicInfo.label.id}` : `Sample ${topicInfo.label.en} explanation`,
       intro: language === "id" ? "Mari kita baca contoh hasil ini sebagai bahan belajar, bukan sebagai keputusan medis." : "Let’s read this sample result as learning material, not as a medical decision.",
@@ -519,7 +673,7 @@ function buildOutput({ taskType, topic, tone, language, isConnected }: { taskTyp
       nextStep: language === "id" ? "Pelajari modul terkait untuk memahami pencegahan dan tanda bahaya." : "Learn the related module to understand prevention and red flags.",
       href,
       action,
-      related: topic === "bmi" ? relatedButtons(language, ["type-2-diabetes", "hypertension"]) : relatedButtons(language, [hrefToTopic(href)]),
+      related: baseTopic === "bmi" ? relatedButtons(language, ["type-2-diabetes", "hypertension", "classifier-link"]) : relatedButtons(language, [hrefToTopic(href), "classifier-link"]),
       visualKind
     };
   }
@@ -549,7 +703,7 @@ function buildOutput({ taskType, topic, tone, language, isConnected }: { taskTyp
       nextStep: language === "id" ? "Mulai modul terkait, lalu ulangi quiz." : "Start the related module, then retake the quiz.",
       href: disease ? `/disease/${disease.slug}/quiz` : href,
       action: language === "id" ? "Buka quiz" : "Open quiz",
-      related: relatedButtons(language, [topic]),
+      related: relatedButtons(language, [baseTopic, "classifier-link"]),
       visualKind: topic
     };
   }
@@ -614,13 +768,156 @@ function buildOutput({ taskType, topic, tone, language, isConnected }: { taskTyp
     nextStep: language === "id" ? "Buka modul lengkap dan lanjutkan ke quiz." : "Open the full module and continue to the quiz.",
     href,
     action,
-    related: relatedButtons(language, [topic, "classifier-link"]),
+    related: relatedButtons(language, [baseTopic, "classifier-link"]),
     visualKind: topic
   };
 }
 
+function getReportGuidance(topic: TopicKey, language: Language): ReportGuidance {
+  const base = normalizeTopic(topic);
+  const genericSwaps = language === "id"
+    ? [
+        { reduce: "Minuman manis terlalu sering", try: "Air putih lebih sering" },
+        { reduce: "Snack ultra-proses", try: "Buah, sayur, telur, tahu, atau tempe" }
+      ]
+    : [
+        { reduce: "Frequent sugary drinks", try: "Water more often" },
+        { reduce: "Ultra-processed snacks", try: "Fruit, vegetables, eggs, tofu, or tempeh" }
+      ];
+  const genericMovement = language === "id"
+    ? ["Jalan santai 10-20 menit", "Peregangan ringan", "Chair sit-to-stand", "Marching in place"]
+    : ["10-20 minute easy walk", "Light stretching", "Chair sit-to-stand", "Marching in place"];
+  const genericChallenge = language === "id"
+    ? ["Ganti satu minuman manis dengan air putih.", "Tambah satu porsi sayur.", "Jalan santai 10 menit.", "Pilih opsi rebus/kukus sekali.", "Coba 2 set chair sit-to-stand.", "Tambahkan protein sederhana saat sarapan.", "Review kebiasaan yang paling mudah diulang."]
+    : ["Replace one sugary drink with water.", "Add one serving of vegetables.", "Take a 10-minute walk.", "Choose one boiled or steamed option.", "Try 2 sets of chair sit-to-stand.", "Add simple protein to breakfast.", "Review the easiest habit to repeat."];
+
+  if (base === "bmi") {
+    const obesity = topic === "bmi-obesity";
+    return {
+      whyItMatters: language === "id"
+        ? [
+            obesity ? "Hasil BMI ini berada dalam rentang edukasi obesitas. BMI adalah alat skrining, bukan diagnosis." : "Hasil BMI ini dipakai sebagai sinyal edukasi tentang berat badan dan kebiasaan, bukan label medis.",
+            "BMI tidak mengukur lemak tubuh secara langsung dan tidak mempertimbangkan massa otot, kehamilan, komposisi tubuh, usia, jenis kelamin, atau konteks medis individu.",
+            "Ini bisa menjadi alasan untuk belajar tentang makan seimbang, gerak ringan, tidur, tekanan darah, gula darah, dan kesehatan metabolik."
+          ]
+        : [
+            obesity ? "This BMI result is in the obesity education range. BMI is a screening tool, not a diagnosis." : "This BMI result is an education signal about weight and habits, not a medical label.",
+            "BMI does not measure body fat directly and does not account for muscle mass, pregnancy, body composition, age, sex, or individual medical context.",
+            "This can be a reason to learn about healthier eating, movement, sleep, blood pressure, blood sugar, and metabolic health."
+          ],
+      nutritionGuidance: language === "id"
+        ? "Bangun piring seimbang: protein + sayur + karbohidrat terkontrol. Coba makanan rebus/kukus lebih sering, tambah telur rebus, ikan, ayam, tahu, tempe, sayur, dan serat."
+        : "Build balanced plates: protein + vegetables + controlled carbs. Try boiled or steamed foods more often, plus eggs, fish, chicken, tofu, tempeh, vegetables, and fiber-rich foods.",
+      foodSwaps: language === "id"
+        ? [
+            { reduce: "Gorengan terlalu sering", try: "Makanan kukus/rebus lebih sering" },
+            { reduce: "Makanan bertepung terlalu sering", try: "Piring seimbang dengan protein dan sayur" },
+            { reduce: "Minuman manis", try: "Air putih lebih sering" },
+            { reduce: "Snack ultra-proses", try: "Telur rebus, tahu, tempe, buah, atau sayur" }
+          ]
+        : [
+            { reduce: "Frequent fried foods", try: "Steamed or boiled foods more often" },
+            { reduce: "Frequent flour-heavy foods", try: "Balanced plate with protein and vegetables" },
+            { reduce: "Sugary drinks", try: "Water more often" },
+            { reduce: "Ultra-processed snacks", try: "Boiled eggs, tofu, tempeh, fruit, or vegetables" }
+          ],
+      exerciseIdeas: language === "id"
+        ? ["Jalan 10-20 menit", "Bodyweight squat pelan", "Wall push-up", "Chair sit-to-stand", "Step-up di tangga", "Stretching ringan", "Beginner plank", "Marching in place"]
+        : ["10-20 minute walk", "Slow bodyweight squat", "Wall push-up", "Chair sit-to-stand", "Step-up on stairs", "Light stretching", "Beginner plank", "Marching in place"],
+      reduce: language === "id" ? ["Gorengan sering", "Minuman manis", "Snack ultra-proses", "Porsi karbo berlebih", "Duduk terlalu lama"] : ["Frequent fried foods", "Sugary drinks", "Ultra-processed snacks", "Oversized carb portions", "Long sitting"],
+      challenge: genericChallenge,
+      cautions: language === "id"
+        ? ["Mulai perlahan. Berhenti jika muncul nyeri dada, sesak berat, pusing, pingsan, atau gejala mengkhawatirkan. Konsultasikan ke tenaga kesehatan jika ragu."]
+        : ["Start slowly. Stop if chest pain, severe shortness of breath, dizziness, fainting, or concerning symptoms occur. Consult a healthcare professional if unsure."]
+    };
+  }
+
+  if (base === "blood-pressure" || base === "hypertension") {
+    return {
+      whyItMatters: language === "id"
+        ? ["Rentang tekanan darah perlu dipahami bersama teknik ukur, waktu ukur, istirahat sebelum ukur, dan pengukuran berulang.", "Hipertensi sering tidak terasa, jadi literasi tentang garam, aktivitas, dan red flags membantu mencegah salah paham.", "Catatan pembacaan sebaiknya tetap privat di catatan pribadi dan dibahas dengan tenaga kesehatan bila mengkhawatirkan."]
+        : ["Blood pressure ranges should be understood with technique, timing, resting before measurement, and repeated checks.", "Hypertension can be silent, so literacy about salt, movement, and red flags helps prevent misunderstanding.", "Reading notes should stay private in your own notes and be discussed with a healthcare professional if concerning."],
+      nutritionGuidance: language === "id" ? "Pelajari pola makan yang lebih rendah garam: kurangi makanan sangat asin dan instan, tambah sayur/buah, dan pilih air putih lebih sering." : "Learn lower-salt eating patterns: reduce very salty and instant foods, add vegetables/fruits, and choose water more often.",
+      foodSwaps: language === "id"
+        ? [{ reduce: "Makanan sangat asin", try: "Masakan rumahan dengan bumbu lebih ringan" }, { reduce: "Makanan instan/ultra-proses", try: "Protein sederhana + sayur" }, { reduce: "Minuman manis", try: "Air putih" }]
+        : [{ reduce: "Very salty foods", try: "Home meals with lighter seasoning" }, { reduce: "Instant or ultra-processed foods", try: "Simple protein + vegetables" }, { reduce: "Sugary drinks", try: "Water" }],
+      exerciseIdeas: language === "id" ? ["Jalan santai", "Bersepeda ringan", "Stretching", "Latihan kekuatan sederhana", "Pernapasan tenang sebelum ukur"] : ["Walking", "Light cycling", "Stretching", "Simple strength training", "Calm breathing before checking"],
+      reduce: language === "id" ? ["Garam berlebih", "Makanan instan", "Duduk lama", "Merokok", "Alkohol berlebih"] : ["Excess salt", "Instant foods", "Long sitting", "Smoking", "Excess alcohol"],
+      challenge: language === "id"
+        ? ["Kurangi satu makanan asin hari ini.", "Tambah satu porsi buah/sayur.", "Jalan 10 menit.", "Minum air putih mengganti minuman manis.", "Coba stretching 5 menit.", "Jika mengukur tensi, istirahat dulu dan catat privat.", "Buka modul Hypertension."]
+        : ["Reduce one salty food today.", "Add one fruit/vegetable serving.", "Walk for 10 minutes.", "Choose water instead of a sweet drink.", "Try 5 minutes of stretching.", "If checking BP, rest first and keep notes private.", "Open the Hypertension module."],
+      cautions: language === "id" ? ["Cari bantuan segera jika ada nyeri dada, sakit kepala berat, kelemahan/kebas, sesak napas, bingung, atau gangguan penglihatan."] : ["Seek prompt help for chest pain, severe headache, weakness/numbness, shortness of breath, confusion, or vision changes."]
+    };
+  }
+
+  if (base === "blood-sugar" || base === "type-2-diabetes") {
+    return {
+      whyItMatters: language === "id"
+        ? ["Hasil gula darah perlu jenis pemeriksaan yang jelas dan sering membutuhkan konfirmasi, jadi satu angka bukan diagnosis.", "Belajar tentang karbohidrat, protein, serat, aktivitas setelah makan, dan tanda bahaya membantu membaca hasil dengan lebih aman.", "Modul Diabetes Tipe 2 memberi konteks metabolisme dan kebiasaan tanpa menyimpan data medis."]
+        : ["Blood sugar results need a clear test type and often need confirmation, so one number is not a diagnosis.", "Learning about carbs, protein, fiber, movement after meals, and red flags helps you read results more safely.", "The Type 2 Diabetes module gives metabolism and habit context without storing medical data."],
+      nutritionGuidance: language === "id" ? "Coba kurangi minuman manis dan snack manis terlalu sering. Seimbangkan karbohidrat dengan protein, serat, sayur, dan makanan minim proses." : "Try reducing frequent sugary drinks and sweet snacks. Balance carbs with protein, fiber, vegetables, and minimally processed foods.",
+      foodSwaps: language === "id"
+        ? [{ reduce: "Minuman manis", try: "Air putih atau minuman tanpa gula" }, { reduce: "Snack manis terlalu sering", try: "Buah utuh, telur, tahu, atau tempe" }, { reduce: "Karbo saja", try: "Karbo + protein + sayur" }]
+        : [{ reduce: "Sugary drinks", try: "Water or unsweetened drinks" }, { reduce: "Frequent sweet snacks", try: "Whole fruit, eggs, tofu, or tempeh" }, { reduce: "Carbs alone", try: "Carbs + protein + vegetables" }],
+      exerciseIdeas: language === "id" ? ["Jalan ringan setelah makan bila sesuai", "Low-impact home movement", "Chair sit-to-stand", "Bodyweight exercise ringan", "Stretching"] : ["Easy walk after meals if appropriate", "Low-impact home movement", "Chair sit-to-stand", "Light bodyweight exercise", "Stretching"],
+      reduce: language === "id" ? ["Minuman manis", "Snack manis sering", "Porsi karbo besar", "Makanan ultra-proses"] : ["Sugary drinks", "Frequent sweet snacks", "Large carb portions", "Ultra-processed foods"],
+      challenge: genericChallenge,
+      cautions: language === "id" ? ["Cari bantuan jika ada bingung, muntah, sangat lemas, dehidrasi berat, pingsan, luka memburuk, atau gejala sangat mengkhawatirkan."] : ["Seek help for confusion, vomiting, extreme weakness, severe dehydration, fainting, worsening wounds, or very concerning symptoms."]
+    };
+  }
+
+  if (base === "common-cold") {
+    return {
+      whyItMatters: language === "id"
+        ? ["Pilek biasa umumnya infeksi virus ringan saluran napas atas dan sering membaik dalam 5-10 hari.", "Antibiotik tidak rutin digunakan karena penyebabnya biasanya virus.", "Literasi membantu membedakan perawatan umum di rumah dan tanda bahaya."]
+        : ["Common cold is usually a mild viral upper-respiratory infection and often improves in 5-10 days.", "Antibiotics are not routinely used because the cause is usually viral.", "Literacy helps separate general home care from red flags."],
+      nutritionGuidance: language === "id" ? "Fokus pada cairan, makanan bergizi, dan istirahat. Pilih makanan yang mudah diterima tubuh." : "Focus on fluids, nourishing foods, and rest. Choose foods your body tolerates well.",
+      foodSwaps: language === "id" ? [{ reduce: "Begadang saat sakit", try: "Istirahat cukup" }, { reduce: "Minum kurang", try: "Cairan lebih sering" }] : [{ reduce: "Staying up while sick", try: "Enough rest" }, { reduce: "Too little fluid", try: "Fluids more often" }],
+      exerciseIdeas: language === "id" ? ["Istirahat", "Jalan sangat ringan jika tubuh nyaman", "Peregangan lembut"] : ["Rest", "Very easy walking if comfortable", "Gentle stretching"],
+      reduce: language === "id" ? ["Memaksakan aktivitas berat", "Berbagi alat makan saat sakit", "Mengabaikan handwashing"] : ["Forcing heavy activity", "Sharing utensils while sick", "Skipping handwashing"],
+      challenge: language === "id" ? ["Minum air cukup.", "Tidur lebih awal.", "Cuci tangan lebih sering.", "Gunakan masker saat sakit bila perlu.", "Baca red flags.", "Rapikan area belajar/istirahat.", "Mulai modul Common Cold."] : ["Drink enough water.", "Sleep earlier.", "Wash hands more often.", "Use a mask when sick if needed.", "Read red flags.", "Tidy your rest/study area.", "Start the Common Cold module."],
+      cautions: language === "id" ? ["Konsultasikan bila sesak napas, nyeri dada, demam tinggi/menetap, gejala memburuk, durasi lama, atau termasuk kelompok risiko tinggi."] : ["Consult if shortness of breath, chest pain, high/persistent fever, worsening symptoms, long duration, or high-risk group applies."]
+    };
+  }
+
+  if (base === "gerd") {
+    return {
+      whyItMatters: language === "id" ? ["GERD terjadi ketika asam lambung naik ke esofagus.", "Pemicu sering terkait pola makan, porsi, posisi setelah makan, kafein, merokok, dan makanan pedas/berlemak.", "Tidak semua nyeri dada adalah GERD, jadi red flags harus jelas."] : ["GERD happens when stomach acid flows back into the esophagus.", "Triggers often relate to meals, portion size, lying down after eating, caffeine, smoking, and spicy/fatty foods.", "Not every chest discomfort is GERD, so red flags must stay clear."],
+      nutritionGuidance: language === "id" ? "Coba porsi lebih kecil, kenali pemicu, dan hindari langsung berbaring setelah makan." : "Try smaller meals, identify triggers, and avoid lying down right after eating.",
+      foodSwaps: language === "id" ? [{ reduce: "Porsi besar malam hari", try: "Porsi lebih kecil" }, { reduce: "Langsung rebahan setelah makan", try: "Duduk/berdiri dulu" }, { reduce: "Pemicu pedas/berlemak bila cocok", try: "Metode masak lebih ringan" }] : [{ reduce: "Large late meals", try: "Smaller portions" }, { reduce: "Lying down after meals", try: "Sit/stand first" }, { reduce: "Spicy/fatty triggers if relevant", try: "Lighter cooking methods" }],
+      exerciseIdeas: language === "id" ? ["Jalan ringan setelah makan", "Stretching lembut", "Pernapasan tenang", "Hindari latihan berat tepat setelah makan"] : ["Easy walk after meals", "Gentle stretching", "Calm breathing", "Avoid heavy exercise right after meals"],
+      reduce: language === "id" ? ["Porsi besar", "Rebahan setelah makan", "Kafein bila memicu", "Merokok", "Makanan pedas/berlemak bila memicu"] : ["Large meals", "Lying down after eating", "Caffeine if triggering", "Smoking", "Spicy/fatty foods if triggering"],
+      challenge: language === "id" ? ["Catat satu pemicu makanan secara privat.", "Coba porsi lebih kecil.", "Jangan rebahan langsung setelah makan.", "Jalan ringan 10 menit.", "Pilih masakan lebih ringan sekali.", "Baca red flags GERD.", "Mulai modul GERD."] : ["Privately note one food trigger.", "Try a smaller portion.", "Avoid lying down right after eating.", "Walk lightly for 10 minutes.", "Choose one lighter-cooked meal.", "Read GERD red flags.", "Start the GERD module."],
+      cautions: language === "id" ? ["Cari bantuan bila sulit menelan, muntah darah, BAB hitam, turun berat badan tanpa sebab, atau nyeri dada yang bisa terkait jantung."] : ["Seek help for trouble swallowing, vomiting blood, black stool, unexplained weight loss, or chest pain that could be heart-related."]
+    };
+  }
+
+  if (base === "dengue-fever") {
+    return {
+      whyItMatters: language === "id" ? ["Dengue adalah infeksi virus yang ditularkan nyamuk Aedes.", "Pencegahan lingkungan dan pengenalan warning signs sangat penting karena kondisi bisa berubah cepat.", "Alo Agent tidak memberi rekomendasi obat; untuk kekhawatiran klinis, konsultasikan tenaga kesehatan."] : ["Dengue is a mosquito-borne viral infection transmitted by Aedes mosquitoes.", "Environmental prevention and warning-sign literacy matter because the condition can change quickly.", "Alo Agent does not give medicine recommendations; consult a healthcare professional for clinical concerns."],
+      nutritionGuidance: language === "id" ? "Fokus edukasi pada cairan, pemantauan umum, dan segera mencari bantuan bila ada warning signs." : "Education focus: fluids, general monitoring, and prompt help when warning signs appear.",
+      foodSwaps: language === "id" ? [{ reduce: "Membiarkan genangan air", try: "Buang/tutup genangan" }, { reduce: "Gigitan nyamuk", try: "Repellent dan perlindungan rumah" }] : [{ reduce: "Standing water", try: "Remove or cover water containers" }, { reduce: "Mosquito bites", try: "Repellent and home protection" }],
+      exerciseIdeas: language === "id" ? ["Istirahat saat demam", "Aktivitas ringan hanya jika pulih", "Fokus pencegahan nyamuk di rumah"] : ["Rest during fever", "Light activity only when recovered", "Focus on mosquito prevention at home"],
+      reduce: language === "id" ? ["Genangan air", "Mengabaikan warning signs", "Menunda bantuan saat gejala berat"] : ["Standing water", "Ignoring warning signs", "Delaying help when symptoms are severe"],
+      challenge: language === "id" ? ["Cek satu area genangan.", "Tutup wadah air.", "Pelajari warning signs.", "Gunakan perlindungan gigitan nyamuk.", "Ajak rumah cek lingkungan.", "Baca modul Dengue.", "Ulangi checklist pencegahan."] : ["Check one standing-water area.", "Cover water containers.", "Learn warning signs.", "Use bite prevention.", "Invite household prevention check.", "Read the Dengue module.", "Repeat the prevention checklist."],
+      cautions: language === "id" ? ["Nyeri perut berat, muntah terus, perdarahan, lemas ekstrem, sulit bernapas, atau kulit dingin/lembap membutuhkan bantuan medis segera."] : ["Severe abdominal pain, persistent vomiting, bleeding, extreme weakness, difficulty breathing, or cold/clammy skin require urgent medical care."]
+    };
+  }
+
+  return {
+    whyItMatters: language === "id" ? ["Alo Agent mengubah topik menjadi task belajar yang mudah ditindaklanjuti.", "Tujuannya literasi kesehatan, bukan keputusan medis."] : ["Alo Agent turns the topic into an actionable learning task.", "The goal is health literacy, not medical decision-making."],
+    nutritionGuidance: language === "id" ? "Gunakan panduan ini sebagai edukasi kebiasaan umum yang aman dan tidak personal." : "Use this as safe, general habit education, not personalized advice.",
+    foodSwaps: genericSwaps,
+    exerciseIdeas: genericMovement,
+    reduce: language === "id" ? ["Kebiasaan ekstrem", "Membaca satu angka tanpa konteks"] : ["Extreme habits", "Reading one number without context"],
+    challenge: genericChallenge,
+    cautions: language === "id" ? ["Konsultasikan tenaga kesehatan bila ada gejala berat, menetap, atau mengkhawatirkan."] : ["Consult a healthcare professional when symptoms are severe, persistent, or concerning."]
+  };
+}
+
 function getTopicCopy(topic: TopicKey, language: Language) {
-  const map: Record<TopicKey, { why: Record<Language, string>; misconception: Record<Language, string>; chips: Record<Language, string[]>; cautions: Record<Language, string[]> }> = {
+  const base = normalizeTopic(topic);
+  const map: Record<BaseTopicKey, { why: Record<Language, string>; misconception: Record<Language, string>; chips: Record<Language, string[]>; cautions: Record<Language, string[]> }> = {
     "common-cold": {
       why: { id: "Pilek biasa sering terasa sepele, tetapi literasi yang baik membantu membedakan pemulihan normal dan tanda bahaya.", en: "Common cold feels ordinary, but good literacy helps separate normal recovery from red flags." },
       misconception: { id: "Pilek biasa umumnya viral, jadi antibiotik tidak rutin menjadi jawaban.", en: "Common colds are usually viral, so antibiotics are not routinely the answer." },
@@ -672,11 +969,18 @@ function getTopicCopy(topic: TopicKey, language: Language) {
   };
 
   return {
-    why: map[topic].why[language],
-    misconception: map[topic].misconception[language],
-    chips: map[topic].chips[language],
-    cautions: map[topic].cautions[language]
+    why: map[base].why[language],
+    misconception: map[base].misconception[language],
+    chips: map[base].chips[language],
+    cautions: map[base].cautions[language]
   };
+}
+
+function normalizeTopic(topic: TopicKey): BaseTopicKey {
+  if (topic.startsWith("blood-pressure")) return "blood-pressure";
+  if (topic.startsWith("blood-sugar")) return "blood-sugar";
+  if (topic.startsWith("bmi")) return "bmi";
+  return topic as BaseTopicKey;
 }
 
 function relatedButtons(language: Language, items: (TopicKey | "classifier-link")[]) {

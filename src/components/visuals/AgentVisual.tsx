@@ -10,7 +10,7 @@ export function AgentVisual({
 }: {
   className?: string;
   compact?: boolean;
-  mood?: "idle" | "thinking" | "happy";
+  mood?: "idle" | "thinking" | "explaining" | "success" | "caution" | "happy";
 }) {
   return <AnimatedAloAgentOrb compact={compact} mood={mood} className={cn(compact ? "min-h-[120px]" : "min-h-[320px]", className)} />;
 }

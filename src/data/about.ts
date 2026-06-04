@@ -58,7 +58,7 @@ export const rialoCards = [
   },
   {
     title: "Automation and reactivity",
-    text: "Rialo's event-driven model can help future health education workflows become more timely, interactive, and less dependent on clunky offchain automation.",
+    text: "Rialo's event-driven model can help future health education workflows become more timely, interactive, and less dependent on clunky external automation.",
     icon: Clock3
   },
   {

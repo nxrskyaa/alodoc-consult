@@ -71,7 +71,7 @@ export function LandingStorySections() {
           </div>
           <h2 className="mt-4 text-3xl font-semibold leading-tight text-cocoa sm:text-4xl">SCALE-inspired health education guide.</h2>
           <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-cocoaSoft">
-            Simulated offchain helper for explaining disease modules, classifier examples, quiz mistakes, and safe next lessons.
+            Built on Rialo as an agent guide for explaining disease modules, classifier examples, quiz mistakes, and safe next lessons.
           </p>
           <Link href="/agent" className="focus-ring mt-5 inline-flex min-h-[50px] items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-black text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-alertClay/90 active:scale-[0.98]">
             Try Alo Agent <ArrowRight className="h-4 w-4" />
