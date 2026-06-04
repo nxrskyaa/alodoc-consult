@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, BookOpen, Home, Info, Menu, Trophy, UserRound, Wifi, X } from "lucide-react";
+import { Activity, BookOpen, HeartHandshake, Home, Info, Menu, Trophy, UserRound, Wifi, X } from "lucide-react";
 import { useState } from "react";
 import { useAccount, useSwitchChain } from "wagmi";
 import { AlodocLogo } from "@/components/AlodocLogo";
@@ -15,12 +15,13 @@ const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/library", label: "Library", icon: BookOpen },
   { href: "/classifier", label: "Classifier", icon: Activity },
+  { href: "/agent", label: "Alo Agent", icon: HeartHandshake },
   { href: "/passport", label: "Passport", icon: UserRound },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/about", label: "About", icon: Info }
 ];
 
-const bottomNavItems = navItems.filter((item) => item.href !== "/about");
+const bottomNavItems = navItems.filter((item) => ["/", "/library", "/classifier", "/agent", "/passport"].includes(item.href));
 
 export function HeaderPill() {
   const pathname = usePathname();
@@ -42,7 +43,7 @@ export function HeaderPill() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "focus-ring inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-cocoaSoft transition hover:bg-mint/70 hover:text-cocoa",
+                  "focus-ring inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-cocoaSoft transition hover:bg-mint/70 hover:text-cocoa xl:px-4",
                   active && "bg-mint text-cocoa"
                 )}
               >
@@ -126,7 +127,7 @@ export function HeaderPill() {
           return (
             <Link key={item.href} href={item.href} className={cn("grid min-w-0 place-items-center gap-1 overflow-hidden rounded-2xl px-1 py-2 text-center text-[10px] font-black text-cocoaSoft min-[390px]:text-[11px]", active && "bg-mint text-cocoa")}>
               <Icon className="h-4 w-4" />
-              <span className="max-w-full truncate">{item.label === "Leaderboard" ? "Board" : item.label}</span>
+              <span className="max-w-full truncate">{item.label === "Alo Agent" ? "Agent" : item.label}</span>
             </Link>
           );
         })}
