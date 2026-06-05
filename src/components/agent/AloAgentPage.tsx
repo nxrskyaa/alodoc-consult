@@ -142,7 +142,7 @@ export function AloAgentPage() {
   const output = useMemo(() => buildOutput({ taskType, topic, tone, language, isConnected }), [taskType, topic, tone, language, isConnected]);
 
   return (
-    <div className="mx-auto grid w-full max-w-7xl gap-8 overflow-x-hidden">
+    <div className="mx-auto grid w-full max-w-7xl gap-8 overflow-x-hidden pb-4 md:pb-0">
       <section className="alodoc-surface grid gap-8 overflow-visible rounded-[2.5rem] border border-cocoa/10 p-5 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.82fr)] lg:items-center">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
           <span className="inline-flex rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">{t.eyebrow}</span>
@@ -158,15 +158,13 @@ export function AloAgentPage() {
             {t.run} <ArrowRight className="h-4 w-4" />
           </a>
         </motion.div>
-        <div className="relative min-h-[430px] overflow-visible rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft">
-          <AnimatedAloAgentOrb active={runState === "running"} mood={runState === "running" ? "thinking" : runState === "done" ? "happy" : "idle"} />
-          <div className="absolute inset-x-5 bottom-5">
-            <AnimatedScalePipeline activeStep={activeStep} compact />
-          </div>
+        <div className="relative grid min-h-0 w-full min-w-0 gap-4 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-5 lg:min-h-[620px] lg:content-center">
+          <AnimatedAloAgentOrb active={runState === "running"} mood={runState === "running" ? "thinking" : runState === "done" ? "happy" : "idle"} className="min-h-[220px] sm:min-h-[260px] lg:min-h-[300px]" />
+          <AnimatedScalePipeline activeStep={activeStep} compact className="w-full max-w-full" />
         </div>
       </section>
 
-      <section id="task-composer" className="grid scroll-mt-28 gap-5 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]">
+      <section id="task-composer" className="relative z-10 grid scroll-mt-28 gap-5 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]">
         <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-6">
           <div className="flex items-center gap-3">
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-oliveDeep shadow-lift">

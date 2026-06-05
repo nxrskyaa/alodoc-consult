@@ -256,9 +256,9 @@ export function AnimatedScalePipeline({ activeStep = -1, compact = false, classN
   ];
 
   return (
-    <div className={cn("relative isolate overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft", compact ? "p-3" : "sm:p-6", className)}>
+    <div className={cn("relative isolate w-full max-w-full overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft", compact ? "p-3" : "sm:p-6", className)}>
       <AnimatedHealthParticles />
-      <div className={cn("relative z-10 grid gap-3", compact ? "grid-cols-2 sm:grid-cols-3" : "sm:grid-cols-3 xl:grid-cols-6")}>
+      <div className={cn("relative z-10 grid min-w-0 gap-3", compact ? "grid-cols-1 min-[430px]:grid-cols-2 sm:grid-cols-3" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6")}>
         {items.map((item, index) => {
           const active = activeStep === index;
           const done = activeStep > index;
@@ -269,9 +269,9 @@ export function AnimatedScalePipeline({ activeStep = -1, compact = false, classN
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.06 }}
-              className={cn("grid min-w-0 place-items-center rounded-[1.5rem] border bg-white/88 p-3 text-center shadow-lift transition", active && "border-orange ring-4 ring-orange/15", done && "border-olive/40 bg-mint/35")}
+              className={cn("grid min-w-0 place-items-center overflow-hidden rounded-[1.5rem] border bg-white/88 text-center shadow-lift transition", compact ? "min-h-[104px] p-2" : "p-3", active && "border-orange ring-4 ring-orange/15", done && "border-olive/40 bg-mint/35")}
             >
-              {item.visual}
+              <div className={cn("grid place-items-center overflow-visible", compact ? "h-20 w-20 scale-[0.62]" : "h-32 w-32")}>{item.visual}</div>
               <p className="mt-1 text-xs font-black uppercase text-cocoaSoft">{item.title}</p>
             </motion.div>
           );
