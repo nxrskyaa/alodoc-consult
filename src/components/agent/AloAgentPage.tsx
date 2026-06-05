@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Loader2, MessageCircle, Play, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, Play, ShieldCheck } from "lucide-react";
 import {
   agentScenarioCategories,
   agentScenarios,
@@ -146,17 +147,27 @@ function AgentHero() {
         </motion.div>
       </motion.div>
       <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.12, duration: 0.5 }} className="min-w-0">
-        <AssistantHeroVisual />
+        <AgentAssistantHeroVisual />
       </motion.div>
     </section>
   );
 }
 
-function AssistantHeroVisual() {
+function AgentAssistantHeroVisual() {
   return (
     <div className="relative min-h-[430px] w-full max-w-full overflow-hidden rounded-[2.3rem] border border-cocoa/10 bg-cream p-4 shadow-soft sm:min-h-[500px] sm:p-6">
       <motion.div aria-hidden className="pointer-events-none absolute left-8 top-12 h-24 w-24 rounded-full bg-mint/60 blur-3xl" animate={{ opacity: [0.45, 0.82, 0.45], scale: [1, 1.12, 1] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} />
       <motion.div aria-hidden className="pointer-events-none absolute bottom-16 right-10 h-28 w-28 rounded-full bg-orange/18 blur-3xl" animate={{ opacity: [0.35, 0.72, 0.35], scale: [1.04, 1, 1.04] }} transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut" }} />
+      {[0, 1, 2, 3, 4].map((particle) => (
+        <motion.span
+          key={particle}
+          aria-hidden
+          className="pointer-events-none absolute h-2.5 w-2.5 rounded-full bg-olive/35"
+          style={{ left: `${14 + particle * 17}%`, top: `${18 + (particle % 3) * 18}%` }}
+          animate={{ opacity: [0.2, 0.75, 0.2], y: [0, -14, 0], scale: [0.9, 1.2, 0.9] }}
+          transition={{ repeat: Infinity, duration: 3.6 + particle * 0.25, delay: particle * 0.18, ease: "easeInOut" }}
+        />
+      ))}
       <div className="relative z-10 mx-auto grid h-full min-h-[398px] max-w-[520px] place-items-center sm:min-h-[456px]">
         <motion.div animate={{ y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut" }} className="w-full rounded-[2rem] border border-cocoa/10 bg-white p-4 shadow-soft sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -256,7 +267,7 @@ function AskAloAgentSection({
           </motion.div>
         </div>
 
-        <ChatAnswerPanel
+        <AgentChatWindow
           selectedScenario={selectedScenario}
           askedScenario={askedScenario}
           isAsking={isAsking}
@@ -271,21 +282,25 @@ function AskAloAgentSection({
 
 function CategoryFilters({ activeCategory, onCategoryChange }: { activeCategory: CategoryFilter; onCategoryChange: (category: CategoryFilter) => void }) {
   return (
-    <div className="mt-7 flex flex-wrap gap-2 pb-2">
+    <motion.div layout className="mt-7 flex flex-wrap gap-2 pb-2">
       {agentScenarioCategories.map((category) => (
-        <button
+        <motion.button
           key={category.id}
+          layout
           type="button"
           onClick={() => onCategoryChange(category.id)}
           className={cn(
-            "focus-ring shrink-0 rounded-full px-4 py-2 text-xs font-black transition",
-            activeCategory === category.id ? "bg-orange text-white shadow-lift" : "bg-white text-cocoaSoft shadow-lift hover:bg-mint hover:text-oliveDeep"
+            "focus-ring relative min-h-[38px] shrink-0 overflow-hidden rounded-full px-4 py-2 text-xs font-black shadow-lift transition",
+            activeCategory === category.id ? "text-white" : "bg-white text-cocoaSoft hover:bg-mint hover:text-oliveDeep"
           )}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.98 }}
         >
-          {category.label}
-        </button>
+          {activeCategory === category.id && <motion.span layoutId="agent-category-pill" className="absolute inset-0 rounded-full bg-orange" transition={{ type: "spring", stiffness: 420, damping: 32 }} />}
+          <span className="relative z-10">{category.label}</span>
+        </motion.button>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
@@ -305,18 +320,24 @@ function ScenarioCard({
   return (
     <motion.article
       variants={revealItem}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.99 }}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.985 }}
       onClick={onSelect}
       className={cn(
-        "grid min-w-0 cursor-pointer gap-3 rounded-[1.5rem] border p-3 transition sm:grid-cols-[3.5rem_minmax(0,1fr)]",
-        selected ? "border-orange bg-orange/10 shadow-lift" : "border-cocoa/10 bg-cream hover:border-olive/30"
+        "group relative grid min-w-0 cursor-pointer gap-3 overflow-hidden rounded-[1.6rem] border p-3 transition sm:grid-cols-[4.15rem_minmax(0,1fr)]",
+        selected ? "border-orange bg-orange/10 shadow-lift ring-2 ring-orange/18" : "border-cocoa/10 bg-cream shadow-sm hover:border-olive/30 hover:shadow-lift"
       )}
     >
-      <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-lift">
-        <ContextVisual kind={scenario.visualType} compact />
+      <motion.div
+        aria-hidden
+        className={cn("pointer-events-none absolute -right-10 -top-12 h-28 w-28 rounded-full blur-3xl", selected ? "bg-orange/25" : "bg-mint/35")}
+        animate={{ opacity: selected ? [0.35, 0.7, 0.35] : [0.18, 0.38, 0.18], scale: [1, 1.08, 1] }}
+        transition={{ repeat: Infinity, duration: 4.6, ease: "easeInOut" }}
+      />
+      <div className={cn("relative grid h-16 w-16 place-items-center overflow-hidden rounded-3xl bg-white shadow-lift transition", selected ? "ring-2 ring-orange/25" : "group-hover:ring-2 group-hover:ring-olive/15")}>
+        <AgentScenarioVisual kind={scenario.visualType} compact />
       </div>
-      <div className="min-w-0">
+      <div className="relative min-w-0">
         <div className="mb-2 flex flex-wrap gap-2">
           <span className="rounded-full bg-mint px-3 py-1 text-[10px] font-black uppercase text-oliveDeep">{categoryLabel(scenario.category)}</span>
           <span className={cn("rounded-full px-3 py-1 text-[10px] font-black uppercase", scenario.level === "crisis" ? "bg-alertClay/15 text-alertClay" : "bg-white text-cocoaSoft")}>
@@ -332,7 +353,10 @@ function ScenarioCard({
             event.stopPropagation();
             onAsk();
           }}
-          className="focus-ring mt-3 inline-flex min-h-[40px] items-center justify-center gap-2 rounded-full bg-cocoa px-4 py-2 text-xs font-black text-white transition hover:-translate-y-0.5 active:scale-[0.98]"
+          className={cn(
+            "focus-ring mt-3 inline-flex min-h-[42px] items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-black transition hover:-translate-y-0.5 active:scale-[0.98]",
+            selected ? "bg-orange text-white shadow-lift" : "bg-cocoa text-white group-hover:bg-oliveDeep"
+          )}
         >
           Ask Alo Agent <ArrowRight className="h-3.5 w-3.5" />
         </button>
@@ -341,7 +365,7 @@ function ScenarioCard({
   );
 }
 
-function ChatAnswerPanel({
+function AgentChatWindow({
   selectedScenario,
   askedScenario,
   isAsking,
@@ -360,9 +384,10 @@ function ChatAnswerPanel({
   const showAnswer = Boolean(askedScenario) && !isAsking;
 
   return (
-    <div className="min-w-0 rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-5">
+    <div className="relative min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment p-4 shadow-soft sm:p-5">
+      <motion.div aria-hidden className="pointer-events-none absolute right-0 top-0 h-44 w-44 rounded-full bg-mint/35 blur-3xl" animate={{ opacity: [0.25, 0.5, 0.25], scale: [1, 1.08, 1] }} transition={{ repeat: Infinity, duration: 5.4, ease: "easeInOut" }} />
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0">
+        <div className="relative min-w-0">
           <p className="text-xs font-black uppercase text-oliveDeep">Simulated chat answer</p>
           <h3 className="mt-1 text-2xl font-black text-cocoa">Alo Agent response</h3>
           <p className="mt-2 text-sm font-semibold leading-6 text-cocoaSoft">Switch Indonesia / English without asking again.</p>
@@ -370,7 +395,7 @@ function ChatAnswerPanel({
         <LanguageToggle value={language} onChange={onLanguageChange} />
       </div>
 
-      <div className="mt-5 grid gap-4">
+      <div className="relative mt-5 grid gap-4">
         <motion.div key={scenario.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="ml-auto max-w-[92%] rounded-[1.4rem] rounded-br-md bg-white p-4 shadow-lift">
           <p className="text-xs font-black uppercase text-cocoaSoft">You</p>
           <p className="mt-2 text-sm font-bold leading-6 text-cocoa">{scenario.userQuestion[language]}</p>
@@ -380,7 +405,7 @@ function ChatAnswerPanel({
           <div className="rounded-[1.5rem] border border-dashed border-olive/30 bg-white p-5">
             <div className="grid gap-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
               <div className="grid h-20 w-20 place-items-center rounded-[1.4rem] bg-cream">
-                <ContextVisual kind={scenario.visualType} />
+                <AgentScenarioVisual kind={scenario.visualType} />
               </div>
               <div className="min-w-0">
                 <p className="text-base font-black text-cocoa">Ready to answer.</p>
@@ -405,7 +430,8 @@ function ChatAnswerPanel({
 
 function TypingState() {
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="max-w-[94%] rounded-[1.4rem] rounded-bl-md bg-mint p-4 shadow-lift">
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-[94%] overflow-hidden rounded-[1.4rem] rounded-bl-md bg-mint p-4 shadow-lift">
+      <motion.span aria-hidden className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-orange to-transparent" animate={{ x: ["-100%", "100%"] }} transition={{ repeat: Infinity, duration: 1.1, ease: "easeInOut" }} />
       <div className="flex items-center gap-3">
         <MiniAssistantFace thinking />
         <div className="min-w-0">
@@ -426,40 +452,67 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
 
   return (
     <motion.div key={`${scenario.id}-${language}`} variants={revealContainer} initial="hidden" animate="show" className="max-w-full rounded-[1.8rem] bg-white p-4 shadow-soft sm:p-5">
-      <motion.div variants={revealItem} className="grid gap-4 md:grid-cols-[0.72fr_1fr] md:items-center">
-        <div className={cn("min-h-[220px] overflow-hidden rounded-[1.5rem] p-4", scenario.level === "crisis" ? "bg-alertClay/10" : "bg-cream")}>
-          <ContextVisual kind={scenario.visualType} large />
+      <motion.div variants={revealItem} className="grid gap-4 md:grid-cols-[0.76fr_1fr] md:items-stretch">
+        <div className={cn("relative min-h-[240px] overflow-hidden rounded-[1.5rem] border p-4", scenario.level === "crisis" ? "border-alertClay/20 bg-alertClay/10" : "border-cocoa/10 bg-cream")}>
+          <AgentScenarioVisual kind={scenario.visualType} large />
         </div>
         <div className="min-w-0">
-          <div className="mb-3 flex flex-wrap gap-2">
-            <span className="rounded-full bg-mint px-3 py-1 text-xs font-black uppercase text-oliveDeep">{categoryLabel(scenario.category)}</span>
-            <span className={cn("rounded-full px-3 py-1 text-xs font-black uppercase", scenario.level === "crisis" ? "bg-alertClay/15 text-alertClay" : "bg-orange/15 text-alertClay")}>{scenario.level ?? "general"}</span>
-          </div>
-          <h3 className="text-3xl font-black leading-tight text-cocoa">{answer.title[language]}</h3>
+          <AgentInsightPanel scenario={scenario} language={language} />
+          <h3 className="mt-4 text-3xl font-black leading-tight text-cocoa">{answer.title[language]}</h3>
           <p className="mt-3 text-sm font-semibold leading-7 text-cocoaSoft">{answer.opening[language]}</p>
-          <p className="mt-3 rounded-2xl bg-parchment px-4 py-3 text-sm font-black text-cocoa">{scenario.sampleContext[language]}</p>
+          <p className="mt-3 rounded-2xl bg-parchment px-4 py-3 text-sm font-black leading-6 text-cocoa">{scenario.sampleContext[language]}</p>
         </div>
       </motion.div>
 
       <div className="mt-5 grid gap-3">
-        {reportSections.map((section) => (
-          <motion.article key={section.key} variants={revealItem} className={cn("grid min-w-0 gap-3 rounded-[1.5rem] border border-cocoa/10 bg-cream p-4 sm:grid-cols-[3rem_minmax(0,1fr)]", section.key === "foodGuidance" || section.key === "lifestyleGuidance" ? "border-orange/25 bg-orange/5" : "", section.key === "safetyReminder" && scenario.level === "crisis" ? "border-alertClay/30 bg-alertClay/10" : "")}>
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white">
-              <ReportSectionVisual kind={section.visual} compact />
-            </div>
-            <div className="min-w-0">
-              <p className="text-xs font-black uppercase text-oliveDeep">{section.label[language]}</p>
-              <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">{answer[section.key][language]}</p>
-            </div>
-          </motion.article>
-        ))}
+        {reportSections.map((section) => {
+          const isGuidance = section.key === "foodGuidance" || section.key === "lifestyleGuidance";
+          const isSafety = section.key === "safetyReminder";
+          const isPath = section.key === "recommendedPath";
+
+          return (
+            <motion.article
+              key={section.key}
+              variants={revealItem}
+              className={cn(
+                "grid min-w-0 gap-3 rounded-[1.5rem] border border-cocoa/10 bg-cream p-4",
+                isGuidance ? "border-orange/25 bg-orange/5 sm:grid-cols-[8.5rem_minmax(0,1fr)]" : "sm:grid-cols-[3.5rem_minmax(0,1fr)]",
+                isSafety && scenario.level === "crisis" ? "border-alertClay/30 bg-alertClay/10" : "",
+                isPath ? "bg-cocoa text-white" : ""
+              )}
+            >
+              <div className={cn("grid place-items-center overflow-hidden rounded-2xl", isGuidance ? "min-h-[112px] bg-white/80" : isPath ? "h-14 w-14 bg-white/10" : "h-14 w-14 bg-white")}>
+                {section.key === "foodGuidance" ? (
+                  <FoodPlateVisual compact />
+                ) : section.key === "lifestyleGuidance" ? (
+                  <LifestyleOrbitVisual compact />
+                ) : section.key === "safetyReminder" ? (
+                  <SafetyReminderVisual compact />
+                ) : section.key === "recommendedPath" ? (
+                  <ModulePathVisual compact />
+                ) : (
+                  <ReportSectionVisual kind={section.visual} compact />
+                )}
+              </div>
+              <div className="min-w-0">
+                <p className={cn("text-xs font-black uppercase", isPath ? "text-orange" : "text-oliveDeep")}>{section.label[language]}</p>
+                <p className={cn("mt-2 text-sm font-semibold leading-7", isPath ? "text-white/82" : "text-cocoaSoft")}>{answer[section.key][language]}</p>
+              </div>
+            </motion.article>
+          );
+        })}
       </div>
 
       <motion.div variants={revealItem} className="mt-4 rounded-[1.5rem] border border-cocoa/10 bg-mint/60 p-4">
-        <p className="text-xs font-black uppercase text-oliveDeep">{language === "id" ? "Batas aman Alo Agent" : "Alo Agent safety boundary"}</p>
-        <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">
-          {language === "id" ? "Ini hanya edukasi, bukan diagnosis atau saran medis." : "This is education only, not diagnosis or medical advice."}
-        </p>
+        <div className="grid gap-4 sm:grid-cols-[4rem_minmax(0,1fr)] sm:items-center">
+          <SafetyReminderVisual compact />
+          <div className="min-w-0">
+            <p className="text-xs font-black uppercase text-oliveDeep">{language === "id" ? "Batas aman Alo Agent" : "Alo Agent safety boundary"}</p>
+            <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">
+              {language === "id" ? "Ini hanya edukasi, bukan diagnosis atau saran medis." : "This is education only, not diagnosis or medical advice."}
+            </p>
+          </div>
+        </div>
       </motion.div>
 
       <motion.div variants={revealItem} className="mt-4 rounded-[1.5rem] bg-cocoa p-4">
@@ -479,6 +532,34 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
   );
 }
 
+function AgentInsightPanel({ scenario, language }: { scenario: AgentScenario; language: AgentLanguage }) {
+  const safetyCopy =
+    scenario.level === "crisis"
+      ? language === "id"
+        ? "Pengingat keselamatan utama"
+        : "Priority safety reminder"
+      : language === "id"
+        ? "Edukasi aman"
+        : "Safe education";
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-3">
+      <div className="rounded-2xl bg-mint px-4 py-3">
+        <p className="text-[10px] font-black uppercase text-oliveDeep">{language === "id" ? "Kategori" : "Category"}</p>
+        <p className="mt-1 text-sm font-black text-cocoa">{categoryLabel(scenario.category)}</p>
+      </div>
+      <div className={cn("rounded-2xl px-4 py-3", scenario.level === "crisis" ? "bg-alertClay/15" : "bg-orange/15")}>
+        <p className={cn("text-[10px] font-black uppercase", scenario.level === "crisis" ? "text-alertClay" : "text-alertClay")}>{language === "id" ? "Level belajar" : "Learning level"}</p>
+        <p className="mt-1 text-sm font-black text-cocoa">{scenario.level ?? "general"}</p>
+      </div>
+      <div className="rounded-2xl bg-cream px-4 py-3">
+        <p className="text-[10px] font-black uppercase text-oliveDeep">{language === "id" ? "Status" : "Status"}</p>
+        <p className="mt-1 text-sm font-black text-cocoa">{safetyCopy}</p>
+      </div>
+    </div>
+  );
+}
+
 function FoodLifestyleSection() {
   return (
     <section>
@@ -491,7 +572,7 @@ function FoodLifestyleSection() {
         {guidanceCards.map((card) => (
           <motion.article key={card.title} whileHover={{ y: -4 }} className="min-w-0 rounded-[2.2rem] border border-cocoa/10 bg-white p-5 shadow-soft sm:p-6">
             <div className="min-h-[280px] overflow-hidden rounded-[1.8rem] bg-parchment p-4">
-              <ContextVisual kind={card.visual} large />
+              <AgentScenarioVisual kind={card.visual} large />
             </div>
             <h3 className="mt-5 text-3xl font-black text-cocoa">{card.title}</h3>
             <p className="mt-3 text-sm font-semibold leading-7 text-cocoaSoft">{card.body}</p>
@@ -545,19 +626,22 @@ function SectionHeader({ eyebrow, title, body }: { eyebrow: string; title: strin
 
 function LanguageToggle({ value, onChange }: { value: AgentLanguage; onChange: (language: AgentLanguage) => void }) {
   return (
-    <div className="grid min-w-[190px] grid-cols-2 rounded-full bg-white p-1 text-xs font-black shadow-lift">
+    <div className="grid w-full max-w-[230px] grid-cols-2 rounded-full bg-white p-1 text-xs font-black shadow-lift sm:w-[230px]">
       {(["id", "en"] as AgentLanguage[]).map((language) => (
-        <button
+        <motion.button
           key={language}
+          layout
           type="button"
           onClick={() => onChange(language)}
           className={cn(
-            "focus-ring min-h-[40px] rounded-full px-3 transition",
-            value === language ? "bg-orange text-white shadow-lift" : "text-cocoaSoft hover:bg-mint hover:text-oliveDeep"
+            "focus-ring relative min-h-[40px] overflow-hidden rounded-full px-3 transition",
+            value === language ? "text-white" : "text-cocoaSoft hover:bg-mint hover:text-oliveDeep"
           )}
+          whileTap={{ scale: 0.98 }}
         >
-          {language === "id" ? "Indonesia" : "English"}
-        </button>
+          {value === language && <motion.span layoutId="agent-language-pill" className="absolute inset-0 rounded-full bg-orange shadow-lift" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+          <span className="relative z-10">{language === "id" ? "Indonesia" : "English"}</span>
+        </motion.button>
       ))}
     </div>
   );
@@ -655,76 +739,119 @@ function ReportSectionVisual({ kind, compact = false }: { kind: ReportVisualKind
   );
 }
 
-function ContextVisual({ kind, compact = false, large = false }: { kind: AgentVisualType; compact?: boolean; large?: boolean }) {
-  if (large) {
-    return (
-      <div className="grid h-full min-h-[170px] w-full place-items-center">
-        {kind === "food" ? <HealthyFoodVisual compact /> : kind === "lifestyle" ? <LifestyleOrbitVisual compact /> : <GeneralHealthVisual kind={kind} />}
-      </div>
-    );
+function AgentScenarioVisual({ kind, compact = false, large = false }: { kind: AgentVisualType; compact?: boolean; large?: boolean }) {
+  const className = large ? "h-full min-h-[210px] w-full" : compact ? "h-10 w-10" : "h-24 w-24";
+
+  if (kind === "food") {
+    return <FoodPlateVisual compact={compact && !large} className={className} />;
   }
 
-  if (kind === "food" || kind === "lifestyle") {
-    return <ReportSectionVisual kind={kind} compact={compact} />;
+  if (kind === "lifestyle") {
+    return <LifestyleOrbitVisual compact={compact && !large} className={className} />;
   }
 
-  return (
-    <svg viewBox="0 0 120 120" className={compact ? "h-8 w-8" : "h-20 w-20"} aria-hidden="true">
-      {kind === "pressure" && (
-        <g>
-          <circle cx="60" cy="60" r="34" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.16" strokeWidth="4" />
-          <path d="M30 65 C42 42 50 82 62 61 C75 39 82 78 94 55" fill="none" stroke="#708473" strokeWidth="7" strokeLinecap="round" />
-          <path d="M48 84 C55 75 65 75 72 84" fill="none" stroke="#C9A668" strokeWidth="6" strokeLinecap="round" />
-        </g>
-      )}
-      {kind === "sugar" && (
-        <g>
-          <rect x="34" y="35" width="52" height="56" rx="18" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.16" strokeWidth="4" />
-          <circle cx="44" cy="44" r="6" fill="#90A090" />
-          <circle cx="82" cy="42" r="6" fill="#C9A668" />
-          <rect x="48" y="62" width="26" height="8" rx="4" fill="#90A090" />
-          <rect x="48" y="76" width="34" height="8" rx="4" fill="#C9A668" />
-        </g>
-      )}
-      {kind === "bmi" && (
-        <g>
-          <circle cx="60" cy="62" r="34" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.16" strokeWidth="4" />
-          <path d="M41 62 A19 19 0 0 1 79 62" fill="none" stroke="#90A090" strokeWidth="7" strokeLinecap="round" />
-          <path d="M60 62 L72 50" stroke="#C9A668" strokeWidth="6" strokeLinecap="round" />
-          <rect x="35" y="84" width="50" height="10" rx="5" fill="#202020" opacity="0.82" />
-        </g>
-      )}
-      {kind === "cold" && (
-        <g>
-          <circle cx="50" cy="58" r="21" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.16" strokeWidth="4" />
-          <motion.circle cx="83" cy="42" r="8" fill="#90A090" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} />
-          <motion.circle cx="91" cy="64" r="6" fill="#C9A668" animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} />
-          <path d="M28 82 C44 69 60 69 76 82" fill="none" stroke="#708473" strokeWidth="7" strokeLinecap="round" />
-        </g>
-      )}
-      {kind === "dengue" && (
-        <g>
-          <path d="M60 24 L91 38 V59 C91 79 78 95 60 105 C42 95 29 79 29 59 V38Z" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.16" strokeWidth="4" />
-          <motion.path d="M44 66 C53 50 69 50 78 66" fill="none" stroke="#708473" strokeWidth="7" strokeLinecap="round" animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} />
-          <circle cx="45" cy="43" r="6" fill="#C9A668" />
-          <path d="M84 36 C75 46 75 55 84 66 C93 55 93 46 84 36Z" fill="#90A090" />
-        </g>
-      )}
-    </svg>
-  );
-}
+  const visuals = {
+    pressure: <PressureVisual className={className} compact={compact && !large} />,
+    sugar: <SugarVisual className={className} compact={compact && !large} />,
+    bmi: <BMIVisual className={className} compact={compact && !large} />,
+    cold: <ColdVisual className={className} compact={compact && !large} />,
+    dengue: <DengueVisual className={className} compact={compact && !large} />
+  } satisfies Record<Exclude<AgentVisualType, "food" | "lifestyle">, ReactNode>;
 
-function GeneralHealthVisual({ kind }: { kind: AgentVisualType }) {
   return (
-    <motion.div animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }} className="grid h-full w-full place-items-center">
-      <ContextVisual kind={kind} />
+    <motion.div key={kind} initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.28, ease: "easeOut" }} className="grid h-full w-full place-items-center">
+      {visuals[kind as Exclude<AgentVisualType, "food" | "lifestyle">]}
     </motion.div>
   );
 }
 
-function HealthyFoodVisual({ compact = false }: { compact?: boolean }) {
+function PressureVisual({ className, compact = false }: { className: string; compact?: boolean }) {
   return (
-    <motion.svg viewBox="0 0 300 240" className="h-full min-h-[210px] w-full" aria-label="Animated balanced plate visual">
+    <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated blood pressure education visual">
+      <motion.circle cx="150" cy="120" r="72" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" animate={{ scale: [1, 1.018, 1] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ transformOrigin: "150px 120px" }} />
+      <path d="M86 132 C103 91 120 166 142 120 C160 82 181 156 212 100" fill="none" stroke="#708473" strokeWidth={compact ? 12 : 10} strokeLinecap="round" />
+      <motion.path d="M116 171 C132 151 168 151 184 171" fill="none" stroke="#C9A668" strokeWidth="10" strokeLinecap="round" animate={{ pathLength: [0.45, 1, 0.45] }} transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }} />
+      <motion.g animate={{ rotate: [-9, 12, -9] }} transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }} style={{ transformOrigin: "150px 120px" }}>
+        <path d="M150 120 L181 91" stroke="#202020" strokeWidth="8" strokeLinecap="round" />
+      </motion.g>
+      {!compact && (
+        <motion.g animate={{ y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}>
+          <rect x="202" y="142" width="56" height="42" rx="16" fill="#FFFFFF" stroke="#202020" strokeOpacity="0.1" />
+          <path d="M215 164 C221 154 228 154 234 164 C240 154 247 154 253 164" fill="none" stroke="#B8665E" strokeWidth="5" strokeLinecap="round" />
+        </motion.g>
+      )}
+    </motion.svg>
+  );
+}
+
+function SugarVisual({ className, compact = false }: { className: string; compact?: boolean }) {
+  return (
+    <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated blood sugar education visual">
+      <rect x="102" y="62" width="96" height="122" rx="30" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
+      <motion.rect x="123" y="132" width="54" height="14" rx="7" fill="#90A090" animate={{ scaleX: [0.68, 1, 0.82] }} transition={{ repeat: Infinity, duration: 3.1, ease: "easeInOut" }} style={{ transformOrigin: "123px 139px" }} />
+      <rect x="123" y="154" width="38" height="14" rx="7" fill="#C9A668" />
+      {[82, 218, 208, 92].map((cx, index) => (
+        <motion.circle key={`${cx}-${index}`} cx={cx} cy={index < 2 ? 84 : 160} r={compact ? 8 : 11} fill={index % 2 ? "#C9A668" : "#90A090"} animate={{ y: [0, index % 2 ? 9 : -9, 0], opacity: [0.65, 1, 0.65] }} transition={{ repeat: Infinity, duration: 2.8 + index * 0.2, ease: "easeInOut" }} />
+      ))}
+      {!compact && (
+        <motion.path d="M68 190 C109 168 141 208 182 183 C202 171 225 171 246 190" fill="none" stroke="#708473" strokeOpacity="0.38" strokeWidth="8" strokeLinecap="round" animate={{ x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }} />
+      )}
+    </motion.svg>
+  );
+}
+
+function BMIVisual({ className, compact = false }: { className: string; compact?: boolean }) {
+  return (
+    <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated BMI education visual">
+      <rect x="82" y="68" width="136" height="118" rx="34" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
+      <path d="M112 126 A38 38 0 0 1 188 126" fill="none" stroke="#90A090" strokeWidth="11" strokeLinecap="round" />
+      <motion.path d="M150 126 L177 101" stroke="#C9A668" strokeWidth="8" strokeLinecap="round" animate={{ rotate: [-5, 8, -5] }} transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }} style={{ transformOrigin: "150px 126px" }} />
+      <rect x="105" y="158" width="90" height="16" rx="8" fill="#202020" opacity="0.82" />
+      {!compact && (
+        <motion.g animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 3.6, ease: "easeInOut" }}>
+          <rect x="226" y="54" width="18" height="130" rx="9" fill="#FFFFFF" stroke="#202020" strokeOpacity="0.12" />
+          {[76, 102, 128, 154].map((y) => (
+            <path key={y} d={`M226 ${y} L238 ${y}`} stroke="#708473" strokeWidth="4" strokeLinecap="round" />
+          ))}
+        </motion.g>
+      )}
+    </motion.svg>
+  );
+}
+
+function ColdVisual({ className, compact = false }: { className: string; compact?: boolean }) {
+  return (
+    <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated common cold education visual">
+      <motion.g animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }}>
+        <circle cx="132" cy="112" r="45" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
+        <path d="M102 147 C123 128 148 128 170 147" fill="none" stroke="#708473" strokeWidth="9" strokeLinecap="round" />
+      </motion.g>
+      {[196, 222, 203].map((cx, index) => (
+        <motion.circle key={`${cx}-${index}`} cx={cx} cy={[74, 112, 150][index]} r={compact ? 7 : 11} fill={index === 1 ? "#C9A668" : "#90A090"} animate={{ x: [0, index % 2 ? 8 : -8, 0], y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 2.5 + index * 0.2, ease: "easeInOut" }} />
+      ))}
+      {!compact && <motion.path d="M69 172 C102 155 135 185 168 168" fill="none" stroke="#C9A668" strokeWidth="8" strokeLinecap="round" animate={{ opacity: [0.35, 0.85, 0.35] }} transition={{ repeat: Infinity, duration: 2.8 }} />}
+    </motion.svg>
+  );
+}
+
+function DengueVisual({ className, compact = false }: { className: string; compact?: boolean }) {
+  return (
+    <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated dengue prevention education visual">
+      <path d="M150 42 L218 72 V119 C218 162 188 193 150 211 C112 193 82 162 82 119 V72Z" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
+      <motion.path d="M116 132 C134 104 166 104 184 132" fill="none" stroke="#708473" strokeWidth="10" strokeLinecap="round" animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 2.7, ease: "easeInOut" }} />
+      <motion.g animate={{ x: [0, 8, 0], y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }}>
+        <ellipse cx="214" cy="74" rx="14" ry="9" fill="#202020" opacity="0.8" />
+        <path d="M200 74 L178 63 M200 79 L179 92 M227 74 L245 60 M227 80 L246 94" stroke="#202020" strokeOpacity="0.55" strokeWidth="4" strokeLinecap="round" />
+      </motion.g>
+      {!compact && <motion.path d="M65 190 C92 170 119 205 147 185 C174 165 204 198 235 176" fill="none" stroke="#90A090" strokeWidth="8" strokeLinecap="round" animate={{ opacity: [0.35, 0.8, 0.35] }} transition={{ repeat: Infinity, duration: 3 }} />}
+    </motion.svg>
+  );
+}
+
+function FoodPlateVisual({ compact = false, className }: { compact?: boolean; className?: string }) {
+  const svgClassName = className ?? (compact ? "h-28 w-full" : "h-full min-h-[210px] w-full");
+  return (
+    <motion.svg viewBox="0 0 300 240" className={svgClassName} aria-label="Animated balanced plate visual">
       <motion.circle cx="142" cy="120" r="66" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="4" animate={{ scale: [1, 1.015, 1] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ transformOrigin: "142px 120px" }} />
       <path d="M142 54 A66 66 0 0 1 205 139 L142 120Z" fill="#90A090" />
       <path d="M142 120 L205 139 A66 66 0 0 1 111 178Z" fill="#C9A668" />
@@ -744,7 +871,8 @@ function HealthyFoodVisual({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function LifestyleOrbitVisual({ compact = false }: { compact?: boolean }) {
+function LifestyleOrbitVisual({ compact = false, className }: { compact?: boolean; className?: string }) {
+  const svgClassName = className ?? (compact ? "h-28 w-full" : "h-full min-h-[210px] w-full");
   const points = [
     [150, 43],
     [213, 76],
@@ -754,7 +882,7 @@ function LifestyleOrbitVisual({ compact = false }: { compact?: boolean }) {
     [87, 76]
   ];
   return (
-    <motion.svg viewBox="0 0 300 240" className="h-full min-h-[210px] w-full" aria-label="Animated healthy lifestyle orbit visual">
+    <motion.svg viewBox="0 0 300 240" className={svgClassName} aria-label="Animated healthy lifestyle orbit visual">
       <motion.circle cx="150" cy="118" r="75" fill="none" stroke="#708473" strokeWidth="3" strokeDasharray="8 10" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 22, ease: "linear" }} style={{ transformOrigin: "150px 118px" }} />
       <rect x="111" y="79" width="78" height="78" rx="28" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="4" />
       <path d="M129 123 C141 108 159 108 171 123" fill="none" stroke="#202020" strokeWidth="7" strokeLinecap="round" />
@@ -765,6 +893,33 @@ function LifestyleOrbitVisual({ compact = false }: { compact?: boolean }) {
           <circle cx={cx} cy={cy} r={compact ? 11 : 14} fill={index % 2 ? "#C9A668" : "#90A090"} />
         </motion.g>
       ))}
+      {!compact && <path d="M128 161 C142 171 158 171 172 161" fill="none" stroke="#C9A668" strokeWidth="7" strokeLinecap="round" />}
+    </motion.svg>
+  );
+}
+
+function SafetyReminderVisual({ compact = false }: { compact?: boolean }) {
+  return (
+    <motion.svg viewBox="0 0 120 120" className={compact ? "h-14 w-14" : "h-24 w-24"} aria-label="Animated safety reminder visual">
+      <path d="M60 18 L93 32 V57 C93 80 79 97 60 108 C41 97 27 80 27 57 V32Z" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="4" />
+      {[42, 58, 74].map((y, index) => (
+        <motion.g key={y} initial={{ opacity: 0, x: -4 }} animate={{ opacity: 1, x: 0 }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 1.5, delay: index * 0.18 }}>
+          <path d={`M43 ${y} L50 ${y + 6} L62 ${y - 8}`} fill="none" stroke="#708473" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+          {!compact && <rect x="67" y={y - 5} width="20" height="5" rx="2.5" fill={index === 1 ? "#C9A668" : "#90A090"} />}
+        </motion.g>
+      ))}
+    </motion.svg>
+  );
+}
+
+function ModulePathVisual({ compact = false }: { compact?: boolean }) {
+  return (
+    <motion.svg viewBox="0 0 140 120" className={compact ? "h-14 w-16" : "h-24 w-28"} aria-label="Animated module path visual">
+      <motion.rect x="15" y="34" width="38" height="42" rx="13" fill="#FFF8EA" stroke="#FFFFFF" strokeOpacity="0.22" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 2.8 }} />
+      <motion.rect x="52" y="24" width="38" height="54" rx="14" fill="#90A090" animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 3.1 }} />
+      <motion.rect x="88" y="40" width="38" height="42" rx="13" fill="#C9A668" animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 3.4 }} />
+      <path d="M36 85 C57 99 83 99 104 85" fill="none" stroke="#FFF8EA" strokeOpacity="0.75" strokeWidth="5" strokeLinecap="round" />
+      <path d="M99 61 L107 69 L120 51" fill="none" stroke="#FFF8EA" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
     </motion.svg>
   );
 }
