@@ -100,7 +100,7 @@ export function AloAgentPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl overflow-x-hidden px-4 pb-28 [overflow-wrap:anywhere] sm:px-6 lg:px-8 [&_*]:max-w-full">
-      <div className="grid min-w-0 gap-14 sm:gap-16 lg:gap-20">
+      <div className="grid min-w-0 gap-10 sm:gap-12 lg:gap-14">
         <AgentHero />
         <AskAloAgentSection
           activeCategory={activeCategory}
@@ -123,25 +123,25 @@ export function AloAgentPage() {
 
 function AgentHero() {
   return (
-    <section className="grid min-w-0 grid-cols-1 items-center gap-8 rounded-[2.5rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12 lg:p-10">
+    <section className="grid min-w-0 grid-cols-1 items-center gap-6 rounded-[2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-7 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,0.72fr)] lg:gap-8">
       <motion.div variants={revealContainer} initial="hidden" animate="show" className="min-w-0">
-        <motion.p variants={revealItem} className="text-sm font-black uppercase tracking-[0.18em] text-oliveDeep">
+        <motion.p variants={revealItem} className="text-xs font-black uppercase tracking-[0.18em] text-oliveDeep">
           Alo Agent
         </motion.p>
-        <motion.h1 variants={revealItem} className="mt-4 max-w-3xl text-4xl font-black leading-[1.04] text-cocoa sm:text-5xl lg:text-6xl">
+        <motion.h1 variants={revealItem} className="mt-3 max-w-3xl text-3xl font-black leading-[1.05] text-cocoa sm:text-5xl lg:text-6xl">
           Ask a bilingual health education assistant.
         </motion.h1>
-        <motion.p variants={revealItem} className="mt-5 max-w-2xl text-lg font-extrabold leading-8 text-cocoa sm:text-xl">
+        <motion.p variants={revealItem} className="mt-4 max-w-2xl text-base font-extrabold leading-7 text-cocoa sm:text-lg">
           Choose from many preset health learning requests and generate a safe report in Indonesia or English.
         </motion.p>
-        <motion.p variants={revealItem} className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-cocoaSoft sm:text-base">
+        <motion.p variants={revealItem} className="mt-3 max-w-2xl text-sm font-semibold leading-7 text-cocoaSoft">
           Alo Agent is simulated and frontend-only. It helps explain blood pressure, blood sugar, BMI, food habits, lifestyle habits, common cold, and dengue awareness without diagnosis or data storage.
         </motion.p>
-        <motion.div variants={revealItem} className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <a href="#ask-agent" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-black text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-alertClay/90 active:scale-[0.98]">
+        <motion.div variants={revealItem} className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a href="#ask-agent" className="focus-ring inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-black text-white shadow-lift transition hover:-translate-y-0.5 hover:bg-alertClay/90 active:scale-[0.98]">
             Start Asking Alo <ArrowRight className="h-4 w-4" />
           </a>
-          <Link href="/classifier" className="focus-ring inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-black text-cocoa shadow-lift transition hover:-translate-y-0.5 hover:bg-mint active:scale-[0.98]">
+          <Link href="/classifier" className="focus-ring inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-black text-cocoa shadow-lift transition hover:-translate-y-0.5 hover:bg-mint active:scale-[0.98]">
             Try Classifier
           </Link>
         </motion.div>
@@ -155,7 +155,7 @@ function AgentHero() {
 
 function AgentAssistantHeroVisual() {
   return (
-    <div className="relative min-h-[430px] w-full max-w-full overflow-hidden rounded-[2.3rem] border border-cocoa/10 bg-cream p-4 shadow-soft sm:min-h-[500px] sm:p-6">
+    <div className="relative min-h-[300px] w-full max-w-full overflow-hidden rounded-[1.8rem] border border-cocoa/10 bg-cream p-4 shadow-soft sm:min-h-[340px]">
       <motion.div aria-hidden className="pointer-events-none absolute left-8 top-12 h-24 w-24 rounded-full bg-mint/60 blur-3xl" animate={{ opacity: [0.45, 0.82, 0.45], scale: [1, 1.12, 1] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} />
       <motion.div aria-hidden className="pointer-events-none absolute bottom-16 right-10 h-28 w-28 rounded-full bg-orange/18 blur-3xl" animate={{ opacity: [0.35, 0.72, 0.35], scale: [1.04, 1, 1.04] }} transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut" }} />
       {[0, 1, 2, 3, 4].map((particle) => (
@@ -168,24 +168,24 @@ function AgentAssistantHeroVisual() {
           transition={{ repeat: Infinity, duration: 3.6 + particle * 0.25, delay: particle * 0.18, ease: "easeInOut" }}
         />
       ))}
-      <div className="relative z-10 mx-auto grid h-full min-h-[398px] max-w-[520px] place-items-center sm:min-h-[456px]">
-        <motion.div animate={{ y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut" }} className="w-full rounded-[2rem] border border-cocoa/10 bg-white p-4 shadow-soft sm:p-5">
+      <div className="relative z-10 mx-auto grid h-full min-h-[268px] max-w-[420px] place-items-center sm:min-h-[308px]">
+        <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut" }} className="w-full rounded-[1.6rem] border border-cocoa/10 bg-white p-4 shadow-soft">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs font-black uppercase text-oliveDeep">Simulated chat</p>
-              <h2 className="mt-1 text-2xl font-black text-cocoa">Alo Agent answer</h2>
+              <h2 className="mt-1 text-xl font-black text-cocoa">Alo answer preview</h2>
             </div>
             <span className="rounded-full bg-orange/15 px-3 py-2 text-xs font-black text-alertClay">Education only</span>
           </div>
-          <div className="mt-4 rounded-[1.5rem] bg-cream p-4">
-            <p className="max-w-[82%] rounded-[1.2rem] bg-white px-4 py-3 text-sm font-bold leading-6 text-cocoa shadow-lift">
-              My fasting blood sugar example is 132 mg/dL. What should I learn?
+          <div className="mt-3 rounded-[1.35rem] bg-cream p-3">
+            <p className="max-w-[88%] rounded-[1.05rem] bg-white px-3 py-2 text-xs font-bold leading-5 text-cocoa shadow-lift">
+              My blood sugar example is 132 mg/dL.
             </p>
-            <div className="mt-4 ml-auto max-w-[88%] rounded-[1.2rem] bg-mint px-4 py-3 shadow-lift">
+            <div className="mt-3 ml-auto max-w-[92%] rounded-[1.05rem] bg-mint px-3 py-3 shadow-lift">
               <div className="flex items-center gap-3">
                 <MiniAssistantFace />
                 <div className="min-w-0">
-                  <p className="text-sm font-black text-cocoa">Alo is preparing your bilingual answer</p>
+                  <p className="text-xs font-black text-cocoa">Preparing a bilingual guide</p>
                   <div className="mt-2 flex gap-1">
                     {[0, 1, 2].map((dot) => (
                       <motion.span key={dot} className="h-2 w-2 rounded-full bg-orange" animate={{ opacity: [0.35, 1, 0.35], y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 1.2, delay: dot * 0.15 }} />
@@ -195,15 +195,13 @@ function AgentAssistantHeroVisual() {
               </div>
             </div>
           </div>
-          <div className="mt-4 grid grid-cols-2 rounded-full bg-cream p-1 text-xs font-black text-cocoaSoft">
+          <div className="mt-3 grid grid-cols-2 rounded-full bg-cream p-1 text-xs font-black text-cocoaSoft">
             <span className="rounded-full bg-orange px-3 py-2 text-center text-white shadow-lift">Indonesia</span>
             <span className="px-3 py-2 text-center">English</span>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <HeroMiniCard title="25 preset questions" visual="tutor" />
-            <HeroMiniCard title="Food guidance" visual="food" />
-            <HeroMiniCard title="Lifestyle tips" visual="lifestyle" />
-            <HeroMiniCard title="Safety reminder" visual="safety" />
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            <HeroMiniCard title="Food" visual="food" />
+            <HeroMiniCard title="Lifestyle" visual="lifestyle" />
           </div>
         </motion.div>
       </div>
@@ -234,36 +232,110 @@ function AskAloAgentSection({
   onAsk: (scenario?: AgentScenario) => void;
   onLanguageChange: (language: AgentLanguage) => void;
 }) {
+  const [browseOpen, setBrowseOpen] = useState(false);
+  const quickScenarios = filteredScenarios.slice(0, 4);
+
   return (
     <section id="ask-agent" className="scroll-mt-28">
       <SectionHeader
         eyebrow="Ask Alo Agent"
-        title="Pick a preset health question and generate a bilingual answer."
-        body="Alo Agent uses local templates only. It feels like a chat assistant, but it does not call an API, store medical data, or diagnose users."
+        title="Choose one question. Get one clear learning guide."
+        body="Start from a preset health context, then Alo Agent returns explanation, food guidance, lifestyle guidance, safety reminders, and next modules."
       />
 
       <CategoryFilters activeCategory={activeCategory} onCategoryChange={onCategoryChange} />
 
-      <div className="mt-6 grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
-        <div className="min-w-0 rounded-[2rem] border border-cocoa/10 bg-white p-4 shadow-soft sm:p-5">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-xs font-black uppercase text-oliveDeep">Preset scenarios</p>
-              <h3 className="mt-1 text-2xl font-black text-cocoa">{filteredScenarios.length} questions</h3>
+      <div className="mt-6 grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+        <div className="grid min-w-0 gap-4">
+          <motion.div layout className="relative min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-white p-4 shadow-soft sm:p-5">
+            <motion.div aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-orange/15 blur-3xl" animate={{ opacity: [0.28, 0.58, 0.28], scale: [1, 1.08, 1] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} />
+            <div className="relative grid gap-4 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-center">
+              <div className="grid min-h-[96px] place-items-center overflow-hidden rounded-[1.5rem] bg-cream">
+                <AgentScenarioVisual kind={selectedScenario.visualType} />
+              </div>
+              <div className="min-w-0">
+                <div className="mb-2 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-mint px-3 py-1 text-[10px] font-black uppercase text-oliveDeep">{categoryLabel(selectedScenario.category)}</span>
+                  <span className={cn("rounded-full px-3 py-1 text-[10px] font-black uppercase", selectedScenario.level === "crisis" ? "bg-alertClay/15 text-alertClay" : "bg-orange/15 text-alertClay")}>
+                    {selectedScenario.level ?? "general"}
+                  </span>
+                </div>
+                <h3 className="text-xl font-black leading-tight text-cocoa">{selectedScenario.title[selectedOutputLanguage]}</h3>
+                <p className="mt-2 text-xs font-black uppercase text-cocoaSoft">{selectedScenario.sampleContext[selectedOutputLanguage]}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-cocoa">{selectedScenario.userQuestion[selectedOutputLanguage]}</p>
+              </div>
             </div>
-            <p className="text-xs font-bold text-cocoaSoft">Select one, then ask Alo.</p>
+            <div className="relative mt-4 flex flex-col gap-2 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => onAsk(selectedScenario)}
+                className="focus-ring inline-flex min-h-[50px] flex-1 items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-black text-white shadow-lift transition hover:-translate-y-0.5 active:scale-[0.98]"
+              >
+                Ask Alo Agent <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setBrowseOpen((open) => !open)}
+                className="focus-ring inline-flex min-h-[50px] items-center justify-center rounded-full bg-cream px-5 py-3 text-sm font-black text-cocoa transition hover:bg-mint active:scale-[0.98]"
+              >
+                {browseOpen ? "Hide questions" : `Browse ${filteredScenarios.length} questions`}
+              </button>
+            </div>
+          </motion.div>
+
+          <div className="min-w-0 rounded-[1.6rem] border border-cocoa/10 bg-parchment p-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs font-black uppercase text-oliveDeep">Quick picks</p>
+                <p className="mt-1 text-sm font-semibold text-cocoaSoft">Tap a context, then ask Alo.</p>
+              </div>
+              <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-black text-cocoaSoft">{filteredScenarios.length}</span>
+            </div>
+            <motion.div variants={revealContainer} initial="hidden" animate="show" className="mt-4 grid gap-2">
+              {quickScenarios.map((scenario) => (
+                <ScenarioPill
+                  key={scenario.id}
+                  scenario={scenario}
+                  selected={scenario.id === selectedScenario.id}
+                  language={selectedOutputLanguage}
+                  onSelect={() => onSelectScenario(scenario.id)}
+                />
+              ))}
+            </motion.div>
           </div>
-          <motion.div variants={revealContainer} initial="hidden" animate="show" className="mt-5 grid max-h-[760px] gap-3 overflow-y-auto pr-1">
-            {filteredScenarios.map((scenario) => (
-              <ScenarioCard
-                key={scenario.id}
-                scenario={scenario}
-                selected={scenario.id === selectedScenario.id}
-                language={selectedOutputLanguage}
-                onSelect={() => onSelectScenario(scenario.id)}
-                onAsk={() => onAsk(scenario)}
-              />
-            ))}
+
+          <motion.div layout className="min-w-0 overflow-hidden rounded-[1.7rem] border border-cocoa/10 bg-white shadow-soft">
+            <button
+              type="button"
+              onClick={() => setBrowseOpen((open) => !open)}
+              className="focus-ring flex w-full items-center justify-between gap-4 px-4 py-4 text-left"
+            >
+              <span className="min-w-0">
+                <span className="block text-xs font-black uppercase text-oliveDeep">Browse all preset questions</span>
+                <span className="mt-1 block text-sm font-semibold text-cocoaSoft">Collapsed by default to keep mobile short and calm.</span>
+              </span>
+              <motion.span animate={{ rotate: browseOpen ? 180 : 0 }} className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-cream text-sm font-black text-cocoa">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+                  <path d="M7 10 L12 15 L17 10" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </motion.span>
+            </button>
+            {browseOpen && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="border-t border-cocoa/10 p-3">
+                <motion.div variants={revealContainer} initial="hidden" animate="show" className="grid gap-3 md:grid-cols-2">
+                  {filteredScenarios.map((scenario) => (
+                    <ScenarioCard
+                      key={scenario.id}
+                      scenario={scenario}
+                      selected={scenario.id === selectedScenario.id}
+                      language={selectedOutputLanguage}
+                      onSelect={() => onSelectScenario(scenario.id)}
+                      onAsk={() => onAsk(scenario)}
+                    />
+                  ))}
+                </motion.div>
+              </motion.div>
+            )}
           </motion.div>
         </div>
 
@@ -365,6 +437,39 @@ function ScenarioCard({
   );
 }
 
+function ScenarioPill({
+  scenario,
+  selected,
+  language,
+  onSelect
+}: {
+  scenario: AgentScenario;
+  selected: boolean;
+  language: AgentLanguage;
+  onSelect: () => void;
+}) {
+  return (
+    <motion.button
+      type="button"
+      variants={revealItem}
+      onClick={onSelect}
+      whileTap={{ scale: 0.985 }}
+      className={cn(
+        "focus-ring grid min-w-0 grid-cols-[3rem_minmax(0,1fr)] items-center gap-3 rounded-[1.2rem] border p-2 text-left transition",
+        selected ? "border-orange bg-orange/10 shadow-lift" : "border-cocoa/10 bg-white hover:border-olive/25 hover:bg-mint/45"
+      )}
+    >
+      <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-2xl bg-cream">
+        <AgentScenarioVisual kind={scenario.visualType} compact />
+      </span>
+      <span className="min-w-0">
+        <span className="block truncate text-sm font-black text-cocoa">{scenario.title[language]}</span>
+        <span className="mt-1 block truncate text-xs font-bold text-cocoaSoft">{scenario.sampleContext[language]}</span>
+      </span>
+    </motion.button>
+  );
+}
+
 function AgentChatWindow({
   selectedScenario,
   askedScenario,
@@ -452,19 +557,19 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
 
   return (
     <motion.div key={`${scenario.id}-${language}`} variants={revealContainer} initial="hidden" animate="show" className="max-w-full rounded-[1.8rem] bg-white p-4 shadow-soft sm:p-5">
-      <motion.div variants={revealItem} className="grid gap-4 md:grid-cols-[0.76fr_1fr] md:items-stretch">
-        <div className={cn("relative min-h-[240px] overflow-hidden rounded-[1.5rem] border p-4", scenario.level === "crisis" ? "border-alertClay/20 bg-alertClay/10" : "border-cocoa/10 bg-cream")}>
-          <AgentScenarioVisual kind={scenario.visualType} large />
+      <motion.div variants={revealItem} className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-3 rounded-[1.5rem] border border-cocoa/10 bg-cream p-3.5 md:grid-cols-[7rem_minmax(0,1fr)] md:items-center md:p-4">
+        <div className={cn("relative grid min-h-[96px] place-items-center overflow-hidden rounded-[1.25rem] border bg-white md:min-h-[124px]", scenario.level === "crisis" ? "border-alertClay/20" : "border-cocoa/10")}>
+          <AgentScenarioVisual kind={scenario.visualType} compact />
         </div>
         <div className="min-w-0">
           <AgentInsightPanel scenario={scenario} language={language} />
-          <h3 className="mt-4 text-3xl font-black leading-tight text-cocoa">{answer.title[language]}</h3>
-          <p className="mt-3 text-sm font-semibold leading-7 text-cocoaSoft">{answer.opening[language]}</p>
-          <p className="mt-3 rounded-2xl bg-parchment px-4 py-3 text-sm font-black leading-6 text-cocoa">{scenario.sampleContext[language]}</p>
+          <h3 className="mt-3 text-xl font-black leading-tight text-cocoa sm:text-3xl">{answer.title[language]}</h3>
+          <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">{answer.opening[language]}</p>
+          <p className="mt-3 rounded-2xl bg-white px-4 py-3 text-sm font-black leading-6 text-cocoa shadow-sm">{scenario.sampleContext[language]}</p>
         </div>
       </motion.div>
 
-      <div className="mt-5 grid gap-3">
+      <div className="mt-4 grid gap-3 xl:grid-cols-2">
         {reportSections.map((section) => {
           const isGuidance = section.key === "foodGuidance" || section.key === "lifestyleGuidance";
           const isSafety = section.key === "safetyReminder";
@@ -475,17 +580,17 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
               key={section.key}
               variants={revealItem}
               className={cn(
-                "grid min-w-0 gap-3 rounded-[1.5rem] border border-cocoa/10 bg-cream p-4",
-                isGuidance ? "border-orange/25 bg-orange/5 sm:grid-cols-[8.5rem_minmax(0,1fr)]" : "sm:grid-cols-[3.5rem_minmax(0,1fr)]",
+                "grid min-w-0 grid-cols-[2.75rem_minmax(0,1fr)] gap-3 rounded-[1.35rem] border border-cocoa/10 bg-cream p-3.5",
+                isGuidance ? "border-orange/25 bg-orange/5" : "",
                 isSafety && scenario.level === "crisis" ? "border-alertClay/30 bg-alertClay/10" : "",
                 isPath ? "bg-cocoa text-white" : ""
               )}
             >
-              <div className={cn("grid place-items-center overflow-hidden rounded-2xl", isGuidance ? "min-h-[112px] bg-white/80" : isPath ? "h-14 w-14 bg-white/10" : "h-14 w-14 bg-white")}>
+              <div className={cn("grid h-11 w-11 place-items-center overflow-hidden rounded-2xl", isPath ? "bg-white/10" : "bg-white")}>
                 {section.key === "foodGuidance" ? (
-                  <FoodPlateVisual compact />
+                  <ReportSectionVisual kind="food" compact />
                 ) : section.key === "lifestyleGuidance" ? (
-                  <LifestyleOrbitVisual compact />
+                  <ReportSectionVisual kind="lifestyle" compact />
                 ) : section.key === "safetyReminder" ? (
                   <SafetyReminderVisual compact />
                 ) : section.key === "recommendedPath" ? (
@@ -496,38 +601,24 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
               </div>
               <div className="min-w-0">
                 <p className={cn("text-xs font-black uppercase", isPath ? "text-orange" : "text-oliveDeep")}>{section.label[language]}</p>
-                <p className={cn("mt-2 text-sm font-semibold leading-7", isPath ? "text-white/82" : "text-cocoaSoft")}>{answer[section.key][language]}</p>
+                <p className={cn("mt-2 text-xs font-semibold leading-6 sm:text-sm sm:leading-7", isPath ? "text-white/82" : "text-cocoaSoft")}>{answer[section.key][language]}</p>
+                {isPath && (
+                  <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                    {scenario.modules.map((module) => (
+                      <Link key={`${module.href}-${module.label}`} href={module.href} className="focus-ring inline-flex min-h-[40px] items-center justify-center gap-2 rounded-full bg-orange px-4 py-2 text-xs font-black text-white transition hover:-translate-y-0.5 active:scale-[0.98]">
+                        {module.label} <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
+                    ))}
+                    <Link href="/passport" className="focus-ring inline-flex min-h-[40px] items-center justify-center rounded-full bg-white/10 px-4 py-2 text-xs font-black text-white transition hover:-translate-y-0.5 active:scale-[0.98]">
+                      View Passport
+                    </Link>
+                  </div>
+                )}
               </div>
             </motion.article>
           );
         })}
       </div>
-
-      <motion.div variants={revealItem} className="mt-4 rounded-[1.5rem] border border-cocoa/10 bg-mint/60 p-4">
-        <div className="grid gap-4 sm:grid-cols-[4rem_minmax(0,1fr)] sm:items-center">
-          <SafetyReminderVisual compact />
-          <div className="min-w-0">
-            <p className="text-xs font-black uppercase text-oliveDeep">{language === "id" ? "Batas aman Alo Agent" : "Alo Agent safety boundary"}</p>
-            <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">
-              {language === "id" ? "Ini hanya edukasi, bukan diagnosis atau saran medis." : "This is education only, not diagnosis or medical advice."}
-            </p>
-          </div>
-        </div>
-      </motion.div>
-
-      <motion.div variants={revealItem} className="mt-4 rounded-[1.5rem] bg-cocoa p-4">
-        <p className="text-sm font-black text-white">{language === "id" ? "Lanjutkan pembelajaran" : "Continue learning"}</p>
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-          {scenario.modules.map((module) => (
-            <Link key={`${module.href}-${module.label}`} href={module.href} className="focus-ring inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 active:scale-[0.98]">
-              {module.label} <ArrowRight className="h-4 w-4" />
-            </Link>
-          ))}
-          <Link href="/passport" className="focus-ring inline-flex min-h-[46px] items-center justify-center rounded-full bg-white/10 px-5 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 active:scale-[0.98]">
-            View Passport
-          </Link>
-        </div>
-      </motion.div>
     </motion.div>
   );
 }
@@ -543,18 +634,18 @@ function AgentInsightPanel({ scenario, language }: { scenario: AgentScenario; la
         : "Safe education";
 
   return (
-    <div className="grid gap-3 sm:grid-cols-3">
-      <div className="rounded-2xl bg-mint px-4 py-3">
+    <div className="flex flex-wrap gap-2">
+      <div className="rounded-2xl bg-mint px-3 py-2">
         <p className="text-[10px] font-black uppercase text-oliveDeep">{language === "id" ? "Kategori" : "Category"}</p>
-        <p className="mt-1 text-sm font-black text-cocoa">{categoryLabel(scenario.category)}</p>
+        <p className="mt-0.5 text-xs font-black text-cocoa">{categoryLabel(scenario.category)}</p>
       </div>
-      <div className={cn("rounded-2xl px-4 py-3", scenario.level === "crisis" ? "bg-alertClay/15" : "bg-orange/15")}>
+      <div className={cn("rounded-2xl px-3 py-2", scenario.level === "crisis" ? "bg-alertClay/15" : "bg-orange/15")}>
         <p className={cn("text-[10px] font-black uppercase", scenario.level === "crisis" ? "text-alertClay" : "text-alertClay")}>{language === "id" ? "Level belajar" : "Learning level"}</p>
-        <p className="mt-1 text-sm font-black text-cocoa">{scenario.level ?? "general"}</p>
+        <p className="mt-0.5 text-xs font-black text-cocoa">{scenario.level ?? "general"}</p>
       </div>
-      <div className="rounded-2xl bg-cream px-4 py-3">
+      <div className="rounded-2xl bg-white px-3 py-2">
         <p className="text-[10px] font-black uppercase text-oliveDeep">{language === "id" ? "Status" : "Status"}</p>
-        <p className="mt-1 text-sm font-black text-cocoa">{safetyCopy}</p>
+        <p className="mt-0.5 text-xs font-black text-cocoa">{safetyCopy}</p>
       </div>
     </div>
   );
@@ -564,19 +655,21 @@ function FoodLifestyleSection() {
   return (
     <section>
       <SectionHeader
-        eyebrow="Food and lifestyle stay prominent"
-        title="Alo Agent answers are richer than Classifier results."
-        body="Each answer separates practical food education and lifestyle education, so users get more than a number category."
+        eyebrow="Why Alo Agent feels useful"
+        title="Food and lifestyle are part of the answer."
+        body="Unlike a number checker, Alo Agent keeps practical food education and daily habit context visible inside every generated guide."
       />
-      <div className="mt-7 grid gap-5 lg:grid-cols-2">
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
         {guidanceCards.map((card) => (
-          <motion.article key={card.title} whileHover={{ y: -4 }} className="min-w-0 rounded-[2.2rem] border border-cocoa/10 bg-white p-5 shadow-soft sm:p-6">
-            <div className="min-h-[280px] overflow-hidden rounded-[1.8rem] bg-parchment p-4">
+          <motion.article key={card.title} whileHover={{ y: -4 }} className="grid min-w-0 gap-4 rounded-[1.8rem] border border-cocoa/10 bg-white p-4 shadow-soft sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center sm:p-5">
+            <div className="min-h-[150px] overflow-hidden rounded-[1.4rem] bg-parchment p-2">
               <AgentScenarioVisual kind={card.visual} large />
             </div>
-            <h3 className="mt-5 text-3xl font-black text-cocoa">{card.title}</h3>
-            <p className="mt-3 text-sm font-semibold leading-7 text-cocoaSoft">{card.body}</p>
-            <p className="mt-3 text-sm font-semibold leading-7 text-cocoaSoft">{card.idBody}</p>
+            <div className="min-w-0">
+              <h3 className="text-2xl font-black text-cocoa">{card.title}</h3>
+              <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">{card.body}</p>
+              <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">{card.idBody}</p>
+            </div>
           </motion.article>
         ))}
       </div>
@@ -675,10 +768,12 @@ function MiniAssistantFace({ thinking = false }: { thinking?: boolean }) {
   return (
     <motion.div animate={thinking ? { y: [0, -4, 0], scale: [1, 1.03, 1] } : { y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }} className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white shadow-lift">
       <svg viewBox="0 0 80 80" className="h-12 w-12" aria-hidden="true">
-        <path d="M40 14 C49 21 58 32 58 44 C58 57 50 66 40 66 C30 66 22 57 22 44 C22 32 31 21 40 14Z" fill="#90A090" />
-        <rect x="25" y="36" width="8" height="24" rx="4" fill="#202020" transform="rotate(-35 29 48)" />
-        <rect x="47" y="36" width="8" height="24" rx="4" fill="#202020" transform="rotate(35 51 48)" />
-        <circle cx="40" cy="57" r="5" fill="#C9A668" />
+        <circle cx="40" cy="40" r="29" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
+        <motion.path d="M27 45 C33 35 47 35 53 45" fill="none" stroke="#202020" strokeWidth="5" strokeLinecap="round" animate={thinking ? { y: [0, -1, 0] } : undefined} transition={{ repeat: Infinity, duration: 1.8 }} />
+        <circle cx="31" cy="33" r="4" fill="#202020" />
+        <circle cx="49" cy="33" r="4" fill="#202020" />
+        <path d="M40 14 C45 19 50 25 50 31 C50 39 45 44 40 44 C35 44 30 39 30 31 C30 25 35 19 40 14Z" fill="#90A090" opacity="0.9" />
+        <circle cx="57" cy="53" r="7" fill="#C9A668" />
       </svg>
     </motion.div>
   );
@@ -740,7 +835,7 @@ function ReportSectionVisual({ kind, compact = false }: { kind: ReportVisualKind
 }
 
 function AgentScenarioVisual({ kind, compact = false, large = false }: { kind: AgentVisualType; compact?: boolean; large?: boolean }) {
-  const className = large ? "h-full min-h-[210px] w-full" : compact ? "h-10 w-10" : "h-24 w-24";
+  const className = large ? "h-full min-h-[150px] w-full" : compact ? "h-10 w-10" : "h-24 w-24";
 
   if (kind === "food") {
     return <FoodPlateVisual compact={compact && !large} className={className} />;
