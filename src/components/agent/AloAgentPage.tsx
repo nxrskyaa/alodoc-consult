@@ -249,10 +249,10 @@ function AskAloAgentSection({
         <div className="grid min-w-0 gap-4">
           <motion.div layout className="relative min-w-0 overflow-hidden rounded-[2rem] border border-cocoa/10 bg-white p-4 shadow-soft sm:p-5">
             <motion.div aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-orange/15 blur-3xl" animate={{ opacity: [0.28, 0.58, 0.28], scale: [1, 1.08, 1] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} />
-            <div className="relative grid gap-4 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-center">
-              <div className="grid min-h-[96px] place-items-center overflow-hidden rounded-[1.5rem] bg-cream">
-                <AgentScenarioVisual kind={selectedScenario.visualType} />
-              </div>
+            <div className="relative grid gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center">
+              <AgentVisualFrame kind={selectedScenario.visualType} size="feature" selected>
+                <AgentScenarioVisual kind={selectedScenario.visualType} large />
+              </AgentVisualFrame>
               <div className="min-w-0">
                 <div className="mb-2 flex flex-wrap gap-2">
                   <span className="rounded-full bg-mint px-3 py-1 text-[10px] font-black uppercase text-oliveDeep">{categoryLabel(selectedScenario.category)}</span>
@@ -406,9 +406,9 @@ function ScenarioCard({
         animate={{ opacity: selected ? [0.35, 0.7, 0.35] : [0.18, 0.38, 0.18], scale: [1, 1.08, 1] }}
         transition={{ repeat: Infinity, duration: 4.6, ease: "easeInOut" }}
       />
-      <div className={cn("relative grid h-16 w-16 place-items-center overflow-hidden rounded-3xl bg-white shadow-lift transition", selected ? "ring-2 ring-orange/25" : "group-hover:ring-2 group-hover:ring-olive/15")}>
+      <AgentVisualFrame kind={scenario.visualType} size="thumb" selected={selected} className="relative shrink-0 transition group-hover:-translate-y-0.5">
         <AgentScenarioVisual kind={scenario.visualType} compact />
-      </div>
+      </AgentVisualFrame>
       <div className="relative min-w-0">
         <div className="mb-2 flex flex-wrap gap-2">
           <span className="rounded-full bg-mint px-3 py-1 text-[10px] font-black uppercase text-oliveDeep">{categoryLabel(scenario.category)}</span>
@@ -459,9 +459,9 @@ function ScenarioPill({
         selected ? "border-orange bg-orange/10 shadow-lift" : "border-cocoa/10 bg-white hover:border-olive/25 hover:bg-mint/45"
       )}
     >
-      <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-2xl bg-cream">
+      <AgentVisualFrame kind={scenario.visualType} size="thumb" selected={selected} className="h-12 w-12 rounded-2xl p-1 shadow-sm">
         <AgentScenarioVisual kind={scenario.visualType} compact />
-      </span>
+      </AgentVisualFrame>
       <span className="min-w-0">
         <span className="block truncate text-sm font-black text-cocoa">{scenario.title[language]}</span>
         <span className="mt-1 block truncate text-xs font-bold text-cocoaSoft">{scenario.sampleContext[language]}</span>
@@ -509,9 +509,9 @@ function AgentChatWindow({
         {!askedScenario && (
           <div className="rounded-[1.5rem] border border-dashed border-olive/30 bg-white p-5">
             <div className="grid gap-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
-              <div className="grid h-20 w-20 place-items-center rounded-[1.4rem] bg-cream">
-                <AgentScenarioVisual kind={scenario.visualType} />
-              </div>
+              <AgentVisualFrame kind={scenario.visualType} size="thumb">
+                <AgentScenarioVisual kind={scenario.visualType} compact />
+              </AgentVisualFrame>
               <div className="min-w-0">
                 <p className="text-base font-black text-cocoa">Ready to answer.</p>
                 <p className="mt-2 text-sm font-semibold leading-7 text-cocoaSoft">
@@ -557,10 +557,10 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
 
   return (
     <motion.div key={`${scenario.id}-${language}`} variants={revealContainer} initial="hidden" animate="show" className="max-w-full rounded-[1.8rem] bg-white p-4 shadow-soft sm:p-5">
-      <motion.div variants={revealItem} className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-3 rounded-[1.5rem] border border-cocoa/10 bg-cream p-3.5 md:grid-cols-[7rem_minmax(0,1fr)] md:items-center md:p-4">
-        <div className={cn("relative grid min-h-[96px] place-items-center overflow-hidden rounded-[1.25rem] border bg-white md:min-h-[124px]", scenario.level === "crisis" ? "border-alertClay/20" : "border-cocoa/10")}>
-          <AgentScenarioVisual kind={scenario.visualType} compact />
-        </div>
+      <motion.div variants={revealItem} className="grid gap-3 rounded-[1.5rem] border border-cocoa/10 bg-cream p-3.5 sm:grid-cols-[8.5rem_minmax(0,1fr)] md:items-center md:p-4">
+        <AgentVisualFrame kind={scenario.visualType} size="report" selected={scenario.level === "crisis"}>
+          <AgentScenarioVisual kind={scenario.visualType} large />
+        </AgentVisualFrame>
         <div className="min-w-0">
           <AgentInsightPanel scenario={scenario} language={language} />
           <h3 className="mt-3 text-xl font-black leading-tight text-cocoa sm:text-3xl">{answer.title[language]}</h3>
@@ -586,7 +586,7 @@ function AgentAnswerReport({ scenario, language }: { scenario: AgentScenario; la
                 isPath ? "bg-cocoa text-white" : ""
               )}
             >
-              <div className={cn("grid h-11 w-11 place-items-center overflow-hidden rounded-2xl", isPath ? "bg-white/10" : "bg-white")}>
+              <div className={cn("grid h-12 w-12 place-items-center rounded-2xl border", isPath ? "border-white/10 bg-white/10" : isGuidance ? "border-orange/15 bg-parchment" : "border-cocoa/5 bg-mint/45")}>
                 {section.key === "foodGuidance" ? (
                   <ReportSectionVisual kind="food" compact />
                 ) : section.key === "lifestyleGuidance" ? (
@@ -755,8 +755,8 @@ function categoryLabel(category: AgentScenarioCategory) {
 
 function HeroMiniCard({ title, visual }: { title: string; visual: ReportVisualKind }) {
   return (
-    <motion.div whileHover={{ y: -3 }} className="grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-3 rounded-2xl bg-cream px-3 py-3">
-      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-white">
+    <motion.div whileHover={{ y: -3 }} className="grid min-w-0 grid-cols-[2.8rem_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-cocoa/5 bg-mint/45 px-3 py-3">
+      <div className="grid h-11 w-11 place-items-center rounded-2xl bg-parchment">
         <ReportSectionVisual kind={visual} compact />
       </div>
       <p className="truncate text-sm font-black text-cocoa">{title}</p>
@@ -780,7 +780,7 @@ function MiniAssistantFace({ thinking = false }: { thinking?: boolean }) {
 }
 
 function ReportSectionVisual({ kind, compact = false }: { kind: ReportVisualKind; compact?: boolean }) {
-  const size = compact ? "h-8 w-8" : "h-20 w-20";
+  const size = compact ? "h-10 w-10" : "h-20 w-20";
   return (
     <svg viewBox="0 0 120 120" className={cn(size, "overflow-visible")} aria-hidden="true">
       {kind === "tutor" && (
@@ -834,8 +834,58 @@ function ReportSectionVisual({ kind, compact = false }: { kind: ReportVisualKind
   );
 }
 
+function AgentVisualFrame({
+  children,
+  kind,
+  size = "thumb",
+  selected = false,
+  className
+}: {
+  children: ReactNode;
+  kind: AgentVisualType;
+  size?: "thumb" | "feature" | "report";
+  selected?: boolean;
+  className?: string;
+}) {
+  const tone: Record<AgentVisualType, string> = {
+    pressure: "from-[#fff4ea] via-[#f9eadf] to-[#e5ecdf]",
+    sugar: "from-[#fff8ea] via-[#f4edd8] to-[#e5ecdf]",
+    bmi: "from-[#fff8ea] via-[#f5eadf] to-[#f0d9a2]/55",
+    food: "from-[#fff9f1] via-[#edf3e8] to-[#f0d9a2]/55",
+    lifestyle: "from-[#fff9f1] via-[#e5ecdf] to-[#fff0dd]",
+    cold: "from-[#fff9f1] via-[#eef3ee] to-[#e9f1f4]",
+    dengue: "from-[#fff8ea] via-[#f3ead7] to-[#e5ecdf]"
+  };
+  const sizes = {
+    thumb: "h-16 w-16 rounded-[1.25rem]",
+    feature: "min-h-[142px] w-full rounded-[1.55rem] sm:min-h-[132px]",
+    report: "min-h-[134px] w-full rounded-[1.45rem] sm:min-h-[146px]"
+  };
+
+  return (
+    <motion.div
+      className={cn(
+        "relative isolate grid place-items-center overflow-hidden border border-cocoa/10 bg-gradient-to-br p-1.5 shadow-lift",
+        tone[kind],
+        sizes[size],
+        selected && "ring-2 ring-orange/20",
+        className
+      )}
+      whileHover={{ y: size === "thumb" ? -2 : 0 }}
+    >
+      <motion.span
+        aria-hidden
+        className="pointer-events-none absolute -right-4 -top-4 h-16 w-16 rounded-full bg-white/45 blur-2xl"
+        animate={{ opacity: [0.35, 0.7, 0.35], scale: [1, 1.08, 1] }}
+        transition={{ repeat: Infinity, duration: 4.6, ease: "easeInOut" }}
+      />
+      <div className="relative z-10 grid h-full w-full place-items-center">{children}</div>
+    </motion.div>
+  );
+}
+
 function AgentScenarioVisual({ kind, compact = false, large = false }: { kind: AgentVisualType; compact?: boolean; large?: boolean }) {
-  const className = large ? "h-full min-h-[150px] w-full" : compact ? "h-10 w-10" : "h-24 w-24";
+  const className = large ? "h-full min-h-[132px] w-full" : "h-full w-full";
 
   if (kind === "food") {
     return <FoodPlateVisual compact={compact && !large} className={className} />;
@@ -863,16 +913,16 @@ function AgentScenarioVisual({ kind, compact = false, large = false }: { kind: A
 function PressureVisual({ className, compact = false }: { className: string; compact?: boolean }) {
   return (
     <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated blood pressure education visual">
-      <motion.circle cx="150" cy="120" r="72" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" animate={{ scale: [1, 1.018, 1] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ transformOrigin: "150px 120px" }} />
-      <path d="M86 132 C103 91 120 166 142 120 C160 82 181 156 212 100" fill="none" stroke="#708473" strokeWidth={compact ? 12 : 10} strokeLinecap="round" />
-      <motion.path d="M116 171 C132 151 168 151 184 171" fill="none" stroke="#C9A668" strokeWidth="10" strokeLinecap="round" animate={{ pathLength: [0.45, 1, 0.45] }} transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }} />
+      <motion.circle cx="142" cy="122" r="78" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="5" animate={{ scale: [1, 1.02, 1] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ transformOrigin: "142px 122px" }} />
+      <path d="M75 132 C93 90 113 168 137 119 C157 78 184 158 218 96" fill="none" stroke="#708473" strokeWidth={compact ? 15 : 12} strokeLinecap="round" />
+      <motion.path d="M101 178 C121 151 164 151 185 178" fill="none" stroke="#C9A668" strokeWidth="12" strokeLinecap="round" animate={{ pathLength: [0.45, 1, 0.45] }} transition={{ repeat: Infinity, duration: 2.6, ease: "easeInOut" }} />
       <motion.g animate={{ rotate: [-9, 12, -9] }} transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }} style={{ transformOrigin: "150px 120px" }}>
-        <path d="M150 120 L181 91" stroke="#202020" strokeWidth="8" strokeLinecap="round" />
+        <path d="M142 122 L179 89" stroke="#202020" strokeWidth="9" strokeLinecap="round" />
       </motion.g>
       {!compact && (
         <motion.g animate={{ y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}>
-          <rect x="202" y="142" width="56" height="42" rx="16" fill="#FFFFFF" stroke="#202020" strokeOpacity="0.1" />
-          <path d="M215 164 C221 154 228 154 234 164 C240 154 247 154 253 164" fill="none" stroke="#B8665E" strokeWidth="5" strokeLinecap="round" />
+          <rect x="202" y="139" width="62" height="48" rx="17" fill="#FFF9F1" stroke="#202020" strokeOpacity="0.1" />
+          <path d="M216 164 C223 151 231 151 238 164 C245 151 253 151 260 164" fill="none" stroke="#B86B5E" strokeWidth="6" strokeLinecap="round" />
         </motion.g>
       )}
     </motion.svg>
@@ -882,11 +932,12 @@ function PressureVisual({ className, compact = false }: { className: string; com
 function SugarVisual({ className, compact = false }: { className: string; compact?: boolean }) {
   return (
     <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated blood sugar education visual">
-      <rect x="102" y="62" width="96" height="122" rx="30" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
-      <motion.rect x="123" y="132" width="54" height="14" rx="7" fill="#90A090" animate={{ scaleX: [0.68, 1, 0.82] }} transition={{ repeat: Infinity, duration: 3.1, ease: "easeInOut" }} style={{ transformOrigin: "123px 139px" }} />
-      <rect x="123" y="154" width="38" height="14" rx="7" fill="#C9A668" />
-      {[82, 218, 208, 92].map((cx, index) => (
-        <motion.circle key={`${cx}-${index}`} cx={cx} cy={index < 2 ? 84 : 160} r={compact ? 8 : 11} fill={index % 2 ? "#C9A668" : "#90A090"} animate={{ y: [0, index % 2 ? 9 : -9, 0], opacity: [0.65, 1, 0.65] }} transition={{ repeat: Infinity, duration: 2.8 + index * 0.2, ease: "easeInOut" }} />
+      <rect x="91" y="51" width="118" height="139" rx="34" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="5" />
+      <rect x="116" y="76" width="68" height="42" rx="16" fill="#E5ECDF" />
+      <motion.rect x="118" y="137" width="64" height="16" rx="8" fill="#90A090" animate={{ scaleX: [0.62, 1, 0.78] }} transition={{ repeat: Infinity, duration: 3.1, ease: "easeInOut" }} style={{ transformOrigin: "118px 145px" }} />
+      <rect x="118" y="162" width="48" height="16" rx="8" fill="#C9A668" />
+      {[61, 238, 226, 70, 230].map((cx, index) => (
+        <motion.circle key={`${cx}-${index}`} cx={cx} cy={[78, 86, 155, 166, 124][index]} r={compact ? 10 : 13} fill={index % 2 ? "#C9A668" : "#90A090"} animate={{ y: [0, index % 2 ? 10 : -10, 0], opacity: [0.65, 1, 0.65] }} transition={{ repeat: Infinity, duration: 2.8 + index * 0.2, ease: "easeInOut" }} />
       ))}
       {!compact && (
         <motion.path d="M68 190 C109 168 141 208 182 183 C202 171 225 171 246 190" fill="none" stroke="#708473" strokeOpacity="0.38" strokeWidth="8" strokeLinecap="round" animate={{ x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }} />
@@ -898,15 +949,15 @@ function SugarVisual({ className, compact = false }: { className: string; compac
 function BMIVisual({ className, compact = false }: { className: string; compact?: boolean }) {
   return (
     <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated BMI education visual">
-      <rect x="82" y="68" width="136" height="118" rx="34" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
-      <path d="M112 126 A38 38 0 0 1 188 126" fill="none" stroke="#90A090" strokeWidth="11" strokeLinecap="round" />
-      <motion.path d="M150 126 L177 101" stroke="#C9A668" strokeWidth="8" strokeLinecap="round" animate={{ rotate: [-5, 8, -5] }} transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }} style={{ transformOrigin: "150px 126px" }} />
-      <rect x="105" y="158" width="90" height="16" rx="8" fill="#202020" opacity="0.82" />
+      <rect x="68" y="61" width="154" height="128" rx="36" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="5" />
+      <path d="M101 126 A45 45 0 0 1 190 126" fill="none" stroke="#90A090" strokeWidth="13" strokeLinecap="round" />
+      <motion.path d="M146 126 L182 92" stroke="#C9A668" strokeWidth="10" strokeLinecap="round" animate={{ rotate: [-5, 8, -5] }} transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }} style={{ transformOrigin: "146px 126px" }} />
+      <rect x="99" y="157" width="95" height="18" rx="9" fill="#202020" opacity="0.82" />
       {!compact && (
         <motion.g animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 3.6, ease: "easeInOut" }}>
-          <rect x="226" y="54" width="18" height="130" rx="9" fill="#FFFFFF" stroke="#202020" strokeOpacity="0.12" />
+          <rect x="230" y="45" width="22" height="142" rx="11" fill="#FFF9F1" stroke="#202020" strokeOpacity="0.12" />
           {[76, 102, 128, 154].map((y) => (
-            <path key={y} d={`M226 ${y} L238 ${y}`} stroke="#708473" strokeWidth="4" strokeLinecap="round" />
+            <path key={y} d={`M230 ${y} L245 ${y}`} stroke="#708473" strokeWidth="4" strokeLinecap="round" />
           ))}
         </motion.g>
       )}
@@ -918,11 +969,12 @@ function ColdVisual({ className, compact = false }: { className: string; compact
   return (
     <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated common cold education visual">
       <motion.g animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }}>
-        <circle cx="132" cy="112" r="45" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
-        <path d="M102 147 C123 128 148 128 170 147" fill="none" stroke="#708473" strokeWidth="9" strokeLinecap="round" />
+        <circle cx="126" cy="110" r="61" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="5" />
+        <path d="M86 150 C111 126 143 126 171 150" fill="none" stroke="#708473" strokeWidth="11" strokeLinecap="round" />
+        <rect x="87" y="73" width="78" height="36" rx="14" fill="#E5ECDF" opacity="0.9" />
       </motion.g>
-      {[196, 222, 203].map((cx, index) => (
-        <motion.circle key={`${cx}-${index}`} cx={cx} cy={[74, 112, 150][index]} r={compact ? 7 : 11} fill={index === 1 ? "#C9A668" : "#90A090"} animate={{ x: [0, index % 2 ? 8 : -8, 0], y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 2.5 + index * 0.2, ease: "easeInOut" }} />
+      {[202, 235, 214, 248].map((cx, index) => (
+        <motion.circle key={`${cx}-${index}`} cx={cx} cy={[68, 109, 151, 184][index]} r={compact ? 8 : 12} fill={index === 1 ? "#C9A668" : "#90A090"} animate={{ x: [0, index % 2 ? 8 : -8, 0], y: [0, -7, 0] }} transition={{ repeat: Infinity, duration: 2.5 + index * 0.2, ease: "easeInOut" }} />
       ))}
       {!compact && <motion.path d="M69 172 C102 155 135 185 168 168" fill="none" stroke="#C9A668" strokeWidth="8" strokeLinecap="round" animate={{ opacity: [0.35, 0.85, 0.35] }} transition={{ repeat: Infinity, duration: 2.8 }} />}
     </motion.svg>
@@ -932,11 +984,12 @@ function ColdVisual({ className, compact = false }: { className: string; compact
 function DengueVisual({ className, compact = false }: { className: string; compact?: boolean }) {
   return (
     <motion.svg viewBox="0 0 300 240" className={className} aria-label="Animated dengue prevention education visual">
-      <path d="M150 42 L218 72 V119 C218 162 188 193 150 211 C112 193 82 162 82 119 V72Z" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="4" />
-      <motion.path d="M116 132 C134 104 166 104 184 132" fill="none" stroke="#708473" strokeWidth="10" strokeLinecap="round" animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 2.7, ease: "easeInOut" }} />
+      <path d="M145 32 L225 67 V123 C225 168 190 201 145 218 C100 201 65 168 65 123 V67Z" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" strokeWidth="5" />
+      <motion.path d="M101 135 C124 101 165 101 188 135" fill="none" stroke="#708473" strokeWidth="12" strokeLinecap="round" animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 2.7, ease: "easeInOut" }} />
+      <motion.circle cx="145" cy="155" r="23" fill="#90A090" opacity="0.32" animate={{ scale: [0.86, 1.08, 0.86] }} transition={{ repeat: Infinity, duration: 2.8 }} style={{ transformOrigin: "145px 155px" }} />
       <motion.g animate={{ x: [0, 8, 0], y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }}>
-        <ellipse cx="214" cy="74" rx="14" ry="9" fill="#202020" opacity="0.8" />
-        <path d="M200 74 L178 63 M200 79 L179 92 M227 74 L245 60 M227 80 L246 94" stroke="#202020" strokeOpacity="0.55" strokeWidth="4" strokeLinecap="round" />
+        <ellipse cx="219" cy="74" rx="17" ry="11" fill="#202020" opacity="0.8" />
+        <path d="M204 74 L179 61 M204 81 L180 98 M235 74 L257 58 M235 82 L258 100" stroke="#202020" strokeOpacity="0.55" strokeWidth="4.5" strokeLinecap="round" />
       </motion.g>
       {!compact && <motion.path d="M65 190 C92 170 119 205 147 185 C174 165 204 198 235 176" fill="none" stroke="#90A090" strokeWidth="8" strokeLinecap="round" animate={{ opacity: [0.35, 0.8, 0.35] }} transition={{ repeat: Infinity, duration: 3 }} />}
     </motion.svg>
@@ -947,19 +1000,20 @@ function FoodPlateVisual({ compact = false, className }: { compact?: boolean; cl
   const svgClassName = className ?? (compact ? "h-28 w-full" : "h-full min-h-[210px] w-full");
   return (
     <motion.svg viewBox="0 0 300 240" className={svgClassName} aria-label="Animated balanced plate visual">
-      <motion.circle cx="142" cy="120" r="66" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="4" animate={{ scale: [1, 1.015, 1] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ transformOrigin: "142px 120px" }} />
-      <path d="M142 54 A66 66 0 0 1 205 139 L142 120Z" fill="#90A090" />
-      <path d="M142 120 L205 139 A66 66 0 0 1 111 178Z" fill="#C9A668" />
-      <path d="M142 54 A66 66 0 0 0 111 178 L142 120Z" fill="#F0D9A2" />
-      <motion.circle cx="94" cy="79" r="12" fill="#90A090" animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 2.6 }} />
-      <motion.rect x="206" y="58" width="24" height="24" rx="7" fill="#FFF" stroke="#C9A668" strokeWidth="4" animate={{ rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 3 }} />
-      <motion.path d="M231 176 C216 157 216 144 231 126 C246 144 246 157 231 176Z" fill="#90A090" animate={{ scale: [1, 1.07, 1] }} transition={{ repeat: Infinity, duration: 2.5 }} style={{ transformOrigin: "231px 151px" }} />
-      <rect x="42" y="174" width="46" height="16" rx="8" fill="#202020" opacity="0.76" />
+      <motion.circle cx="132" cy="120" r="76" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="5" animate={{ scale: [1, 1.018, 1] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ transformOrigin: "132px 120px" }} />
+      <path d="M132 44 A76 76 0 0 1 205 141 L132 120Z" fill="#90A090" />
+      <path d="M132 120 L205 141 A76 76 0 0 1 96 187Z" fill="#C9A668" />
+      <path d="M132 44 A76 76 0 0 0 96 187 L132 120Z" fill="#F0D9A2" />
+      <motion.circle cx="79" cy="79" r="14" fill="#90A090" animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 2.6 }} />
+      <motion.circle cx="104" cy="67" r="10" fill="#708473" animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 2.9, delay: 0.2 }} />
+      <motion.rect x="208" y="47" width="34" height="34" rx="10" fill="#FFF9F1" stroke="#C9A668" strokeWidth="5" animate={{ rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 3 }} style={{ transformOrigin: "225px 64px" }} />
+      <motion.path d="M239 183 C221 160 221 145 239 123 C257 145 257 160 239 183Z" fill="#90A090" animate={{ scale: [1, 1.07, 1] }} transition={{ repeat: Infinity, duration: 2.5 }} style={{ transformOrigin: "239px 153px" }} />
+      <rect x="41" y="181" width="56" height="18" rx="9" fill="#202020" opacity="0.76" />
       {!compact && (
         <motion.g animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 3.6 }}>
-          <rect x="196" y="152" width="68" height="48" rx="16" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" />
-          <rect x="211" y="166" width="34" height="6" rx="3" fill="#90A090" />
-          <rect x="211" y="181" width="42" height="6" rx="3" fill="#C9A668" />
+          <rect x="188" y="143" width="76" height="56" rx="18" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.12" />
+          <rect x="204" y="158" width="38" height="7" rx="3.5" fill="#90A090" />
+          <rect x="204" y="176" width="48" height="7" rx="3.5" fill="#C9A668" />
         </motion.g>
       )}
     </motion.svg>
@@ -978,24 +1032,26 @@ function LifestyleOrbitVisual({ compact = false, className }: { compact?: boolea
   ];
   return (
     <motion.svg viewBox="0 0 300 240" className={svgClassName} aria-label="Animated healthy lifestyle orbit visual">
-      <motion.circle cx="150" cy="118" r="75" fill="none" stroke="#708473" strokeWidth="3" strokeDasharray="8 10" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 22, ease: "linear" }} style={{ transformOrigin: "150px 118px" }} />
-      <rect x="111" y="79" width="78" height="78" rx="28" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="4" />
-      <path d="M129 123 C141 108 159 108 171 123" fill="none" stroke="#202020" strokeWidth="7" strokeLinecap="round" />
-      <circle cx="134" cy="105" r="5" fill="#202020" />
-      <circle cx="166" cy="105" r="5" fill="#202020" />
+      <motion.circle cx="150" cy="118" r="82" fill="none" stroke="#708473" strokeWidth="4" strokeDasharray="9 10" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 24, ease: "linear" }} style={{ transformOrigin: "150px 118px" }} />
+      <rect x="104" y="72" width="92" height="92" rx="30" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="5" />
+      <path d="M127 123 C141 107 160 107 174 123" fill="none" stroke="#202020" strokeWidth="7" strokeLinecap="round" />
+      <circle cx="133" cy="104" r="5" fill="#202020" />
+      <circle cx="167" cy="104" r="5" fill="#202020" />
+      <path d="M126 139 C141 150 159 150 174 139" fill="none" stroke="#C9A668" strokeWidth="7" strokeLinecap="round" />
       {points.map(([cx, cy], index) => (
         <motion.g key={`${cx}-${cy}`} animate={{ scale: [1, 1.14, 1], y: [0, index % 2 ? 5 : -5, 0] }} transition={{ repeat: Infinity, duration: 3, delay: index * 0.12 }} style={{ transformOrigin: `${cx}px ${cy}px` }}>
-          <circle cx={cx} cy={cy} r={compact ? 11 : 14} fill={index % 2 ? "#C9A668" : "#90A090"} />
+          <circle cx={cx} cy={cy} r={compact ? 12 : 16} fill={index % 2 ? "#C9A668" : "#90A090"} />
+          {!compact && index < 4 && <circle cx={cx} cy={cy} r="5" fill="#FFF8EA" opacity="0.92" />}
         </motion.g>
       ))}
-      {!compact && <path d="M128 161 C142 171 158 171 172 161" fill="none" stroke="#C9A668" strokeWidth="7" strokeLinecap="round" />}
+      {!compact && <motion.path d="M78 199 C111 181 130 217 163 197 C189 182 211 193 232 174" fill="none" stroke="#90A090" strokeOpacity="0.42" strokeWidth="8" strokeLinecap="round" animate={{ opacity: [0.25, 0.72, 0.25] }} transition={{ repeat: Infinity, duration: 3.4 }} />}
     </motion.svg>
   );
 }
 
 function SafetyReminderVisual({ compact = false }: { compact?: boolean }) {
   return (
-    <motion.svg viewBox="0 0 120 120" className={compact ? "h-14 w-14" : "h-24 w-24"} aria-label="Animated safety reminder visual">
+    <motion.svg viewBox="0 0 120 120" className={compact ? "h-11 w-11" : "h-24 w-24"} aria-label="Animated safety reminder visual">
       <path d="M60 18 L93 32 V57 C93 80 79 97 60 108 C41 97 27 80 27 57 V32Z" fill="#FFF8EA" stroke="#202020" strokeOpacity="0.14" strokeWidth="4" />
       {[42, 58, 74].map((y, index) => (
         <motion.g key={y} initial={{ opacity: 0, x: -4 }} animate={{ opacity: 1, x: 0 }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 1.5, delay: index * 0.18 }}>
@@ -1009,7 +1065,7 @@ function SafetyReminderVisual({ compact = false }: { compact?: boolean }) {
 
 function ModulePathVisual({ compact = false }: { compact?: boolean }) {
   return (
-    <motion.svg viewBox="0 0 140 120" className={compact ? "h-14 w-16" : "h-24 w-28"} aria-label="Animated module path visual">
+    <motion.svg viewBox="0 0 140 120" className={compact ? "h-11 w-12" : "h-24 w-28"} aria-label="Animated module path visual">
       <motion.rect x="15" y="34" width="38" height="42" rx="13" fill="#FFF8EA" stroke="#FFFFFF" strokeOpacity="0.22" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 2.8 }} />
       <motion.rect x="52" y="24" width="38" height="54" rx="14" fill="#90A090" animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 3.1 }} />
       <motion.rect x="88" y="40" width="38" height="42" rx="13" fill="#C9A668" animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 3.4 }} />
