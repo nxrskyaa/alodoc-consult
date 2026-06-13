@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Sparkles } from "lucide-react";
+import { BookOpen, Activity } from "lucide-react";
 import { diseases } from "@/data/diseases";
 import { DiseaseCard } from "@/components/DiseaseCard";
 import { Web3IssueCard } from "@/components/web3/Web3IssueCard";
@@ -100,7 +100,7 @@ function SectionHeading({ kicker, title, web3 = false }: { kicker: string; title
   return (
     <div className="flex items-center gap-3">
       <span className={cn("grid h-10 w-10 place-items-center rounded-2xl text-white", web3 ? "bg-oliveDeep" : "bg-orange")}>
-        {web3 ? <Sparkles className="h-5 w-5" /> : <BookOpen className="h-5 w-5" />}
+        {web3 ? <Activity className="h-5 w-5" /> : <BookOpen className="h-5 w-5" />}
       </span>
       <div>
         <p className="text-xs font-black uppercase tracking-wide text-oliveDeep">{kicker}</p>

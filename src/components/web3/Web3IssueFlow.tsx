@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Clock, Languages, Quote, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, Languages, Quote, Activity } from "lucide-react";
 import { Web3IssueVisual } from "@/components/web3/Web3IssueVisual";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { SafetyDisclaimer } from "@/components/SafetyDisclaimer";
@@ -34,7 +34,7 @@ export function Web3IssueFlow({ issue }: { issue: Web3Issue }) {
             <ArrowLeft className="h-4 w-4" /> Back to library
           </Link>
           <span className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-mint px-3 py-1 text-[11px] font-black uppercase tracking-wide text-oliveDeep">
-            <Sparkles className="h-3.5 w-3.5" /> Web3 lifestyle
+            <Activity className="h-3.5 w-3.5" /> Web3 lifestyle
           </span>
           <h1 className="mt-3 text-4xl font-black leading-tight text-cocoa sm:text-5xl">{issue.title[language]}</h1>
           <p className="mt-2 text-lg font-bold text-cocoaSoft">{language === "en" ? issue.title.id : issue.title.en}</p>

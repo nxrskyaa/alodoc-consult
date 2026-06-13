@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Clock, Languages, Sparkles } from "lucide-react";
+import { ArrowRight, Clock, Languages, Activity } from "lucide-react";
 import { Web3IssueVisual } from "@/components/web3/Web3IssueVisual";
 import type { Language } from "@/data/diseases";
 import type { Web3Issue } from "@/data/web3HealthIssues";
@@ -18,7 +18,7 @@ export function Web3IssueCard({ issue, language = "en" }: { issue: Web3Issue; la
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-mint px-3 py-1 text-[11px] font-black uppercase tracking-wide text-oliveDeep">
-            <Sparkles className="h-3.5 w-3.5" /> Web3 lifestyle
+            <Activity className="h-3.5 w-3.5" /> Web3 lifestyle
           </span>
           <h2 className="mt-3 text-2xl font-black leading-tight text-cocoa sm:text-[1.6rem]">{issue.title[language]}</h2>
           <p className="mt-1 text-sm font-bold text-cocoaSoft">{language === "en" ? issue.title.id : issue.title.en}</p>

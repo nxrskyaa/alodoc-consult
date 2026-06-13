@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Award, BookOpen, CheckCircle2, ShieldCheck, Sparkles, Trophy } from "lucide-react";
+import { ArrowRight, Award, BookOpen, CheckCircle2, ShieldCheck, Bot, Trophy } from "lucide-react";
 import { AloGuideBubble } from "@/components/AloGuideBubble";
 import { AnimatedDiseaseVisual } from "@/components/AnimatedDiseaseVisual";
 import { AgentVisual } from "@/components/visuals/AgentVisual";
@@ -66,7 +66,7 @@ export function LandingStorySections() {
       <section className="grid gap-5 overflow-hidden rounded-[2.2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(260px,0.55fr)] lg:items-center">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
-            <Sparkles className="h-4 w-4" />
+            <Bot className="h-4 w-4" />
             Alo Agent
           </div>
           <h2 className="mt-4 text-3xl font-semibold leading-tight text-cocoa sm:text-4xl">SCALE-inspired health education guide.</h2>
