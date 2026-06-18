@@ -44,8 +44,8 @@ export function HeaderPill() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "focus-ring inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-cocoaSoft transition hover:bg-mint/70 hover:text-cocoa xl:px-4",
-                  active && "bg-mint text-cocoa"
+                  "focus-ring relative inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-cocoaSoft transition hover:bg-mint/70 hover:text-cocoa xl:px-4",
+                  active && "glyph-nav-active bg-mint text-cocoa"
                 )}
               >
                 <Icon className="h-4 w-4" />

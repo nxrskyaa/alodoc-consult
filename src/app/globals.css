@@ -295,3 +295,301 @@ input[type="number"] {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   LOGO TOKENS — full colors (SVG `fill` needs a complete color,
+   not the raw RGB-channel triples the Tailwind tokens use, which
+   is why the logo vanished: `fill: var(--c-olive)` -> "144 160 144"
+   is an invalid color -> falls back to `none`).
+   ============================================================ */
+:root,
+[data-theme="light"] {
+  --logo-olive: #90a090;
+  --logo-cocoa: #202020;
+  --logo-dot: #90a090;
+}
+[data-theme="glyph"] {
+  --logo-olive: #e8e8e8;
+  --logo-cocoa: #e8e8e8;
+  --logo-dot: #d71921; /* Nothing red signal — the single accent */
+}
+
+/* ============================================================
+   GLYPH MODE — SIGNATURE VISUAL SYSTEM
+   Dot-matrix type, scanlines, instrument frames, mechanical motion.
+   Every rule is scoped to [data-theme="glyph"] -> zero effect in
+   light mode. This is what was missing: the previous pass only
+   remapped color tokens. This adds the actual Nothing OS layer.
+   ============================================================ */
+
+/* Moving scanline band sweeping down the viewport (CRT/instrument feel). */
+[data-theme="glyph"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(215, 25, 33, 0.05) 48%,
+    rgba(255, 255, 255, 0.03) 52%,
+    transparent 100%
+  );
+  background-size: 100% 240px;
+  background-repeat: no-repeat;
+  background-position: 0 -240px;
+  animation: glyph-scan 7s linear infinite;
+  opacity: 0.6;
+}
+@keyframes glyph-scan {
+  0% { background-position: 0 -240px; }
+  100% { background-position: 0 100vh; }
+}
+
+/* Dot-matrix display type (Doto) — the headline "moment of surprise",
+   with a one-shot mechanical flicker-on reveal. */
+[data-theme="glyph"] .glyph-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  animation: glyph-flicker 1.1s steps(10, end) 1 both;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+@keyframes glyph-flicker {
+  0% { opacity: 0; filter: brightness(4); }
+  15% { opacity: 0.3; }
+  30% { opacity: 0.9; filter: brightness(1.8); }
+  45% { opacity: 0.4; }
+  60% { opacity: 1; filter: brightness(1.3); }
+  75% { opacity: 0.7; }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+/* Space Mono ALL-CAPS instrument label — the Nothing "panel label". */
+[data-theme="glyph"] .glyph-label {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  line-height: 1.2;
+  color: #999999;
+}
+
+/* Technical instrument frame: thin border + red corner ticks.
+   Drop it on any card/section to get the Nothing panel look. */
+[data-theme="glyph"] .glyph-frame {
+  position: relative;
+  border: 1px solid #1f1f1f !important;
+  border-radius: 10px !important;
+  background: #0c0c0c !important;
+  box-shadow: none !important;
+}
+[data-theme="glyph"] .glyph-frame::before,
+[data-theme="glyph"] .glyph-frame::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #d71921;
+  border-style: solid;
+  pointer-events: none;
+}
+[data-theme="glyph"] .glyph-frame::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+[data-theme="glyph"] .glyph-frame::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+/* Instrument widget: a small panel with a mono label + tabular value. */
+[data-theme="glyph"] .glyph-widget {
+  border: 1px solid #1f1f1f;
+  background: #0a0a0a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-label);
+}
+[data-theme="glyph"] .glyph-widget .glyph-widget-label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 9px;
+  color: #777777;
+}
+[data-theme="glyph"] .glyph-widget .glyph-widget-value {
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  color: #e8e8e8;
+}
+
+/* Pill chips/tags -> technical outlined tags in glyph mode. */
+[data-theme="glyph"] .glyph-chip {
+  border: 1px solid #2a2a2a !important;
+  background: transparent !important;
+  color: #b0b0b0 !important;
+  border-radius: 999px !important;
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px !important;
+  box-shadow: none !important;
+}
+
+/* Segmented divider (mechanical, no soft lines). */
+[data-theme="glyph"] .glyph-divider {
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    #2a2a2a 0,
+    #2a2a2a 6px,
+    transparent 6px,
+    transparent 10px
+  );
+}
+
+/* Active nav: red signal dot instead of mint pill. */
+[data-theme="glyph"] .glyph-nav-active {
+  background: transparent !important;
+  color: #e8e8e8 !important;
+}
+[data-theme="glyph"] .glyph-nav-active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d71921;
+}
+
+/* Kill soft pastel glows in the hero; replace with a quiet red seam. */
+[data-theme="glyph"] .glyph-quiet-glow {
+  background: transparent !important;
+  filter: none !important;
+}
+[data-theme="glyph"] .glyph-quiet-glow::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(215, 25, 33, 0.5), transparent);
+}
+
+/* Primary CTA in glyph: inverted (white bg, black text) — Nothing primary. */
+[data-theme="glyph"] .glyph-cta-primary {
+  background: #e8e8e8 !important;
+  color: #000000 !important;
+}
+[data-theme="glyph"] .glyph-cta-primary:hover {
+  background: #ffffff !important;
+}
+
+/* ============================================================
+   GLYPH HUD — full-screen instrument overlay (React-mounted).
+   Corner brackets + bottom status bar + boot sequence.
+   ============================================================ */
+[data-theme="glyph"] .glyph-hud {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+}
+.glyph-hud-bracket {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(215, 25, 33, 0.55);
+  border-style: solid;
+}
+.glyph-hud-bracket.tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+.glyph-hud-bracket.tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+.glyph-hud-bracket.bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+.glyph-hud-bracket.br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+.glyph-hud-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 22px;
+  border-top: 1px solid #1c1c1c;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+  color: #888888;
+}
+.glyph-hud-bar .glyph-hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #d71921;
+  animation: glyph-dot-pulse 2s ease-in-out infinite;
+}
+@keyframes glyph-dot-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+.glyph-hud-bar .glyph-hud-clock { color: #e8e8e8; }
+
+/* Boot sequence — one-shot when entering glyph mode. */
+.glyph-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #000000;
+  pointer-events: none;
+  animation: glyph-boot-fade 1.7s ease-out forwards;
+}
+@keyframes glyph-boot-fade {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+.glyph-boot-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 9vw, 5rem);
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  animation: glyph-flicker 1.2s steps(12, end) 1 both;
+}
+.glyph-boot-sub,
+.glyph-boot-label {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 11px;
+  color: #888888;
+}
+.glyph-boot-sub { color: #d71921; letter-spacing: 0.4em; }
+.glyph-boot-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d71921, transparent);
+  animation: glyph-boot-scan 1.5s ease-in-out 1;
+  opacity: 0.8;
+}
+@keyframes glyph-boot-scan {
+  0% { top: 0; opacity: 0; }
+  20% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}

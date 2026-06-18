@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className="grid gap-16">
       <HeroSection />
       <LandingStorySections />
-      <section id="library" className="rounded-[2rem] border border-cocoa/10 bg-parchment p-6 shadow-soft md:p-8">
+      <section id="library" className="glyph-frame rounded-[2rem] border border-cocoa/10 bg-parchment p-6 shadow-soft md:p-8">
         <DiseaseLibrary />
       </section>
     </div>

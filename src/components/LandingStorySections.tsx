@@ -18,11 +18,11 @@ const steps = [
 export function LandingStorySections() {
   return (
     <div className="grid gap-10">
-      <section className="overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment py-4 shadow-soft">
+      <section className="glyph-frame overflow-hidden rounded-[2rem] border border-cocoa/10 bg-parchment py-4 shadow-soft">
         <div className="alodoc-marquee flex w-max gap-3 px-4">
           {[...Array(2)].map((_, group) =>
             ["Education only", "Privacy-safe", "Bilingual", "Onchain learning proof", "No medical records"].map((item) => (
-              <span key={`${group}-${item}`} className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoaSoft shadow-lift">
+              <span key={`${group}-${item}`} className="glyph-chip rounded-full bg-white px-5 py-3 text-sm font-semibold text-cocoaSoft shadow-lift">
                 {item}
               </span>
             ))
@@ -30,13 +30,13 @@ export function LandingStorySections() {
         </div>
       </section>
 
-      <section className="alodoc-surface overflow-hidden rounded-[2.4rem] border border-cocoa/10 p-5 shadow-soft sm:p-8">
+      <section className="glyph-frame alodoc-surface overflow-hidden rounded-[2.4rem] border border-cocoa/10 p-5 shadow-soft sm:p-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase text-oliveDeep">How Alodoc works</p>
-            <h2 className="mt-2 text-3xl font-semibold text-cocoa sm:text-5xl">A soft path from learning to proof.</h2>
+            <p className="glyph-label text-sm font-semibold uppercase text-oliveDeep">How Alodoc works</p>
+            <h2 className="glyph-display mt-2 text-3xl font-semibold text-cocoa sm:text-5xl">A soft path from learning to proof.</h2>
           </div>
-          <Link href="/library" className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
+          <Link href="/library" className="glyph-cta-primary focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-cocoa px-5 py-3 text-sm font-semibold text-cream shadow-lift">
             Start a quest <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -50,7 +50,7 @@ export function LandingStorySections() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.06 }}
-                className="rounded-[1.8rem] bg-white/86 p-4 shadow-lift"
+                className="glyph-frame rounded-[1.8rem] bg-white/86 p-4 shadow-lift"
               >
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-oliveDeep">
                   <Icon className="h-6 w-6" />
@@ -63,13 +63,13 @@ export function LandingStorySections() {
         </div>
       </section>
 
-      <section className="grid gap-5 overflow-hidden rounded-[2.2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(260px,0.55fr)] lg:items-center">
+      <section className="glyph-frame grid gap-5 overflow-hidden rounded-[2.2rem] border border-cocoa/10 bg-parchment p-5 shadow-soft sm:p-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(260px,0.55fr)] lg:items-center">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
+          <div className="glyph-label inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-black uppercase text-oliveDeep">
             <Bot className="h-4 w-4" />
             Alo Agent
           </div>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight text-cocoa sm:text-4xl">SCALE-inspired health education guide.</h2>
+          <h2 className="glyph-display mt-4 text-3xl font-semibold leading-tight text-cocoa sm:text-4xl">SCALE-inspired health education guide.</h2>
           <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-cocoaSoft">
             Built on Rialo as an agent guide for explaining disease modules, classifier examples, quiz mistakes, and safe next lessons.
           </p>
