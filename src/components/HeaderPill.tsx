@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useAccount, useSwitchChain } from "wagmi";
 import { AlodocLogo } from "@/components/AlodocLogo";
 import { ConnectWalletButton } from "@/components/ConnectWalletButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { arcTestnet } from "@/lib/chains";
 import { cn } from "@/lib/utils";
 
@@ -54,6 +55,9 @@ export function HeaderPill() {
           })}
         </nav>
         <div className="flex items-center gap-2">
+          <span className="hidden lg:block">
+            <ThemeToggle />
+          </span>
           {wrongNetwork ? (
             <button
               className="focus-ring inline-flex items-center gap-2 rounded-full bg-cocoa px-3 py-2.5 text-xs font-bold text-cream shadow-lift transition hover:bg-cocoa/90 sm:px-4 sm:text-sm"
@@ -103,6 +107,10 @@ export function HeaderPill() {
                 );
               })}
               <div className="mt-2 border-t border-cocoa/10 pt-3">
+                <div className="mb-3 flex items-center justify-between px-1">
+                  <span className="glyph-label text-[10px] font-bold uppercase tracking-[0.12em] text-cocoaSoft">Theme</span>
+                  <ThemeToggle />
+                </div>
                 {wrongNetwork ? (
                   <button
                     className="focus-ring inline-flex w-full items-center justify-center gap-2 rounded-full bg-cocoa px-4 py-3 text-sm font-black text-cream shadow-lift"

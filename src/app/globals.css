@@ -2,9 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* ============================================================
+   THEME TOKENS
+   Light (default) = original Alodoc warm palette (unchanged).
+   Glyph = Nothing-OS monochrome dark. Flip via data-theme="glyph".
+   ============================================================ */
+:root,
+[data-theme="light"] {
   color-scheme: light;
   background: #f8f1e8;
+
+  --c-cream: 248 241 232;
+  --c-parchment: 255 249 241;
+  --c-cocoa: 32 32 32;
+  --c-cocoaSoft: 95 90 83;
+  --c-olive: 144 160 144;
+  --c-oliveDeep: 112 132 115;
+  --c-orange: 184 107 94;
+  --c-peach: 201 166 104;
+  --c-mint: 229 236 223;
+  --c-cardBeige: 239 230 218;
+  --c-deepBlack: 14 14 14;
+  --c-warningSand: 201 166 104;
+  --c-alertClay: 184 107 94;
+
+  --shadow-soft: 0 24px 70px rgba(32, 32, 32, 0.12);
+  --shadow-lift: 0 14px 34px rgba(32, 32, 32, 0.1);
+
+  --font-active: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-label: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  /* Risk-meter status steps (light = original). */
+  --risk-low: #7c8f4e;
+  --risk-attention: #f6d77a;
+  --risk-moderate: #f28b44;
+  --risk-high: #e86f4a;
+  --risk-very-high: #b7442d;
+}
+
+[data-theme="glyph"] {
+  color-scheme: dark;
+  background: #000000;
+
+  /* surfaces -> OLED black / raised greys */
+  --c-cream: 0 0 0;
+  --c-parchment: 17 17 17;
+  --c-cardBeige: 17 17 17;
+  --c-mint: 26 26 26;
+  --c-deepBlack: 0 0 0;
+
+  /* ink -> white/grey scale */
+  --c-cocoa: 232 232 232;
+  --c-cocoaSoft: 153 153 153;
+  --c-olive: 153 153 153;
+  --c-oliveDeep: 102 102 102;
+
+  /* warm CTA/alert -> Nothing red signal */
+  --c-orange: 215 25 33;
+  --c-alertClay: 215 25 33;
+
+  /* warm sand -> warning amber (only meaningful when encoding status) */
+  --c-peach: 212 168 67;
+  --c-warningSand: 212 168 67;
+
+  --shadow-soft: none;
+  --shadow-lift: none;
+
+  --font-active: var(--font-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-mono), "Space Mono", ui-monospace, monospace;
+  --font-display: var(--font-doto), "Doto", "Space Mono", monospace;
+
+  /* Risk-meter status steps -> Nothing status palette. */
+  --risk-low: #4a9e5c;
+  --risk-attention: #d4a843;
+  --risk-moderate: #d4a843;
+  --risk-high: #d71921;
+  --risk-very-high: #9e1219;
 }
 
 * {
@@ -23,9 +97,24 @@ body {
     radial-gradient(circle at 90% 0%, rgba(201, 166, 104, 0.18), transparent 26rem),
     linear-gradient(180deg, #f8f1e8 0%, #fff9f1 46%, #efe6da 100%);
   color: #202020;
-  font-family: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-active);
   overflow-x: hidden;
   letter-spacing: 0;
+}
+
+/* Glyph mode body: flat OLED black + subtle dot-grid field. */
+[data-theme="glyph"] body {
+  background-color: #000000;
+  background-image: radial-gradient(circle, #1f1f1f 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: 0 0;
+  color: #e8e8e8;
+  font-family: var(--font-active);
+}
+
+[data-theme="glyph"] ::selection {
+  background: #d71921;
+  color: #ffffff;
 }
 
 a {
@@ -61,12 +150,26 @@ input[type="number"] {
   transform: translateY(-3px);
 }
 
+/* Glyph mode: kill the lift, keep only a quiet border brighten on hover. */
+[data-theme="glyph"] .alodoc-interactive:hover {
+  transform: none;
+  border-color: #333333;
+}
+
 .classifier-input {
   box-shadow: inset 0 0 0 1px rgba(32, 32, 32, 0.08), 0 12px 26px rgba(32, 32, 32, 0.06);
 }
 
 .classifier-input:focus-within {
   box-shadow: inset 0 0 0 2px rgba(112, 132, 115, 0.68), 0 16px 34px rgba(112, 132, 115, 0.16);
+}
+
+[data-theme="glyph"] .classifier-input {
+  box-shadow: inset 0 0 0 1px #333333;
+}
+
+[data-theme="glyph"] .classifier-input:focus-within {
+  box-shadow: inset 0 0 0 2px #d71921;
 }
 
 ::selection {
@@ -83,10 +186,18 @@ input[type="number"] {
   outline-color: #b86b5e;
 }
 
+[data-theme="glyph"] .focus-ring:focus-visible {
+  outline-color: #d71921;
+}
+
 .alodoc-surface {
   background:
     linear-gradient(135deg, rgba(255, 249, 241, 0.92), rgba(239, 230, 218, 0.74)),
     radial-gradient(circle at top right, rgba(144, 160, 144, 0.22), transparent 22rem);
+}
+
+[data-theme="glyph"] .alodoc-surface {
+  background: #111111;
 }
 
 .alodoc-float {
@@ -114,6 +225,64 @@ input[type="number"] {
   to {
     transform: translateX(-50%);
   }
+}
+
+/* ============================================================
+   GLYPH MODE CRAFT UTILITIES
+   ============================================================ */
+
+/* Space Mono ALL-CAPS instrument label — the Nothing "panel label". */
+[data-theme="glyph"] .glyph-label {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  line-height: 1.2;
+  color: #999999;
+}
+
+/* Numbers / data values in mono. */
+[data-theme="glyph"] .glyph-data {
+  font-family: var(--font-label);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dot-matrix hero type (Doto) — the one "moment of surprise". */
+[data-theme="glyph"] .glyph-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+/* Round avatars/thumbnails become squares in glyph mode. */
+[data-theme="glyph"] .rounded-full:not(.glyph-keep-round) {
+  border-radius: 4px;
+}
+
+/* Neutralize any residual warm glow utilities. */
+[data-theme="glyph"] .text-glow {
+  text-shadow: none;
+}
+
+/*
+ * Built-in neutral utilities don't flip with the token remap — force them dark.
+ * bg-white (solid) -> raised surface; opacity variants stay as frosted grey.
+ * text-white is left as-is (white ink is correct on red/dark accents).
+ */
+[data-theme="glyph"] .bg-white {
+  background-color: #111111;
+}
+[data-theme="glyph"] .border-white {
+  border-color: #333333;
+}
+
+/*
+ * Decorative pastel SVG illustrations -> monochrome in glyph mode.
+ * Status indicators (RiskMeter) use divs, so they keep their status colors.
+ * Add `.glyph-keep-color` to any SVG that must retain color.
+ */
+[data-theme="glyph"] svg:not(.glyph-keep-color) {
+  filter: grayscale(1) brightness(0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {

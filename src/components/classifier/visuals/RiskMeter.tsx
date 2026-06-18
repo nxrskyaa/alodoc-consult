@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import type { ClassifierLanguage, RiskLevel } from "@/lib/health-classifier";
 
 const levels = [
-  { key: "low", en: "Low", id: "Rendah", color: "#7C8F4E" },
-  { key: "attention", en: "Attention", id: "Perhatian", color: "#F6D77A" },
-  { key: "moderate", en: "Moderate", id: "Sedang", color: "#F28B44" },
-  { key: "high", en: "High", id: "Tinggi", color: "#E86F4A" },
-  { key: "very_high", en: "Very High", id: "Sangat Tinggi", color: "#B7442D" }
+  { key: "low", en: "Low", id: "Rendah", color: "var(--risk-low)" },
+  { key: "attention", en: "Attention", id: "Perhatian", color: "var(--risk-attention)" },
+  { key: "moderate", en: "Moderate", id: "Sedang", color: "var(--risk-moderate)" },
+  { key: "high", en: "High", id: "Tinggi", color: "var(--risk-high)" },
+  { key: "very_high", en: "Very High", id: "Sangat Tinggi", color: "var(--risk-very-high)" }
 ] as const;
 
 const indexByLevel: Record<RiskLevel, number> = {

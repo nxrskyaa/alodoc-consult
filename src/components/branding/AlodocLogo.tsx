@@ -20,10 +20,10 @@ export function AlodocSymbol({ size = "md", className }: { size?: "sm" | "md" | 
       role="img"
       className={cn("shrink-0", className)}
     >
-      <path d="M60 28C56 19 43 15 35 23C27 31 31 45 60 62C89 45 93 31 85 23C77 15 64 19 60 28Z" fill="#90A090" />
-      <rect x="21" y="55" width="28" height="58" rx="14" transform="rotate(34 21 55)" fill="#202020" />
-      <rect x="71" y="71" width="28" height="58" rx="14" transform="rotate(-34 71 71)" fill="#202020" />
-      <circle cx="60" cy="82" r="13" fill="#90A090" />
+      <path d="M60 28C56 19 43 15 35 23C27 31 31 45 60 62C89 45 93 31 85 23C77 15 64 19 60 28Z" style={{ fill: "var(--c-olive)" }} />
+      <rect x="21" y="55" width="28" height="58" rx="14" transform="rotate(34 21 55)" style={{ fill: "var(--c-cocoa)" }} />
+      <rect x="71" y="71" width="28" height="58" rx="14" transform="rotate(-34 71 71)" style={{ fill: "var(--c-cocoa)" }} />
+      <circle cx="60" cy="82" r="13" style={{ fill: "var(--c-olive)" }} />
     </svg>
   );
 }
@@ -32,7 +32,7 @@ export function AlodocWordmark({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const wordSize = size === "sm" ? "text-lg" : size === "lg" ? "text-3xl" : "text-2xl";
 
   return (
-    <span className={cn("font-bold tracking-tight text-[#202020]", wordSize)} style={{ fontFamily: "Inter, sans-serif" }}>
+    <span className={cn("font-bold tracking-tight text-cocoa", wordSize)} style={{ fontFamily: "Inter, sans-serif" }}>
       Alodoc
     </span>
   );
