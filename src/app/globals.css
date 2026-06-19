@@ -310,6 +310,12 @@ input[type="number"] {
 [data-theme="glyph"] .text-cream\/70 { color: rgba(232, 232, 232, 0.7) !important; }
 [data-theme="glyph"] .text-cream\/72 { color: rgba(232, 232, 232, 0.72) !important; }
 [data-theme="glyph"] .text-cream\/78 { color: rgba(232, 232, 232, 0.78) !important; }
+/* text-mint is a light label on dark cocoa surfaces in light mode, but --c-mint
+   remapped to 26 (dark) for bg-mint surface use, so text-mint turned dark on
+   dark = invisible. Restore as a muted grey label. */
+[data-theme="glyph"] .text-mint {
+  color: #9a9a9a !important;
+}
 
 /* Pastel animated-disease cards use an inline radial-gradient (tone.bg) that no
    token/class override can touch — force them to OLED dark + red seam so they
