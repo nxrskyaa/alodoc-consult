@@ -31,7 +31,7 @@ export function AnimatedDiseaseVisual({
   return (
     <div
       className={cn(
-        "relative isolate grid aspect-[1.15] min-h-[220px] overflow-hidden rounded-[2rem] border border-cocoa/10 shadow-soft",
+        "glyph-visual relative isolate grid aspect-[1.15] min-h-[220px] overflow-hidden rounded-[2rem] border border-cocoa/10 shadow-soft",
         compact && "aspect-square min-h-0 rounded-[1.5rem] shadow-lift",
         className
       )}

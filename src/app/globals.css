@@ -272,8 +272,56 @@ input[type="number"] {
 [data-theme="glyph"] .bg-white {
   background-color: #111111;
 }
+/* Opacity-variant white surfaces (bg-white/80, /88, /86, /75, /92, /55) are
+   NOT caught by .bg-white — they stayed light while text-cocoa turned white,
+   so text vanished. Force them to raised dark panels. (Low-opacity /10, /45
+   decorative frosts are left alone.) */
+[data-theme="glyph"] .bg-white\/55,
+[data-theme="glyph"] .bg-white\/75,
+[data-theme="glyph"] .bg-white\/80,
+[data-theme="glyph"] .bg-white\/86,
+[data-theme="glyph"] .bg-white\/88,
+[data-theme="glyph"] .bg-white\/92 {
+  background-color: rgba(17, 17, 17, 0.92) !important;
+}
 [data-theme="glyph"] .border-white {
   border-color: #333333;
+}
+
+/* bg-cocoa is a SURFACE (dark in light mode w/ cream text) but the glyph token
+   remap turns --c-cocoa white for ink use, which made every bg-cocoa panel/
+   tile/tab a white block. Flip the surface dark again — except glyph-cta-primary
+   CTAs which are intentionally inverted (white bg, black text). */
+[data-theme="glyph"] .bg-cocoa:not(.glyph-cta-primary) {
+  background-color: #1a1a1a !important;
+}
+[data-theme="glyph"] .bg-cocoa\/90:not(.glyph-cta-primary) {
+  background-color: #262626 !important;
+}
+[data-theme="glyph"] .bg-cocoa\/30 {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+/* text-cream is light ink on dark cocoa surfaces — but --c-cream remapped to
+   black for bg-cream surface use, so text-cream turned black on dark = invisible.
+   Restore light ink (incl. opacity variants). */
+[data-theme="glyph"] .text-cream {
+  color: #e8e8e8 !important;
+}
+[data-theme="glyph"] .text-cream\/70 { color: rgba(232, 232, 232, 0.7) !important; }
+[data-theme="glyph"] .text-cream\/72 { color: rgba(232, 232, 232, 0.72) !important; }
+[data-theme="glyph"] .text-cream\/78 { color: rgba(232, 232, 232, 0.78) !important; }
+
+/* Pastel animated-disease cards use an inline radial-gradient (tone.bg) that no
+   token/class override can touch — force them to OLED dark + red seam so they
+   read as instrument panels instead of pastel blocks. Inner white glow overlay
+   is replaced with a faint red field. */
+[data-theme="glyph"] .glyph-visual {
+  background: #0a0a0a !important;
+  border-color: #222222 !important;
+}
+[data-theme="glyph"] .glyph-visual > div:first-child {
+  background: radial-gradient(circle at 20% 12%, rgba(215, 25, 33, 0.1), transparent 38%),
+              radial-gradient(circle at 82% 88%, rgba(255, 255, 255, 0.03), transparent 32%) !important;
 }
 
 /*
